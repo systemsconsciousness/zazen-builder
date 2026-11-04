@@ -4,7 +4,7 @@ A skills-based, AI-first site builder from **Zazen Labs, LLC** that spins up age
 
 ## Repository Structure
 
-- **`main` Branch (Canonical Skill):** Houses the canonical Zazen Builder skill definitions (`SKILL.md` and `zazen_builder_skill.md`) and the reference zero-dependency bridge daemon (`scripts/bridge.js`).
+- **`main` Branch (Canonical Skill):** Houses the canonical Zazen Builder skill definitions (`SKILL.md` and `zazen_builder_skill.md`). Pure markdown with zero executable code, ready to download and install into web agent harnesses (Web Gemini, Claude) or local IDE agents.
 - **`sample-site` Branch (Live Implementation):** Contains the sample personal portfolio site implementation (`index.html`, `zazen.config.json`, `bridge.js`) showcasing the full authoring overlay, auto-save engine, and 3-tier deployment workflow.
 
 ## The Universal 3-Tier Deployment Architecture
@@ -15,4 +15,4 @@ A skills-based, AI-first site builder from **Zazen Labs, LLC** that spins up age
 
 ## Using the Skill
 
-To use this skill in Antigravity or any agent harness, reference `SKILL.md` or `zazen_builder_skill.md`.
+To use this skill in any AI agent harness (Web Gemini, Claude, Cursor, Claude Desktop), reference `SKILL.md` or `zazen_builder_skill.md`.

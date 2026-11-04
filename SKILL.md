@@ -33,7 +33,7 @@ Zazen Builder works natively across **both Web and Local AI harnesses**:
           ┌───────────────────┴───────────────────┐
           ▼                                       ▼
   IN WEB HARNESSES                        IN LOCAL HARNESSES
-  (Gemini Web, Claude, ChatGPT)           (Antigravity, Cursor, CLI)
+  (Gemini Web, Claude, ChatGPT)           (Cursor, Claude Desktop, CLI)
   • Renders in Canvas / Artifact          • Saves index.html & zazen.config.json
   • 100% in-browser editing               • Runs in localhost or file://
   • Client-side JSZip download            • 1-Click Git commit & push
@@ -45,9 +45,9 @@ Zazen Builder works natively across **both Web and Local AI harnesses**:
 - **Editing:** The user edits visually right inside their browser canvas (inline typing, dragging sections, testing palettes).
 - **Export:** The user clicks **[Pure ZIP]** to instantly download the clean production bundle from the browser.
 
-### Protocol B: In Local IDE / CLI Harnesses (Antigravity, Cursor)
+### Protocol B: In Local IDE / CLI Harnesses (Cursor, Claude Desktop, CLI)
 - The agent writes `index.html` and `zazen.config.json` to the workspace.
-- The user can double-click `index.html` or open `http://localhost:3000` via the included lightweight static helper (`bridge.js`).
+- The user can double-click `index.html` or open `http://localhost:3000` via the included lightweight static helper.
 - The user clicks **[Commit & Push]** to sync directly with GitHub or **[Deploy]** to prepare MCP handoffs.
 
 ---
@@ -140,7 +140,7 @@ All site content, metrics, navigation, and theme tokens are stored in a clean, d
 
 ### Tier 3: Host Agent & MCP Deployment Handshake
 - Exports clean production files into `./dist/` and writes `.zazen/deploy-intent.json`.
-- In Antigravity or any agent harness, the user simply types `"deploy"`, and the agent triggers the corresponding MCP tool (`vercel`, `launch`, `netlify`, `wrangler`).
+- In your AI agent harness, the user simply types `"deploy"`, and the agent triggers the corresponding MCP tool (`vercel`, `launch`, `netlify`, `wrangler`).
 
 ---
 
