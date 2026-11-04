@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="zazen-edit" content="false">
   <title>Dean Haddock — Technology Executive & Systems Thinker</title>
   
   <!-- Studio Fonts: Newsreader (Editorial Serif), Inter (Clean Sans), JetBrains Mono (Technical Mono) -->
@@ -36,9 +37,8 @@
     }
   </script>
 
-  <!-- Lucide Icons, Three.js 3D Engine & JSZip for production bundling -->
+  <!-- Lucide Icons & JSZip for production bundling -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
   <style>
@@ -49,7 +49,7 @@
       --font-mono: 'JetBrains Mono', monospace;
       --bg: #F4EFE6;
       --surface: #ECE4D7;
-      --elevated: rgba(252, 250, 246, 0.90);
+      --elevated: #FCFAF6;
       --text: #211E1B;
       --muted: #73695E;
       --border: rgba(33, 30, 27, 0.14);
@@ -59,7 +59,7 @@
     [data-theme="linen"] {
       --bg: #FAF8F5;
       --surface: #F3EFEA;
-      --elevated: rgba(255, 255, 255, 0.90);
+      --elevated: #FFFFFF;
       --text: #1C1A17;
       --muted: #6B665E;
       --border: rgba(28, 26, 23, 0.12);
@@ -69,7 +69,7 @@
     [data-theme="architect"] {
       --bg: #FFFFFF;
       --surface: #F8F9FA;
-      --elevated: rgba(255, 255, 255, 0.92);
+      --elevated: #FFFFFF;
       --text: #111111;
       --muted: #555555;
       --border: #E5E7EB;
@@ -79,17 +79,65 @@
     [data-theme="obsidian"] {
       --bg: #0D0E11;
       --surface: #14171C;
-      --elevated: rgba(28, 32, 38, 0.88);
+      --elevated: #1C2026;
       --text: #EAEBED;
       --muted: #8E929B;
       --border: rgba(234, 235, 237, 0.12);
       --accent: #D97706;
     }
 
-    /* Translucent Elevated Surface Backdrop */
-    .bg-zelevated {
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+    /* Refined Studio Ambient Aura (Ultra-Subtle, Organic & Non-Intrusive) */
+    .studio-ambient-aura {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+      opacity: 0.65;
+      transition: opacity 1.2s ease;
+    }
+    .studio-ambient-aura .aura-orb {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(140px);
+      -webkit-filter: blur(140px);
+      opacity: 0.05;
+      mix-blend-mode: multiply;
+      animation: aura-drift 32s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    [data-theme="obsidian"] .studio-ambient-aura .aura-orb {
+      mix-blend-mode: screen;
+      opacity: 0.10;
+    }
+    .studio-ambient-aura .aura-orb-1 {
+      width: 70vw;
+      height: 70vw;
+      max-width: 900px;
+      max-height: 900px;
+      top: -20%;
+      right: -10%;
+      background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+      animation-duration: 36s;
+    }
+    .studio-ambient-aura .aura-orb-2 {
+      width: 60vw;
+      height: 60vw;
+      max-width: 750px;
+      max-height: 750px;
+      bottom: -15%;
+      left: -10%;
+      background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+      animation-duration: 28s;
+      animation-delay: -14s;
+    }
+    @keyframes aura-drift {
+      0% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(-30px, 20px, 0) scale(1.05); }
+      100% { transform: translate3d(20px, -15px, 0) scale(0.98); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .studio-ambient-aura .aura-orb { animation: none !important; }
     }
 
     body {
@@ -178,9 +226,12 @@
 <body class="selection:bg-stone-800 selection:text-stone-100 min-h-screen flex flex-col justify-between">
 
   <!-- ============================================================== -->
-  <!-- 3D AMBIENT TOPOLOGICAL CANVAS (Hardware-Accelerated Three.js)   -->
+  <!-- STUDIO AMBIENT AURA (Subtle, Organic Architectural Warmth)     -->
   <!-- ============================================================== -->
-  <canvas id="zazen-3d-canvas" class="fixed inset-0 pointer-events-none z-0 transition-opacity duration-1000"></canvas>
+  <div id="zazen-ambient-aura" class="studio-ambient-aura" aria-hidden="true">
+    <div class="aura-orb aura-orb-1"></div>
+    <div class="aura-orb aura-orb-2"></div>
+  </div>
 
   <!-- ============================================================== -->
   <!-- ZAZEN BUILDER OVERLAY BAR (Authoring Mode Only - Auto-Hidden on Live Host) -->
@@ -203,7 +254,7 @@
       </div>
     </div>
 
-    <!-- Center Controls: Palette, Typography, 3D FX & Component Drawer -->
+    <!-- Center Controls: Palette, Typography, Aura & Component Drawer -->
     <div class="flex items-center gap-2">
       <!-- Add Component Button -->
       <button onclick="Zazen.openComponentDrawer()" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-stone-900 hover:bg-stone-800 text-amber-400 border border-stone-800 font-medium transition-colors" title="Add New Component Block">
@@ -227,11 +278,11 @@
         <button onclick="Zazen.setFontPreset('cormorant')" class="px-2 py-0.5 rounded text-[11px] hover:bg-stone-800 text-stone-400 font-serif" title="Cormorant + Jakarta">Cormorant</button>
       </div>
 
-      <!-- 3D Background FX Toggle -->
+      <!-- Subtle Ambient Lighting Toggle -->
       <div class="hidden md:flex items-center bg-stone-900 border border-stone-800 rounded px-1.5 py-1">
-        <button id="zazen-3d-toggle" onclick="Zazen.toggle3D()" class="px-2 py-0.5 rounded text-[11px] hover:bg-stone-800 text-amber-400 flex items-center gap-1 font-mono transition-colors" title="Toggle Animated 3D Wavefield">
-          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
-          <span class="text-[10px]">3D</span>
+        <button id="zazen-aura-toggle" onclick="Zazen.toggleAura()" class="px-2 py-0.5 rounded text-[11px] hover:bg-stone-800 text-stone-300 flex items-center gap-1 font-mono transition-colors" title="Toggle Ambient Studio Aura">
+          <i data-lucide="sun-medium" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span class="text-[10px]">Aura</span>
         </button>
       </div>
     </div>
@@ -981,256 +1032,6 @@
   </script>
 
   <!-- ============================================================== -->
-  <!-- 3D AMBIENT TOPOLOGICAL WAVEFIELD (Three.js Creative Runtime)    -->
-  <!-- Preserved in Clean Static Production Exports                    -->
-  <!-- ============================================================== -->
-  <script id="zazen-3d-engine">
-    class ZazenBackground3D {
-      constructor(canvasId = 'zazen-3d-canvas') {
-        this.canvas = document.getElementById(canvasId);
-        if (!this.canvas) return;
-        if (typeof THREE === 'undefined') {
-          console.info('Three.js not loaded, 3D ambient background skipped gracefully.');
-          return;
-        }
-
-        this.active = true;
-        this.currentTheme = document.documentElement.getAttribute('data-theme') || 'architect';
-        this.init();
-      }
-
-      getPalettes() {
-        return {
-          editorial: {
-            wireColor: 0xA35C24,    // Warm Studio Amber
-            pointColor: 0xC27A3C,   // Sepia Glow
-            starColor: 0x8A4A1C,    // Deep Terroir
-            opacity: 0.32
-          },
-          linen: {
-            wireColor: 0x8C3A27,    // Terracotta
-            pointColor: 0xB2533E,   // Warm Rust
-            starColor: 0x6E2D1D,    // Umber
-            opacity: 0.28
-          },
-          architect: {
-            wireColor: 0x0F52BA,    // Blueprint Sapphire
-            pointColor: 0x2563EB,   // Cobalt Glow
-            starColor: 0x1D4ED8,    // Crisp Azure
-            opacity: 0.22
-          },
-          obsidian: {
-            wireColor: 0xD97706,    // Neon Amber
-            pointColor: 0xF59E0B,   // Radiant Gold
-            starColor: 0xFBBF24,    // Stardust Flare
-            opacity: 0.50
-          }
-        };
-      }
-
-      init() {
-        // Scene & Camera
-        this.scene = new THREE.Scene();
-        this.camera = new THREE.PerspectiveCamera(52, window.innerWidth / window.innerHeight, 0.1, 1000);
-        this.camera.position.set(0, 8, 24);
-        this.camera.lookAt(0, -1, 0);
-
-        // WebGL Renderer
-        try {
-          this.renderer = new THREE.WebGLRenderer({
-            canvas: this.canvas,
-            alpha: true,
-            antialias: true,
-            powerPreference: 'high-performance'
-          });
-        } catch (err) {
-          console.warn('WebGL not supported:', err);
-          return;
-        }
-
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
-        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-
-        const palettes = this.getPalettes();
-        const cfg = palettes[this.currentTheme] || palettes.editorial;
-        this.canvas.style.opacity = cfg.opacity;
-
-        // Undulating Topological Manifold (Terrain Wireframe)
-        this.planeGeo = new THREE.PlaneGeometry(105, 70, 48, 32);
-        this.planeGeo.rotateX(-Math.PI * 0.42);
-
-        this.wireMaterial = new THREE.MeshBasicMaterial({
-          color: cfg.wireColor,
-          wireframe: true,
-          transparent: true,
-          opacity: 0.30
-        });
-        this.terrainMesh = new THREE.Mesh(this.planeGeo, this.wireMaterial);
-        this.terrainMesh.position.set(0, -5, -4);
-        this.scene.add(this.terrainMesh);
-
-        // Glowing Vertex Nodes
-        this.pointMaterial = new THREE.PointsMaterial({
-          color: cfg.pointColor,
-          size: 2.2,
-          transparent: true,
-          opacity: 0.65
-        });
-        this.terrainPoints = new THREE.Points(this.planeGeo, this.pointMaterial);
-        this.terrainPoints.position.copy(this.terrainMesh.position);
-        this.scene.add(this.terrainPoints);
-
-        // Floating Stardust Particles
-        const starCount = 130;
-        const starGeo = new THREE.BufferGeometry();
-        const starCoords = new Float32Array(starCount * 3);
-        this.starData = [];
-
-        for (let i = 0; i < starCount; i++) {
-          starCoords[i * 3] = (Math.random() - 0.5) * 85;
-          starCoords[i * 3 + 1] = (Math.random() - 0.5) * 48;
-          starCoords[i * 3 + 2] = (Math.random() - 0.5) * 35;
-          this.starData.push({
-            origY: starCoords[i * 3 + 1],
-            speed: 0.006 + Math.random() * 0.012,
-            phase: Math.random() * Math.PI * 2
-          });
-        }
-        starGeo.setAttribute('position', new THREE.BufferAttribute(starCoords, 3));
-
-        this.starMaterial = new THREE.PointsMaterial({
-          color: cfg.starColor,
-          size: 2.8,
-          transparent: true,
-          opacity: 0.45
-        });
-        this.stars = new THREE.Points(starGeo, this.starMaterial);
-        this.scene.add(this.stars);
-
-        // Smooth Mouse Parallax Tracking
-        this.targetMouseX = 0;
-        this.targetMouseY = 0;
-        this.mouseX = 0;
-        this.mouseY = 0;
-
-        window.addEventListener('pointermove', (e) => {
-          this.targetMouseX = (e.clientX / window.innerWidth) * 2 - 1;
-          this.targetMouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-        }, { passive: true });
-
-        // Responsive Resizing
-        window.addEventListener('resize', () => this.onResize(), { passive: true });
-
-        // Battery / Tab Hibernation Guard
-        document.addEventListener('visibilitychange', () => {
-          if (document.hidden) {
-            this.pause();
-          } else if (this.active) {
-            this.resume();
-          }
-        });
-
-        this.clock = new THREE.Clock();
-        this.animate = this.animate.bind(this);
-        this.resume();
-      }
-
-      setPalette(theme) {
-        this.currentTheme = theme;
-        const palettes = this.getPalettes();
-        const cfg = palettes[theme] || palettes.editorial;
-
-        if (this.wireMaterial) this.wireMaterial.color.setHex(cfg.wireColor);
-        if (this.pointMaterial) this.pointMaterial.color.setHex(cfg.pointColor);
-        if (this.starMaterial) this.starMaterial.color.setHex(cfg.starColor);
-        if (this.canvas) this.canvas.style.opacity = cfg.opacity;
-      }
-
-      toggle() {
-        this.active = !this.active;
-        if (this.active) {
-          this.canvas.style.display = 'block';
-          this.resume();
-        } else {
-          this.canvas.style.display = 'none';
-          this.pause();
-        }
-        return this.active;
-      }
-
-      pause() {
-        if (this.animId) {
-          cancelAnimationFrame(this.animId);
-          this.animId = null;
-        }
-      }
-
-      resume() {
-        if (!this.animId && this.active && this.renderer) {
-          this.clock.start();
-          this.animate();
-        }
-      }
-
-      onResize() {
-        if (!this.camera || !this.renderer) return;
-        this.camera.aspect = window.innerWidth / window.innerHeight;
-        this.camera.updateProjectionMatrix();
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
-        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-      }
-
-      animate() {
-        if (!this.active) return;
-        this.animId = requestAnimationFrame(this.animate);
-
-        const t = this.clock.getElapsedTime();
-
-        // Parallax easing
-        this.mouseX += (this.targetMouseX - this.mouseX) * 0.04;
-        this.mouseY += (this.targetMouseY - this.mouseY) * 0.04;
-
-        this.scene.rotation.y = this.mouseX * 0.12;
-        this.scene.rotation.x = this.mouseY * 0.08;
-        this.camera.position.x = this.mouseX * 2.5;
-        this.camera.position.y = 8 + this.mouseY * 1.5;
-
-        // Wave harmonics on terrain
-        if (this.planeGeo) {
-          const pos = this.planeGeo.attributes.position;
-          const count = pos.count;
-          for (let i = 0; i < count; i++) {
-            const u = pos.getX(i);
-            const v = pos.getY(i);
-            const wave = Math.sin(u * 0.08 + t * 0.65) * Math.cos(v * 0.11 + t * 0.45) * 2.3 +
-                         Math.sin((u + v) * 0.05 + t * 0.8) * 1.3;
-            pos.setZ(i, wave);
-          }
-          pos.needsUpdate = true;
-        }
-
-        // Stardust orbital drift
-        if (this.stars) {
-          const starPos = this.stars.geometry.attributes.position;
-          for (let i = 0; i < this.starData.length; i++) {
-            const d = this.starData[i];
-            starPos.setY(i, d.origY + Math.sin(t * d.speed * 20 + d.phase) * 2.2);
-          }
-          starPos.needsUpdate = true;
-          this.stars.rotation.y = t * 0.015;
-        }
-
-        this.renderer.render(this.scene, this.camera);
-      }
-    }
-
-    // Auto-mount ambient 3D scene on DOM ready
-    document.addEventListener('DOMContentLoaded', () => {
-      window.ZazenBackground = new ZazenBackground3D();
-    });
-  </script>
-
-  <!-- ============================================================== -->
   <!-- ZAZEN BUILDER & RENDERING ENGINE (data-zazen-builder)          -->
   <!-- ============================================================== -->
   <script data-zazen-builder>
@@ -1242,20 +1043,68 @@
       saveTimer: null,
       draggedItem: null,
 
+      // Multi-tier authoring authorization detector
+      // Strictly enforces security: authoring mode is NEVER exposed via public query strings.
+      // Active ONLY on local development OR when explicitly authorized via the zazen-edit environment variable.
+      detectAuthoringMode() {
+        const isTruthy = (val) => {
+          if (val === true || val === 1) return true;
+          if (typeof val === 'string') {
+            const s = val.trim().toLowerCase();
+            return s === 'true' || s === '1' || s === 'yes' || s === 'on' || s === 'enabled';
+          }
+          return false;
+        };
+
+        // 1. Local development hostnames
+        const isLocal = window.location.hostname === 'localhost' ||
+                        window.location.hostname === '127.0.0.1' ||
+                        window.location.hostname === '0.0.0.0' ||
+                        window.location.protocol === 'file:';
+        if (isLocal) return true;
+
+        // 2. Meta tags: stamped by cloud build step (scripts/build.js) or hosting head injection
+        const metaSelectors = [
+          'meta[name="zazen-edit" i]',
+          'meta[name="zazen_edit" i]',
+          'meta[name="ZAZEN_EDIT"]',
+          'meta[name="zazenedit" i]',
+          'meta[property="zazen-edit" i]',
+          'meta[property="zazen_edit" i]'
+        ];
+        for (const sel of metaSelectors) {
+          const el = document.querySelector(sel);
+          if (el && isTruthy(el.getAttribute('content'))) {
+            return true;
+          }
+        }
+
+        // 3. Window environment variables (supports all casing & hyphenation conventions)
+        if (isTruthy(window['zazen-edit'])) return true;
+        if (isTruthy(window.zazen_edit)) return true;
+        if (isTruthy(window.ZAZEN_EDIT)) return true;
+        if (isTruthy(window.zazenEdit)) return true;
+
+        // 4. Emulated environments (Node SSR, Vite, Next, Webpack)
+        if (window.process?.env) {
+          const env = window.process.env;
+          if (isTruthy(env['zazen-edit']) || isTruthy(env.ZAZEN_EDIT) || isTruthy(env.zazen_edit) || isTruthy(env.NEXT_PUBLIC_ZAZEN_EDIT)) {
+            return true;
+          }
+        }
+        if (window.__ENV__) {
+          const env = window.__ENV__;
+          if (isTruthy(env['zazen-edit']) || isTruthy(env.ZAZEN_EDIT) || isTruthy(env.zazen_edit)) {
+            return true;
+          }
+        }
+
+        return false;
+      },
+
       async init() {
         try {
-          // Detect Environment: Authoring Mode vs Live Production Mode
-          // Strict Security Mandate: Authoring mode is NEVER exposed via public URL query strings.
-          // It is active ONLY on local development (localhost, 127.0.0.1, file://) OR when explicitly
-          // enabled on the cloud host via environment variable ZAZEN_EDIT=true (meta tag or window.ZAZEN_EDIT).
-          const envEdit = (typeof window.ZAZEN_EDIT !== 'undefined' && (window.ZAZEN_EDIT === true || window.ZAZEN_EDIT === 'true')) ||
-                          (document.querySelector('meta[name="zazen-edit"]')?.content === 'true');
-
-          const isLocal = window.location.hostname === 'localhost' ||
-                          window.location.hostname === '127.0.0.1' ||
-                          window.location.protocol === 'file:';
-
-          this.isAuthoring = isLocal || envEdit;
+          this.isAuthoring = this.detectAuthoringMode();
 
           if (this.isAuthoring) {
             document.body.classList.add('is-authoring');
@@ -1280,14 +1129,14 @@
         if (window.lucide) lucide.createIcons();
       },
 
-      toggle3D() {
-        if (window.ZazenBackground) {
-          const active = window.ZazenBackground.toggle();
-          const btn = document.getElementById('zazen-3d-toggle');
-          if (btn) {
-            btn.classList.toggle('text-amber-400', active);
-            btn.classList.toggle('text-stone-500', !active);
-          }
+      toggleAura() {
+        const aura = document.getElementById('zazen-ambient-aura');
+        if (!aura) return;
+        const isHidden = aura.classList.toggle('hidden');
+        const btn = document.getElementById('zazen-aura-toggle');
+        if (btn) {
+          btn.classList.toggle('text-stone-500', isHidden);
+          btn.classList.toggle('text-stone-300', !isHidden);
         }
       },
 
@@ -1295,9 +1144,6 @@
         document.documentElement.setAttribute('data-theme', theme);
         if (this.data && this.data.meta) {
           this.data.meta.palette = theme;
-        }
-        if (window.ZazenBackground) {
-          window.ZazenBackground.setPalette(theme);
         }
         document.querySelectorAll('#zazen-builder-bar [data-palette]').forEach(b => {
           if (b.getAttribute('data-palette') === theme) {
