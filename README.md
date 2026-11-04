@@ -1,18 +1,48 @@
-# Zazen Builder
+# Salt Pier Surf Supply — Jacksonville Beach, FL
+**Built with Zazen Builder v3.2.0 from Zazen Labs, LLC**
 
-A skills-based, AI-first site builder from **Zazen Labs, LLC** that spins up agency-grade websites and deploys anywhere via MCP and modern web protocols.
+An agency-grade, AI-first website for **Salt Pier Surf Supply**, an oceanfront surf shop, custom boardworks, and surf academy located at 412 1st Street North in Jacksonville Beach, Florida (`30.2886° N, 81.3931° W`).
 
-## Repository Structure
+---
 
-- **`main` Branch (Canonical Skill):** Houses the canonical Zazen Builder skill definitions (`SKILL.md` and `zazen_builder_skill.md`). Pure markdown with zero executable code, ready to download and install into web agent harnesses (Web Gemini, Claude) or local IDE agents.
-- **`sample-site` Branch (Live Implementation):** Contains the sample personal portfolio site implementation (`index.html`, `zazen.config.json`, `bridge.js`) showcasing the full authoring overlay, auto-save engine, and 3-tier deployment workflow.
+## Features & Highlights
 
-## The Universal 3-Tier Deployment Architecture
+- **Live Jacksonville Beach Conditions Desk:** Daily break reports for Jax Beach Pier (North & South Peaks), wave heights, tide forecasts, water temperatures, and shaper swell analyses.
+- **Handcrafted First Coast Quivers:** Authentic surfboard catalog featuring custom shapes from local shapers (fishes, classic single-fin logs, mid-lengths, and hurricane step-ups) with full dimensional specs, fin configurations, and pricing.
+- **First Coast Surf Academy & Beach Outpost:** Programs for private surf coaching, youth ocean academy summer camps, rental gear, and in-house ding hospital repairs.
+- **Coastal Provisions:** Locally printed heavyweight tees, reef-safe mineral sunscreen, polarized eyewear, and hand-poured surf wax.
+- **First Coast Heritage & Break Directory:** Authentic storytelling highlighting four decades of Atlantic swell culture, from the Pier to the Poles at Hanna Park and 16th Ave South.
 
-1. **Tier 1: Pure ZIP Download (Universal Zero-Setup):** Client-side JSZip cleans the DOM, strips builder UI controls, and bundles pure production HTML and configurations for instant drag-and-drop into any hosting provider.
-2. **Tier 2: 1-Click Git & GitHub Sync (Local Repos):** Automatically commits visual edits to the active repository branch directly from the builder bar via `POST /api/git`.
-3. **Tier 3: Agent & MCP Deployment Handshake:** Clean exports are written to `./dist/` alongside `.zazen/deploy-intent.json`, allowing the user to simply switch to their AI agent and type `"deploy"` to trigger Vercel, Contentstack Launch, Netlify, Cloudflare, S3, or FTP MCP tools.
+---
 
-## Using the Skill
+## Zazen Builder In-Browser Authoring Overlay
 
-To use this skill in any AI agent harness (Web Gemini, Claude, Cursor, Claude Desktop), reference `SKILL.md` or `zazen_builder_skill.md`.
+This site includes the Zazen Builder v3.2.0 interactive visual builder:
+- **Instant In-Browser Editing:** Click any heading, badge, price, or description to edit inline.
+- **Drag-and-Drop Organization:** Reorder quiver boards, academy programs, provisions, and metrics dynamically.
+- **Dynamic Studio Palettes:** Switch between *Warm Linen*, *Editorial Sand*, *Architect White*, and *Obsidian Darkroom*.
+- **Subtle Studio Ambient Aura:** Pure CSS ambient illumination field that binds dynamically to the active palette.
+- **Decentralized JSON Data Store:** State is persisted in `<script id="__ZAZEN_DATA">` and mirrored in `zazen.config.json`.
+
+---
+
+## Local Development & Authoring Bridge
+
+To launch the local bridge for real-time auto-saving and 1-click git sync:
+
+```bash
+# Start the zero-dependency bridge helper on port 3000
+npm start
+# or
+node bridge.js
+```
+
+Open `http://localhost:3000` in your browser. The Zazen Builder top bar will automatically detect the local bridge and display `● Bridge (jax-beach-surf-shop)`.
+
+---
+
+## Universal 3-Tier Deployment
+
+1. **Tier 1 (Pure ZIP):** Click **[Pure ZIP]** in the builder bar to download a scrubbed, production-ready bundle (`index.html` + `zazen.config.json`) ready for drag-and-drop hosting.
+2. **Tier 2 (1-Click Git Sync):** Click **[Commit & Push]** to automatically stage all visual edits, commit to `jax-beach-surf-shop`, and push to GitHub.
+3. **Tier 3 (AI Agent & MCP Deploy):** Click **[Deploy Host]** &rarr; **[Prepare ./dist]**. Return to your AI agent and type `"deploy"` to trigger Vercel, Contentstack Launch, Netlify, or Cloudflare Pages MCP deployments.

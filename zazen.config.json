@@ -1,0 +1,206 @@
+{
+  "meta": {
+    "title": "Salt Pier Surf Supply — Jacksonville Beach, FL",
+    "name": "Salt Pier Surf Supply",
+    "tagline": "Handcrafted Quivers, Oceanfront Outpost & First Coast Wave Culture Since 1978",
+    "location": "Jacksonville Beach, Florida",
+    "coordinates": "30.2886° N, 81.3931° W",
+    "address": "412 1st Street North, Jacksonville Beach, FL 32250",
+    "phone": "(904) 247-SURF",
+    "email": "crew@saltpiersurf.com",
+    "hours": "Daily 7:00 AM – 7:00 PM • Sunrise to Sunset",
+    "status": "Open Daily • Oceanfront Outpost",
+    "palette": "linen",
+    "font": "newsreader",
+    "version": "3.2.0"
+  },
+  "surfReport": {
+    "spot": "Jax Beach Pier (North Side)",
+    "waveHeight": "3–4 FT",
+    "conditions": "Clean Offshore",
+    "tide": "High: 11:15 AM (+4.8 ft)",
+    "wind": "9 kts WNW",
+    "waterTemp": "72°F",
+    "summary": "Peeling waist-to-chest high A-frames pushing off the outside sandbars north of the pier. Glassy morning conditions with crisp offshore breeze. Recommended quiver: Twin Keel Fish or 9'4 Log."
+  },
+  "metrics": [
+    {
+      "value": "1978",
+      "label": "First Coast Roots",
+      "desc": "Serving Jax Beach surfers for over 48 seasons"
+    },
+    {
+      "value": "350+",
+      "label": "Quiver in Stock",
+      "desc": "Hand-shaped fishes, logs, mid-lengths & performance glass"
+    },
+    {
+      "value": "14,000+",
+      "label": "Surfers Coached",
+      "desc": "First Coast Surf Academy graduates & grom campers"
+    },
+    {
+      "value": "48 HR",
+      "label": "Ding Hospital Turnaround",
+      "desc": "Color-matched epoxy & PU glass repair"
+    }
+  ],
+  "quiver": [
+    {
+      "id": "board-1",
+      "name": "The Pier Fish",
+      "type": "Retro Twin Keel",
+      "dimensions": "5'6\" × 20 3/4\" × 2 7/16\" • 31.8L",
+      "shaper": "Handcrafted by Whisnant Shapes (Jax Beach)",
+      "price": "$785",
+      "badge": "Shop Favorite",
+      "desc": "Built specifically for punchy Jacksonville Beach sandbars. Wide point forward, deep single-to-double concave with wood glass-on keel fins. Flies through soft flat sections and carves cleanly off the pocket.",
+      "finSetup": "Glass-On Marine Ply Keels"
+    },
+    {
+      "id": "board-2",
+      "name": "First Coast Classic Log",
+      "type": "Traditional Single Fin Noserider",
+      "dimensions": "9'4\" × 23\" × 3 1/8\" • 74.5L",
+      "shaper": "First Coast Boardworks",
+      "price": "$1,050",
+      "badge": "Staff Pick",
+      "desc": "Smooth continuous rocker with 50/50 rails and a generous spoon nose concave. Designed for endless tip time on knee-to-waist peelers rolling into 4th Ave North. Features a volan deck patch and 3/8\" cedar stringer.",
+      "finSetup": "Single Box (10\" Pivot Fin Included)"
+    },
+    {
+      "id": "board-3",
+      "name": "Pelican Reef Mid-Length",
+      "type": "2+1 Performance Egg",
+      "dimensions": "6'10\" × 21 1/4\" × 2 3/4\" • 44.2L",
+      "shaper": "Coastal Resin Craft",
+      "price": "$840",
+      "badge": "Everyday Driver",
+      "desc": "The ultimate Florida daily driver. Paddles into any ripple with ease, trims effortlessly along the high line, and allows tight roundhouse cutbacks when the swell picks up. Sea-glass resin tint with gloss finish.",
+      "finSetup": "Futures 2+1 Setup"
+    },
+    {
+      "id": "board-4",
+      "name": "Nor'easter Step-Up",
+      "type": "Rounded Pin High-Performance",
+      "dimensions": "6'2\" × 19 1/8\" × 2 1/2\" • 31.2L",
+      "shaper": "Whisnant Shapes",
+      "price": "$765",
+      "badge": "Hurricane Quiver",
+      "desc": "Engineered for heavy autumn hurricane swells and dredging winter nor'easters at the Poles and Pier. Pulled-in tail holds firm in hollow barrels and steep drops without skittering.",
+      "finSetup": "Tri-Fin Thruster (FCS II)"
+    },
+    {
+      "id": "board-5",
+      "name": "16th Ave Glider",
+      "type": "Hull / Speed Glider",
+      "dimensions": "7'8\" × 21 1/2\" × 2 7/8\" • 52.0L",
+      "shaper": "First Coast Boardworks",
+      "price": "$895",
+      "badge": "Smooth Glide",
+      "desc": "Designed for pure speed and effortless flow across open Atlantic faces. Sleek foil, subtle rolled entry to flat tail, turning average summer days into an exhibition in style.",
+      "finSetup": "Single Box"
+    },
+    {
+      "id": "board-6",
+      "name": "First Coast Soft-Top",
+      "type": "Durable High-Float Foamie",
+      "dimensions": "8'0\" × 22 1/2\" × 3 1/4\" • 68.0L",
+      "shaper": "Salt Pier Softcraft",
+      "price": "$380",
+      "badge": "All Ages",
+      "desc": "Dual wooden stringers, IXPE textured deck that needs zero wax, and soft rubber safety fins. Built tough for groms, first-timers, or casual summer shorebreak fun.",
+      "finSetup": "Soft Safety Tri-Fin"
+    }
+  ],
+  "services": [
+    {
+      "id": "service-1",
+      "title": "Private Surf Coaching",
+      "duration": "90 Minutes",
+      "price": "$95 / Person",
+      "features": [
+        "1-on-1 instruction with CPR & Lifeguard certified coach",
+        "Includes premium board, rashguard, and leash",
+        "Paddle technique, ocean awareness & pop-up mechanics",
+        "In-water wave selection & etiquette coaching"
+      ]
+    },
+    {
+      "id": "service-2",
+      "title": "Grom Ocean Academy",
+      "duration": "Weekly Mon–Thu (Summer & Breaks)",
+      "price": "$325 / Week",
+      "features": [
+        "Ages 6–15 • Low 1:4 instructor-to-student ratio",
+        "Daily surf instruction, rip-current safety & ocean science",
+        "Fun heats, beach games & pizza party on Thursdays",
+        "Includes camp tee and graduation rashguard"
+      ]
+    },
+    {
+      "id": "service-3",
+      "title": "Board Rentals & Beach Gear",
+      "duration": "Hourly, Daily or Weekly",
+      "price": "From $25 / Day",
+      "features": [
+        "Extensive rental quiver: foamies, epoxy longboards & fishes",
+        "Beach cruiser bicycles with surfboard side racks",
+        "Sun umbrellas, wooden deck chairs & soft coolers",
+        "Free swap-outs if tide and wave conditions change"
+      ]
+    },
+    {
+      "id": "service-4",
+      "title": "In-House Ding Hospital",
+      "duration": "24–48 Hr Express Available",
+      "price": "Custom Estimate",
+      "features": [
+        "Epoxy, EPS, and traditional PU foam repairs",
+        "Color-matched resin tinting and gloss polish finish",
+        "Fin box replacement (Futures, FCS II, Single Box)",
+        "Creased board reinforcement and snapped tail reconstruction"
+      ]
+    }
+  ],
+  "provisions": [
+    {
+      "name": "Pier Heritage Heavyweight Tee",
+      "tag": "Apparel",
+      "price": "$38",
+      "desc": "100% garment-dyed ring-spun cotton printed locally in Jacksonville Beach. Vintage 1978 Pier logo."
+    },
+    {
+      "name": "Salt Pier Mineral Zinc Sunscreen",
+      "tag": "Skin & Ocean Safe",
+      "price": "$18",
+      "desc": "Non-nano zinc oxide, reef-safe, water-resistant formula infused with organic beeswax and coconut oil."
+    },
+    {
+      "name": "Atlantic Polarized Optics",
+      "tag": "Eyewear",
+      "price": "$85",
+      "desc": "Recycled ocean-plastic frames with hydrophobic polarized amber lenses for cutting Florida glare."
+    },
+    {
+      "name": "First Coast Cold & Warm Wax 3-Pack",
+      "tag": "Hardware",
+      "price": "$12",
+      "desc": "Locally formulated organic beeswax and tree rosin blends matched for North Florida water temps."
+    }
+  ],
+  "customBlocks": [
+    {
+      "type": "quote",
+      "quote": "There is nothing quite like a crisp November nor'easter swell wrapping around the Jax Beach Pier at sunrise. We build boards to celebrate that feeling every day.",
+      "author": "Capt. Billy Callahan • Master Shaper & Co-Founder"
+    },
+    {
+      "type": "event",
+      "title": "Full Moon Pier Paddle & Swell Jam",
+      "date": "Next Full Moon • 7:30 PM",
+      "location": "North Side Jax Beach Pier",
+      "summary": "Join our local crew for an evening community paddle, bonfire on the beach, and local live acoustic set. Free and open to all board riders."
+    }
+  ]
+}

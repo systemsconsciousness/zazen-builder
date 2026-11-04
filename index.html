@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="zazen-edit" content="false">
+  <title>Salt Pier Surf Supply — Jacksonville Beach, FL</title>
+  
+  <!-- Studio Fonts: Newsreader (Editorial Serif), Inter (Clean Sans), JetBrains Mono (Technical Mono) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            heading: ['var(--font-heading)', 'Newsreader', 'Georgia', 'serif'],
+            body: ['var(--font-body)', 'Inter', '-apple-system', 'sans-serif'],
+            mono: ['var(--font-mono)', 'JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            zbg: 'var(--bg)',
+            zsurface: 'var(--surface)',
+            zelevated: 'var(--elevated)',
+            ztext: 'var(--text)',
+            zmuted: 'var(--muted)',
+            zborder: 'var(--border)',
+            zaccent: 'var(--accent)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons & JSZip for production bundling -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <style>
+    :root {
+      /* Default Studio Palette: Warm Linen & Coastal Terracotta */
+      --font-heading: 'Newsreader', serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --bg: #FAF8F5;
+      --surface: #F3EFEA;
+      --elevated: #FFFFFF;
+      --text: #1C1A17;
+      --muted: #6B665E;
+      --border: rgba(28, 26, 23, 0.12);
+      --accent: #B8532E; /* Warm Coastal Terracotta */
+    }
+
+    [data-theme="sand"] {
+      --bg: #F4EFE6;
+      --surface: #ECE4D7;
+      --elevated: #FCFAF6;
+      --text: #211E1B;
+      --muted: #73695E;
+      --border: rgba(33, 30, 27, 0.14);
+      --accent: #A35C24;
+    }
+
+    [data-theme="linen"] {
+      --bg: #FAF8F5;
+      --surface: #F3EFEA;
+      --elevated: #FFFFFF;
+      --text: #1C1A17;
+      --muted: #6B665E;
+      --border: rgba(28, 26, 23, 0.12);
+      --accent: #B8532E;
+    }
+
+    [data-theme="architect"] {
+      --bg: #FFFFFF;
+      --surface: #F8F9FA;
+      --elevated: #FFFFFF;
+      --text: #111111;
+      --muted: #555555;
+      --border: #E5E7EB;
+      --accent: #0C6291; /* Atlantic Deep Sea Blue */
+    }
+
+    [data-theme="obsidian"] {
+      --bg: #0D0E11;
+      --surface: #14171C;
+      --elevated: #1C2026;
+      --text: #EAEBED;
+      --muted: #8E929B;
+      --border: rgba(234, 235, 237, 0.12);
+      --accent: #E07A5F; /* Twilight Coral Glow */
+    }
+
+    /* Refined Studio Ambient Aura (Ultra-Subtle, Organic & Non-Intrusive) */
+    .studio-ambient-aura {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+      opacity: 0.65;
+      transition: opacity 1.2s ease;
+    }
+    .studio-ambient-aura .aura-orb {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(140px);
+      -webkit-filter: blur(140px);
+      opacity: 0.06;
+      mix-blend-mode: multiply;
+      animation: aura-drift 32s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    [data-theme="obsidian"] .studio-ambient-aura .aura-orb {
+      mix-blend-mode: screen;
+      opacity: 0.10;
+    }
+    .studio-ambient-aura .aura-orb-1 {
+      width: 70vw;
+      height: 70vw;
+      max-width: 900px;
+      max-height: 900px;
+      top: -20%;
+      right: -10%;
+      background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+    }
+    .studio-ambient-aura .aura-orb-2 {
+      width: 60vw;
+      height: 60vw;
+      max-width: 800px;
+      max-height: 800px;
+      bottom: -15%;
+      left: -10%;
+      background: radial-gradient(circle, #D97706 0%, transparent 70%);
+      animation-duration: 40s;
+      animation-delay: -10s;
+    }
+
+    @keyframes aura-drift {
+      0% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(4%, 6%, 0) scale(1.08); }
+      100% { transform: translate3d(-4%, -3%, 0) scale(0.95); }
+    }
+
+    /* Subtle Architectural Grid Lines */
+    .arch-border {
+      border-color: var(--border);
+    }
+    .arch-grid {
+      background-image: linear-gradient(to right, var(--border) 1px, transparent 1px),
+                        linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+
+    /* In-Browser Visual Editor Overlay Styles */
+    .is-authoring .zazen-editable {
+      position: relative;
+      cursor: text;
+      outline: none;
+      transition: background-color 0.15s ease, box-shadow 0.15s ease;
+      border-radius: 2px;
+    }
+    .is-authoring .zazen-editable:hover {
+      background-color: rgba(184, 83, 46, 0.08);
+      box-shadow: 0 0 0 1px rgba(184, 83, 46, 0.25);
+    }
+    .is-authoring .zazen-editable:focus {
+      background-color: rgba(184, 83, 46, 0.12);
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+
+    /* Section & Block Hover Reorder Controls */
+    .zazen-block-wrapper {
+      position: relative;
+    }
+    .zazen-hover-tools {
+      display: none;
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 30;
+      background: rgba(17, 17, 17, 0.92);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      padding: 2px 4px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    .is-authoring .zazen-block-wrapper:hover > .zazen-hover-tools {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .is-authoring .zazen-draggable {
+      cursor: grab;
+    }
+    .is-authoring .zazen-draggable:active {
+      cursor: grabbing;
+    }
+    .zazen-drag-over {
+      outline: 2px dashed var(--accent) !important;
+      outline-offset: 4px;
+    }
+
+    /* Custom Transitions */
+    .zazen-transition {
+      transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+  </style>
+</head>
+<body class="bg-zbg text-ztext font-body antialiased selection:bg-amber-200 selection:text-stone-900 zazen-transition relative min-h-screen">
+
+  <!-- Ambient Light Field (Pure CSS Whisper-Quiet Glow) -->
+  <div class="studio-ambient-aura" id="studio-aura">
+    <div class="aura-orb aura-orb-1"></div>
+    <div class="aura-orb aura-orb-2"></div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- ZAZEN BUILDER OVERLAY BAR (Authoring Mode Only - Hidden on Public Production) -->
+  <!-- ============================================================== -->
+  <aside id="zazen-builder-bar" class="zazen-builder-ui fixed top-0 inset-x-0 h-12 bg-stone-950/95 text-stone-200 border-b border-stone-800 z-50 backdrop-blur-md px-4 flex items-center justify-between text-xs tracking-tight select-none">
+    <div class="flex items-center gap-3">
+      <div class="flex items-center gap-1.5 font-mono uppercase tracking-widest text-[11px] font-semibold text-stone-100">
+        <span class="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+        <span>ZAZEN BUILDER</span>
+        <span class="text-stone-500 font-normal">v3.2.0</span>
+      </div>
+
+      <div class="hidden sm:flex items-center gap-2 pl-3 border-l border-stone-800 text-stone-400">
+        <span id="zazen-bridge-status" class="text-[10px] font-mono px-2 py-0.5 rounded bg-stone-800/80 text-stone-300 border border-stone-700/60">
+          ○ Authoring Mode
+        </span>
+        <span id="zazen-save-status" class="text-[10px] font-mono text-stone-400">
+          ✓ Synced
+        </span>
+      </div>
+    </div>
+
+    <!-- Center Controls: Palette, Typography, Aura & Component Drawer -->
+    <div class="flex items-center gap-2">
+      <!-- Add Component Button -->
+      <button onclick="Zazen.openComponentDrawer()" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-stone-900 hover:bg-stone-800 text-amber-400 border border-stone-800 font-medium transition-colors" title="Add New Component Block">
+        <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+        <span>Add Block</span>
+      </button>
+
+      <!-- Palette Dropdown -->
+      <div class="relative">
+        <select onchange="Zazen.setPalette(this.value)" id="zazen-palette-select" class="appearance-none bg-stone-900 hover:bg-stone-800 border border-stone-800 text-stone-300 rounded px-2.5 py-1 pr-6 cursor-pointer focus:outline-none text-[11px] font-mono">
+          <option value="linen">Warm Linen</option>
+          <option value="sand">Editorial Sand</option>
+          <option value="architect">Architect White</option>
+          <option value="obsidian">Obsidian Dark</option>
+        </select>
+        <i data-lucide="chevron-down" class="w-3 h-3 text-stone-500 absolute right-1.5 top-2 pointer-events-none"></i>
+      </div>
+
+      <!-- Typography Dropdown -->
+      <div class="relative hidden md:block">
+        <select onchange="Zazen.setFont(this.value)" id="zazen-font-select" class="appearance-none bg-stone-900 hover:bg-stone-800 border border-stone-800 text-stone-300 rounded px-2.5 py-1 pr-6 cursor-pointer focus:outline-none text-[11px] font-mono">
+          <option value="newsreader">Newsreader + Inter</option>
+          <option value="cormorant">Cormorant + Jakarta</option>
+        </select>
+        <i data-lucide="type" class="w-3 h-3 text-stone-500 absolute right-1.5 top-2 pointer-events-none"></i>
+      </div>
+
+      <!-- Aura Toggle -->
+      <button onclick="Zazen.toggleAura()" id="zazen-aura-btn" class="p-1 rounded bg-stone-900 hover:bg-stone-800 text-stone-400 hover:text-stone-200 border border-stone-800 transition-colors" title="Toggle Studio Ambient Aura">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+      </button>
+    </div>
+
+    <!-- Right Controls: 3-Tier Deployment Buttons -->
+    <div class="flex items-center gap-2">
+      <!-- Tier 1: JSZip Universal Download -->
+      <button onclick="Zazen.downloadZip()" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-stone-900 hover:bg-stone-800 text-stone-300 border border-stone-700/60 font-medium transition-colors" title="Download clean ZIP of HTML and JSON (Tier 1)">
+        <i data-lucide="archive" class="w-3.5 h-3.5"></i>
+        <span class="hidden sm:inline">Pure ZIP</span>
+      </button>
+
+      <!-- Tier 2: 1-Click Git Commit & Push -->
+      <button onclick="Zazen.commitAndPush()" id="zazen-git-btn" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-stone-900 hover:bg-stone-800 text-stone-300 border border-stone-700/60 font-medium transition-colors" title="1-Click Git Commit & Push (Tier 2)">
+        <i data-lucide="git-branch" class="w-3.5 h-3.5"></i>
+        <span class="hidden sm:inline">Commit & Push</span>
+      </button>
+
+      <!-- Tier 3: Agent MCP Deploy Modal -->
+      <button onclick="Zazen.openDeployModal()" class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-amber-600 hover:bg-amber-500 text-stone-950 font-semibold transition-colors shadow-sm" title="Deploy via MCP (Vercel, Contentstack, Netlify, Cloudflare)">
+        <i data-lucide="upload-cloud" class="w-3.5 h-3.5"></i>
+        <span>Deploy Host</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT DRAWER MODAL (+ Add Block) -->
+  <!-- ============================================================== -->
+  <div id="zazen-component-drawer" class="zazen-builder-ui fixed inset-0 bg-stone-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-stone-900 border border-stone-800 rounded-xl max-w-lg w-full p-6 text-stone-200 shadow-2xl">
+      <div class="flex items-center justify-between pb-4 border-b border-stone-800">
+        <div>
+          <h3 class="font-heading text-lg font-medium text-stone-100">Add Studio Block</h3>
+          <p class="text-xs text-stone-400 font-mono mt-0.5">Select a design primitive to append to the site</p>
+        </div>
+        <button onclick="Zazen.closeComponentDrawer()" class="text-stone-400 hover:text-stone-100 p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3 py-5">
+        <button onclick="Zazen.insertBlock('board')" class="flex flex-col items-start p-3.5 rounded-lg border border-stone-800 hover:border-amber-500/50 hover:bg-stone-800/60 transition-all text-left">
+          <i data-lucide="compass" class="w-5 h-5 text-amber-400 mb-2"></i>
+          <span class="font-medium text-sm text-stone-100">Handcrafted Surfboard</span>
+          <span class="text-[11px] text-stone-400 mt-1">Add a custom shape, dimensions, shaper & price</span>
+        </button>
+
+        <button onclick="Zazen.insertBlock('service')" class="flex flex-col items-start p-3.5 rounded-lg border border-stone-800 hover:border-amber-500/50 hover:bg-stone-800/60 transition-all text-left">
+          <i data-lucide="waves" class="w-5 h-5 text-amber-400 mb-2"></i>
+          <span class="font-medium text-sm text-stone-100">Coaching or Service</span>
+          <span class="text-[11px] text-stone-400 mt-1">Surf lessons, grom camp, rentals or ding repair</span>
+        </button>
+
+        <button onclick="Zazen.insertBlock('provision')" class="flex flex-col items-start p-3.5 rounded-lg border border-stone-800 hover:border-amber-500/50 hover:bg-stone-800/60 transition-all text-left">
+          <i data-lucide="shopping-bag" class="w-5 h-5 text-amber-400 mb-2"></i>
+          <span class="font-medium text-sm text-stone-100">Coastal Provision</span>
+          <span class="text-[11px] text-stone-400 mt-1">Apparel, reef zinc, wax or coastal accessories</span>
+        </button>
+
+        <button onclick="Zazen.insertBlock('quote')" class="flex flex-col items-start p-3.5 rounded-lg border border-stone-800 hover:border-amber-500/50 hover:bg-stone-800/60 transition-all text-left">
+          <i data-lucide="quote" class="w-5 h-5 text-amber-400 mb-2"></i>
+          <span class="font-medium text-sm text-stone-100">Shaper Pullquote</span>
+          <span class="text-[11px] text-stone-400 mt-1">Editorial statement or local waterman testimony</span>
+        </button>
+
+        <button onclick="Zazen.insertBlock('event')" class="flex flex-col items-start p-3.5 rounded-lg border border-stone-800 hover:border-amber-500/50 hover:bg-stone-800/60 transition-all text-left">
+          <i data-lucide="calendar" class="w-5 h-5 text-amber-400 mb-2"></i>
+          <span class="font-medium text-sm text-stone-100">Community Swell Alert</span>
+          <span class="text-[11px] text-stone-400 mt-1">Full moon paddle, demo day or beach cleanup</span>
+        </button>
+
+        <button onclick="Zazen.insertBlock('metric')" class="flex flex-col items-start p-3.5 rounded-lg border border-stone-800 hover:border-amber-500/50 hover:bg-stone-800/60 transition-all text-left">
+          <i data-lucide="bar-chart-2" class="w-5 h-5 text-amber-400 mb-2"></i>
+          <span class="font-medium text-sm text-stone-100">Studio Metric</span>
+          <span class="text-[11px] text-stone-400 mt-1">Highlight stat, seasons, quiver count or hours</span>
+        </button>
+      </div>
+
+      <div class="pt-3 border-t border-stone-800 flex justify-end">
+        <button onclick="Zazen.closeComponentDrawer()" class="px-4 py-1.5 rounded bg-stone-800 hover:bg-stone-700 text-xs font-medium text-stone-300">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- 3-TIER DEPLOYMENT MODAL -->
+  <!-- ============================================================== -->
+  <div id="zazen-deploy-modal" class="zazen-builder-ui fixed inset-0 bg-stone-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-stone-900 border border-stone-800 rounded-xl max-w-xl w-full p-6 text-stone-200 shadow-2xl">
+      <div class="flex items-center justify-between pb-4 border-b border-stone-800">
+        <div>
+          <h3 class="font-heading text-lg font-medium text-stone-100">Deploy Salt Pier Surf Supply</h3>
+          <p class="text-xs text-stone-400 font-mono mt-0.5">Universal 3-Tier Deployment Architecture</p>
+        </div>
+        <button onclick="Zazen.closeDeployModal()" class="text-stone-400 hover:text-stone-100 p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 py-5 text-xs text-stone-300">
+        <!-- Tier 1 -->
+        <div class="p-3.5 rounded-lg border border-stone-800 bg-stone-950/50">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-mono text-amber-400 font-semibold uppercase text-[10px] tracking-wider">Tier 1: Universal Zero-Setup</span>
+            <button onclick="Zazen.downloadZip()" class="px-2 py-0.5 rounded bg-stone-800 hover:bg-stone-700 text-[11px] text-stone-200 font-medium">Download ZIP</button>
+          </div>
+          <p class="text-stone-400">Generates clean production HTML and JSON with all builder bars stripped. Drag and drop into Vercel Drop, Netlify Drop, or Cloudflare Pages.</p>
+        </div>
+
+        <!-- Tier 2 -->
+        <div class="p-3.5 rounded-lg border border-stone-800 bg-stone-950/50">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-mono text-emerald-400 font-semibold uppercase text-[10px] tracking-wider">Tier 2: 1-Click Git Sync</span>
+            <button onclick="Zazen.commitAndPush()" class="px-2 py-0.5 rounded bg-stone-800 hover:bg-stone-700 text-[11px] text-stone-200 font-medium">Commit & Push</button>
+          </div>
+          <p class="text-stone-400" id="zazen-git-status-text">Stages visual edits, creates git commit, and pushes to remote branch to trigger automated CI/CD builds.</p>
+        </div>
+
+        <!-- Tier 3 -->
+        <div class="p-3.5 rounded-lg border border-stone-800 bg-stone-950/50">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-mono text-sky-400 font-semibold uppercase text-[10px] tracking-wider">Tier 3: AI Agent & MCP Handshake</span>
+            <button onclick="Zazen.prepareAgentHandoff()" class="px-2 py-0.5 rounded bg-stone-800 hover:bg-stone-700 text-[11px] text-stone-200 font-medium">Prepare ./dist</button>
+          </div>
+          <p class="text-stone-400">Writes clean production bundle to <code class="text-stone-300">./dist/</code> and registers <code class="text-stone-300">.zazen/deploy-intent.json</code>. Return to your AI agent and type <code class="text-amber-300">"deploy"</code> to trigger cloud MCP deployment.</p>
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-stone-800 flex justify-end">
+        <button onclick="Zazen.closeDeployModal()" class="px-4 py-1.5 rounded bg-stone-800 hover:bg-stone-700 text-xs font-medium text-stone-300">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MAIN SITE CONTENT (ZAZEN EDITABLE REGION) -->
+  <!-- ============================================================== -->
+  <div id="zazen-site-root" class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-24">
+
+    <!-- TOP OCEANFRONT STATUS BAR -->
+    <header class="border-b arch-border pb-4 mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <!-- Left: Coordinates & Location -->
+        <div class="flex items-center gap-2 text-xs font-mono text-zmuted">
+          <span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span class="zazen-editable" data-bind="meta.coordinates">30.2886° N, 81.3931° W</span>
+          <span>•</span>
+          <span class="zazen-editable" data-bind="meta.location">Jacksonville Beach, Florida</span>
+        </div>
+
+        <!-- Right: Hours & Contact -->
+        <div class="flex flex-wrap items-center gap-4 text-xs font-mono text-zmuted">
+          <span class="zazen-editable font-medium text-ztext" data-bind="meta.status">Open Daily • Oceanfront Outpost</span>
+          <span class="hidden md:inline">•</span>
+          <span class="zazen-editable hidden md:inline" data-bind="meta.hours">Daily 7:00 AM – 7:00 PM • Sunrise to Sunset</span>
+          <a href="tel:9042477873" class="inline-flex items-center gap-1.5 text-zaccent hover:underline font-semibold">
+            <i data-lucide="phone" class="w-3.5 h-3.5"></i>
+            <span class="zazen-editable" data-bind="meta.phone">(904) 247-SURF</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- MAIN NAVIGATION BAR -->
+      <nav class="mt-6 flex flex-col md:flex-row md:items-center justify-between gap-6 pt-4 border-t arch-border">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-zaccent/10 flex items-center justify-center text-zaccent border arch-border">
+            <i data-lucide="compass" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h1 class="font-heading text-xl sm:text-2xl font-bold tracking-tight zazen-editable" data-bind="meta.name">
+              Salt Pier Surf Supply
+            </h1>
+            <p class="text-[11px] font-mono uppercase tracking-wider text-zmuted zazen-editable" data-bind="meta.tagline">
+              Handcrafted Quivers, Oceanfront Outpost & First Coast Wave Culture Since 1978
+            </p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-5 text-xs font-medium uppercase tracking-wider text-zmuted">
+          <a href="#surf-desk" class="hover:text-ztext transition-colors">Swell Desk</a>
+          <a href="#quiver" class="hover:text-ztext transition-colors">Quiver</a>
+          <a href="#academy" class="hover:text-ztext transition-colors">Academy & Rentals</a>
+          <a href="#provisions" class="hover:text-ztext transition-colors">Provisions</a>
+          <a href="#heritage" class="hover:text-ztext transition-colors">Heritage</a>
+          <a href="#visit" class="px-3 py-1.5 rounded bg-zaccent text-white font-medium hover:opacity-90 transition-opacity">
+            Visit Outpost
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- ============================================================== -->
+    <!-- HERO SECTION -->
+    <!-- ============================================================== -->
+    <section class="py-12 sm:py-20 border-b arch-border">
+      <div class="max-w-4xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zsurface border arch-border text-xs font-mono text-zmuted mb-6">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+          <span>FIRST COAST SURF CULTURE • 4TH AVE NORTH & OCEANFRONT</span>
+        </div>
+
+        <h2 class="font-heading text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-ztext leading-[1.08] mb-6 zazen-editable" data-bind="meta.heroHeadline">
+          Shaped for Atlantic swell. Rooted in Jax Beach.
+        </h2>
+
+        <p class="font-heading text-xl sm:text-2xl text-zmuted font-light leading-relaxed mb-8 zazen-editable" data-bind="meta.heroSubhead">
+          Three blocks north of the Jacksonville Beach Pier, Salt Pier Surf Supply builds hand-shaped quivers, teaches ocean confidence, and equips watermen with honest gear engineered for North Florida sandbars.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-4">
+          <a href="#quiver" class="inline-flex items-center gap-2 px-6 py-3 rounded bg-ztext text-zbg font-medium text-sm hover:opacity-90 transition-opacity">
+            <span>Explore Quiver</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+          <a href="#academy" class="inline-flex items-center gap-2 px-6 py-3 rounded bg-zsurface border arch-border text-ztext font-medium text-sm hover:bg-zelevated transition-colors">
+            <i data-lucide="life-buoy" class="w-4 h-4 text-zaccent"></i>
+            <span>Book Surf Coaching</span>
+          </a>
+          <div class="text-xs font-mono text-zmuted pl-2">
+            <span>Current Quiver: </span>
+            <span class="text-ztext font-semibold">350+ Boards in Stock</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- LIVE FIRST COAST SURF & TIDE DESK -->
+    <!-- ============================================================== -->
+    <section id="surf-desk" class="py-12 border-b arch-border">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-widest text-zaccent font-semibold">Morning Surf Report</span>
+          <h3 class="font-heading text-2xl sm:text-3xl font-bold mt-1 text-ztext">
+            Jax Beach Pier Conditions Desk
+          </h3>
+        </div>
+        <div class="text-xs font-mono text-zmuted">
+          <span>Updated Daily at 6:30 AM • </span>
+          <span class="text-emerald-600 font-semibold">Live Break Report</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+        <div class="p-4 rounded bg-zsurface border arch-border">
+          <div class="text-[10px] font-mono uppercase text-zmuted">Break Spot</div>
+          <div class="font-heading text-lg font-bold text-ztext mt-1 zazen-editable" data-bind="surfReport.spot">Jax Beach Pier</div>
+          <div class="text-[11px] font-mono text-zmuted mt-0.5">North Side Sandbar</div>
+        </div>
+
+        <div class="p-4 rounded bg-zsurface border arch-border">
+          <div class="text-[10px] font-mono uppercase text-zmuted">Wave Height</div>
+          <div class="font-heading text-2xl font-bold text-zaccent mt-1 zazen-editable" data-bind="surfReport.waveHeight">3–4 FT</div>
+          <div class="text-[11px] font-mono text-zmuted mt-0.5">Waist-to-Chest High</div>
+        </div>
+
+        <div class="p-4 rounded bg-zsurface border arch-border">
+          <div class="text-[10px] font-mono uppercase text-zmuted">Conditions</div>
+          <div class="font-heading text-lg font-bold text-ztext mt-1 zazen-editable" data-bind="surfReport.conditions">Clean Offshore</div>
+          <div class="text-[11px] font-mono text-emerald-600 font-medium mt-0.5">Glassy Peaks</div>
+        </div>
+
+        <div class="p-4 rounded bg-zsurface border arch-border">
+          <div class="text-[10px] font-mono uppercase text-zmuted">Tide Desk</div>
+          <div class="font-heading text-lg font-bold text-ztext mt-1 zazen-editable" data-bind="surfReport.tide">High: 11:15 AM</div>
+          <div class="text-[11px] font-mono text-zmuted mt-0.5">+4.8 ft Peak</div>
+        </div>
+
+        <div class="p-4 rounded bg-zsurface border arch-border">
+          <div class="text-[10px] font-mono uppercase text-zmuted">Wind</div>
+          <div class="font-heading text-lg font-bold text-ztext mt-1 zazen-editable" data-bind="surfReport.wind">9 kts WNW</div>
+          <div class="text-[11px] font-mono text-zmuted mt-0.5">True Offshore</div>
+        </div>
+
+        <div class="p-4 rounded bg-zsurface border arch-border">
+          <div class="text-[10px] font-mono uppercase text-zmuted">Water Temp</div>
+          <div class="font-heading text-lg font-bold text-ztext mt-1 zazen-editable" data-bind="surfReport.waterTemp">72°F</div>
+          <div class="text-[11px] font-mono text-zmuted mt-0.5">Springsuit / Boardshorts</div>
+        </div>
+      </div>
+
+      <div class="p-5 rounded bg-zelevated border arch-border flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex items-start gap-3">
+          <i data-lucide="eye" class="w-5 h-5 text-zaccent shrink-0 mt-0.5"></i>
+          <div>
+            <span class="text-xs font-mono uppercase font-semibold text-ztext">Shaper's Swell Analysis:</span>
+            <p class="text-sm text-zmuted mt-0.5 leading-relaxed zazen-editable" data-bind="surfReport.summary">
+              Peeling waist-to-chest high A-frames pushing off the outside sandbars north of the pier. Glassy morning conditions with crisp offshore breeze. Recommended quiver: Twin Keel Fish or 9'4 Log.
+            </p>
+          </div>
+        </div>
+        <div class="shrink-0 flex items-center gap-2">
+          <span class="text-xs font-mono text-zmuted">Need equipment today?</span>
+          <a href="#academy" class="text-xs font-mono font-medium text-zaccent hover:underline">Rentals Available &rarr;</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- STUDIO METRICS GRID -->
+    <!-- ============================================================== -->
+    <section class="py-12 border-b arch-border">
+      <div id="zazen-metrics-container" class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <!-- Rendered reactively from data.metrics -->
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- THE QUIVER: HANDCRAFTED SURFBOARDS -->
+    <!-- ============================================================== -->
+    <section id="quiver" class="py-16 border-b arch-border">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-widest text-zaccent font-semibold">The Boardworks</span>
+          <h3 class="font-heading text-3xl sm:text-4xl font-bold mt-1 text-ztext">
+            Handcrafted First Coast Quiver
+          </h3>
+          <p class="text-sm text-zmuted mt-1 max-w-xl">
+            Custom hand-shaped single fins, fishes, and performance boards built for Florida's barrier island wave dynamic.
+          </p>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-xs font-mono text-zmuted">Custom shaping slots available</span>
+          <button onclick="Zazen.insertBlock('board')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-zsurface hover:bg-zelevated border arch-border text-xs font-mono font-medium transition-colors">
+            <i data-lucide="plus" class="w-3.5 h-3.5 text-zaccent"></i>
+            <span>Add Board</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="zazen-quiver-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered reactively from data.quiver -->
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- ACADEMY, COACHING & RENTALS OUTPOST -->
+    <!-- ============================================================== -->
+    <section id="academy" class="py-16 border-b arch-border">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-widest text-zaccent font-semibold">Instruction & Outpost</span>
+          <h3 class="font-heading text-3xl sm:text-4xl font-bold mt-1 text-ztext">
+            First Coast Surf Academy & Rentals
+          </h3>
+          <p class="text-sm text-zmuted mt-1 max-w-xl">
+            From first-time paddle outs to competitive contest coaching and daily rental gear right by the pier.
+          </p>
+        </div>
+        <button onclick="Zazen.insertBlock('service')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-zsurface hover:bg-zelevated border arch-border text-xs font-mono font-medium transition-colors">
+          <i data-lucide="plus" class="w-3.5 h-3.5 text-zaccent"></i>
+          <span>Add Program</span>
+        </button>
+      </div>
+
+      <div id="zazen-services-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Rendered reactively from data.services -->
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- COASTAL PROVISIONS & GEAR -->
+    <!-- ============================================================== -->
+    <section id="provisions" class="py-16 border-b arch-border">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-widest text-zaccent font-semibold">Provisions & Goods</span>
+          <h3 class="font-heading text-3xl sm:text-4xl font-bold mt-1 text-ztext">
+            Authentic Salt & Sand Essentials
+          </h3>
+          <p class="text-sm text-zmuted mt-1 max-w-xl">
+            Locally printed heavyweight apparel, reef-safe mineral sun defense, and precision hardware.
+          </p>
+        </div>
+        <button onclick="Zazen.insertBlock('provision')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-zsurface hover:bg-zelevated border arch-border text-xs font-mono font-medium transition-colors">
+          <i data-lucide="plus" class="w-3.5 h-3.5 text-zaccent"></i>
+          <span>Add Provision</span>
+        </button>
+      </div>
+
+      <div id="zazen-provisions-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Rendered reactively from data.provisions -->
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- CUSTOM BLOCKS & SHAPER EDITORIALS -->
+    <!-- ============================================================== -->
+    <section id="custom-blocks" class="py-16 border-b arch-border">
+      <div id="zazen-custom-blocks-container" class="space-y-8">
+        <!-- Rendered reactively from data.customBlocks -->
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- OUR JAX BEACH HERITAGE -->
+    <!-- ============================================================== -->
+    <section id="heritage" class="py-16 border-b arch-border">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-5">
+          <span class="text-xs font-mono uppercase tracking-widest text-zaccent font-semibold">Our First Coast Roots</span>
+          <h3 class="font-heading text-3xl sm:text-4xl font-bold mt-2 text-ztext leading-tight">
+            Forty-Eight Seasons of Salt, Sand & Atlantic Swell
+          </h3>
+          <div class="mt-4 space-y-4 text-sm text-zmuted leading-relaxed">
+            <p>
+              In 1978, Salt Pier Surf Supply opened its doors three blocks north of the Jacksonville Beach Pier. We were founded on a straightforward principle: North Florida waves demand thoughtful board shapes crafted specifically for our shallow sandbars and shifting tide swings.
+            </p>
+            <p>
+              From hurricane swells spinning off Cape Hatteras to mellow summer knees on the south bar, our shapers and coaches have mentored three generations of First Coast surfers. We believe in honest craftsmanship, ocean respect, and keeping the authentic soul of Jax Beach alive.
+            </p>
+          </div>
+          <div class="mt-6 pt-6 border-t arch-border flex items-center gap-6">
+            <div>
+              <div class="text-2xl font-heading font-bold text-ztext">1978</div>
+              <div class="text-[11px] font-mono text-zmuted uppercase">Established</div>
+            </div>
+            <div class="h-8 w-px arch-border border-r"></div>
+            <div>
+              <div class="text-2xl font-heading font-bold text-ztext">100%</div>
+              <div class="text-[11px] font-mono text-zmuted uppercase">Locally Owned</div>
+            </div>
+            <div class="h-8 w-px arch-border border-r"></div>
+            <div>
+              <div class="text-2xl font-heading font-bold text-ztext">4th Ave N</div>
+              <div class="text-[11px] font-mono text-zmuted uppercase">Oceanfront</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7">
+          <div class="p-8 rounded-xl bg-zsurface border arch-border relative overflow-hidden">
+            <div class="flex items-center gap-2 text-xs font-mono text-zmuted mb-4">
+              <i data-lucide="map-pin" class="w-4 h-4 text-zaccent"></i>
+              <span>FIRST COAST BREAK DIRECTORY</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono">
+              <div class="p-4 rounded bg-zelevated border arch-border">
+                <div class="font-bold text-ztext text-sm">Jax Beach Pier</div>
+                <div class="text-zmuted mt-1">4th Ave North • Punchy A-frames, hollow sandbars, works on all tides.</div>
+              </div>
+              <div class="p-4 rounded bg-zelevated border arch-border">
+                <div class="font-bold text-ztext text-sm">The Poles (Hanna Park)</div>
+                <div class="text-zmuted mt-1">Mayport Border • Clean lefts & rights peeling off the inlet jetty protection.</div>
+              </div>
+              <div class="p-4 rounded bg-zelevated border arch-border">
+                <div class="font-bold text-ztext text-sm">16th Avenue South</div>
+                <div class="text-zmuted mt-1">Jax Beach • Long peelers ideal for logs, fishes, and mid-lengths.</div>
+              </div>
+              <div class="p-4 rounded bg-zelevated border arch-border">
+                <div class="font-bold text-ztext text-sm">Crossroads & 9th South</div>
+                <div class="text-zmuted mt-1">Jax Beach • Fun peaky beach break with fast shifting inside wedges.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- VISIT OUTPOST & CONTACT -->
+    <!-- ============================================================== -->
+    <section id="visit" class="py-16">
+      <div class="p-8 sm:p-12 rounded-2xl bg-zsurface border arch-border">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-7">
+            <span class="text-xs font-mono uppercase tracking-widest text-zaccent font-semibold">Oceanfront Outpost</span>
+            <h3 class="font-heading text-3xl sm:text-4xl font-bold mt-2 text-ztext">
+              Drop by the Shop Before Your Paddle Out
+            </h3>
+            <p class="text-sm text-zmuted mt-2 max-w-xl leading-relaxed">
+              We are located directly across from the dunes at 412 1st Street North in Jacksonville Beach. Free surfboard loading zone and hot water outdoor rinse showers for lesson clients.
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 text-xs font-mono">
+              <div>
+                <div class="text-zmuted uppercase">Physical Address</div>
+                <div class="font-bold text-ztext text-sm mt-0.5 zazen-editable" data-bind="meta.address">
+                  412 1st Street North, Jacksonville Beach, FL 32250
+                </div>
+              </div>
+              <div>
+                <div class="text-zmuted uppercase">Direct Surf Line</div>
+                <div class="font-bold text-ztext text-sm mt-0.5 zazen-editable" data-bind="meta.phone">
+                  (904) 247-SURF
+                </div>
+              </div>
+              <div>
+                <div class="text-zmuted uppercase">Store Hours</div>
+                <div class="font-bold text-ztext text-sm mt-0.5 zazen-editable" data-bind="meta.hours">
+                  Daily 7:00 AM – 7:00 PM • Sunrise to Sunset
+                </div>
+              </div>
+              <div>
+                <div class="text-zmuted uppercase">Crew Desk Email</div>
+                <div class="font-bold text-ztext text-sm mt-0.5 zazen-editable" data-bind="meta.email">
+                  crew@saltpiersurf.com
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 flex flex-col gap-3">
+            <div class="p-6 rounded-xl bg-zelevated border arch-border text-center">
+              <i data-lucide="navigation" class="w-8 h-8 text-zaccent mx-auto mb-3"></i>
+              <h4 class="font-heading text-lg font-bold text-ztext">Directions to the Outpost</h4>
+              <p class="text-xs text-zmuted mt-1">Take Beach Blvd (US-90) East all the way to 1st Street North. Turn left, 3 blocks north of the Pier.</p>
+              <a href="https://maps.google.com/?q=Jacksonville+Beach+Pier" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded bg-zaccent text-white text-xs font-mono font-medium hover:opacity-90 transition-opacity">
+                <span>Open in Maps</span>
+                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="pt-12 border-t arch-border text-xs font-mono text-zmuted flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <span>&copy; <span id="current-year">2026</span> Salt Pier Surf Supply LLC. All Rights Reserved.</span>
+        <span class="block text-[11px] text-zmuted/80 mt-0.5">Jacksonville Beach, Florida • Built with Zazen Builder v3.2.0</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="#surf-desk" class="hover:text-ztext">Back to Top &uarr;</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- DECENTRALIZED DATA STORE (Source of Truth) -->
+  <!-- ============================================================== -->
+  <script id="__ZAZEN_DATA" type="application/json">
+{
+  "meta": {
+    "title": "Salt Pier Surf Supply — Jacksonville Beach, FL",
+    "name": "Salt Pier Surf Supply",
+    "tagline": "Handcrafted Quivers, Oceanfront Outpost & First Coast Wave Culture Since 1978",
+    "location": "Jacksonville Beach, Florida",
+    "coordinates": "30.2886° N, 81.3931° W",
+    "address": "412 1st Street North, Jacksonville Beach, FL 32250",
+    "phone": "(904) 247-SURF",
+    "email": "crew@saltpiersurf.com",
+    "hours": "Daily 7:00 AM – 7:00 PM • Sunrise to Sunset",
+    "status": "Open Daily • Oceanfront Outpost",
+    "heroHeadline": "Shaped for Atlantic swell. Rooted in Jax Beach.",
+    "heroSubhead": "Three blocks north of the Jacksonville Beach Pier, Salt Pier Surf Supply builds hand-shaped quivers, teaches ocean confidence, and equips watermen with honest gear engineered for North Florida sandbars.",
+    "palette": "linen",
+    "font": "newsreader",
+    "version": "3.2.0"
+  },
+  "surfReport": {
+    "spot": "Jax Beach Pier",
+    "waveHeight": "3–4 FT",
+    "conditions": "Clean Offshore",
+    "tide": "High: 11:15 AM",
+    "wind": "9 kts WNW",
+    "waterTemp": "72°F",
+    "summary": "Peeling waist-to-chest high A-frames pushing off the outside sandbars north of the pier. Glassy morning conditions with crisp offshore breeze. Recommended quiver: Twin Keel Fish or 9'4 Log."
+  },
+  "metrics": [
+    {
+      "value": "1978",
+      "label": "First Coast Roots",
+      "desc": "Serving Jax Beach surfers for over 48 seasons"
+    },
+    {
+      "value": "350+",
+      "label": "Quiver in Stock",
+      "desc": "Hand-shaped fishes, logs, mid-lengths & performance glass"
+    },
+    {
+      "value": "14,000+",
+      "label": "Surfers Coached",
+      "desc": "First Coast Surf Academy graduates & grom campers"
+    },
+    {
+      "value": "48 HR",
+      "label": "Ding Hospital Turnaround",
+      "desc": "Color-matched epoxy & PU glass repair"
+    }
+  ],
+  "quiver": [
+    {
+      "id": "board-1",
+      "name": "The Pier Fish",
+      "type": "Retro Twin Keel",
+      "dimensions": "5'6\" × 20 3/4\" × 2 7/16\" • 31.8L",
+      "shaper": "Handcrafted by Whisnant Shapes (Jax Beach)",
+      "price": "$785",
+      "badge": "Shop Favorite",
+      "desc": "Built specifically for punchy Jacksonville Beach sandbars. Wide point forward, deep single-to-double concave with wood glass-on keel fins. Flies through soft flat sections and carves cleanly off the pocket.",
+      "finSetup": "Glass-On Marine Ply Keels"
+    },
+    {
+      "id": "board-2",
+      "name": "First Coast Classic Log",
+      "type": "Traditional Single Fin Noserider",
+      "dimensions": "9'4\" × 23\" × 3 1/8\" • 74.5L",
+      "shaper": "First Coast Boardworks",
+      "price": "$1,050",
+      "badge": "Staff Pick",
+      "desc": "Smooth continuous rocker with 50/50 rails and a generous spoon nose concave. Designed for endless tip time on knee-to-waist peelers rolling into 4th Ave North. Features a volan deck patch and 3/8\" cedar stringer.",
+      "finSetup": "Single Box (10\" Pivot Fin Included)"
+    },
+    {
+      "id": "board-3",
+      "name": "Pelican Reef Mid-Length",
+      "type": "2+1 Performance Egg",
+      "dimensions": "6'10\" × 21 1/4\" × 2 3/4\" • 44.2L",
+      "shaper": "Coastal Resin Craft",
+      "price": "$840",
+      "badge": "Everyday Driver",
+      "desc": "The ultimate Florida daily driver. Paddles into any ripple with ease, trims effortlessly along the high line, and allows tight roundhouse cutbacks when the swell picks up. Sea-glass resin tint with gloss finish.",
+      "finSetup": "Futures 2+1 Setup"
+    },
+    {
+      "id": "board-4",
+      "name": "Nor'easter Step-Up",
+      "type": "Rounded Pin High-Performance",
+      "dimensions": "6'2\" × 19 1/8\" × 2 1/2\" • 31.2L",
+      "shaper": "Whisnant Shapes",
+      "price": "$765",
+      "badge": "Hurricane Quiver",
+      "desc": "Engineered for heavy autumn hurricane swells and dredging winter nor'easters at the Poles and Pier. Pulled-in tail holds firm in hollow barrels and steep drops without skittering.",
+      "finSetup": "Tri-Fin Thruster (FCS II)"
+    },
+    {
+      "id": "board-5",
+      "name": "16th Ave Glider",
+      "type": "Hull / Speed Glider",
+      "dimensions": "7'8\" × 21 1/2\" × 2 7/8\" • 52.0L",
+      "shaper": "First Coast Boardworks",
+      "price": "$895",
+      "badge": "Smooth Glide",
+      "desc": "Designed for pure speed and effortless flow across open Atlantic faces. Sleek foil, subtle rolled entry to flat tail, turning average summer days into an exhibition in style.",
+      "finSetup": "Single Box"
+    },
+    {
+      "id": "board-6",
+      "name": "First Coast Soft-Top",
+      "type": "Durable High-Float Foamie",
+      "dimensions": "8'0\" × 22 1/2\" × 3 1/4\" • 68.0L",
+      "shaper": "Salt Pier Softcraft",
+      "price": "$380",
+      "badge": "All Ages",
+      "desc": "Dual wooden stringers, IXPE textured deck that needs zero wax, and soft rubber safety fins. Built tough for groms, first-timers, or casual summer shorebreak fun.",
+      "finSetup": "Soft Safety Tri-Fin"
+    }
+  ],
+  "services": [
+    {
+      "id": "service-1",
+      "title": "Private Surf Coaching",
+      "duration": "90 Minutes",
+      "price": "$95 / Person",
+      "features": [
+        "1-on-1 instruction with CPR & Lifeguard certified coach",
+        "Includes premium board, rashguard, and leash",
+        "Paddle technique, ocean awareness & pop-up mechanics",
+        "In-water wave selection & etiquette coaching"
+      ]
+    },
+    {
+      "id": "service-2",
+      "title": "Grom Ocean Academy",
+      "duration": "Weekly Mon–Thu (Summer & Breaks)",
+      "price": "$325 / Week",
+      "features": [
+        "Ages 6–15 • Low 1:4 instructor-to-student ratio",
+        "Daily surf instruction, rip-current safety & ocean science",
+        "Fun heats, beach games & pizza party on Thursdays",
+        "Includes camp tee and graduation rashguard"
+      ]
+    },
+    {
+      "id": "service-3",
+      "title": "Board Rentals & Beach Gear",
+      "duration": "Hourly, Daily or Weekly",
+      "price": "From $25 / Day",
+      "features": [
+        "Extensive rental quiver: foamies, epoxy longboards & fishes",
+        "Beach cruiser bicycles with surfboard side racks",
+        "Sun umbrellas, wooden deck chairs & soft coolers",
+        "Free swap-outs if tide and wave conditions change"
+      ]
+    },
+    {
+      "id": "service-4",
+      "title": "In-House Ding Hospital",
+      "duration": "24–48 Hr Express Available",
+      "price": "Custom Estimate",
+      "features": [
+        "Epoxy, EPS, and traditional PU foam repairs",
+        "Color-matched resin tinting and gloss polish finish",
+        "Fin box replacement (Futures, FCS II, Single Box)",
+        "Creased board reinforcement and snapped tail reconstruction"
+      ]
+    }
+  ],
+  "provisions": [
+    {
+      "name": "Pier Heritage Heavyweight Tee",
+      "tag": "Apparel",
+      "price": "$38",
+      "desc": "100% garment-dyed ring-spun cotton printed locally in Jacksonville Beach. Vintage 1978 Pier logo."
+    },
+    {
+      "name": "Salt Pier Mineral Zinc Sunscreen",
+      "tag": "Skin & Ocean Safe",
+      "price": "$18",
+      "desc": "Non-nano zinc oxide, reef-safe, water-resistant formula infused with organic beeswax and coconut oil."
+    },
+    {
+      "name": "Atlantic Polarized Optics",
+      "tag": "Eyewear",
+      "price": "$85",
+      "desc": "Recycled ocean-plastic frames with hydrophobic polarized amber lenses for cutting Florida glare."
+    },
+    {
+      "name": "First Coast Cold & Warm Wax 3-Pack",
+      "tag": "Hardware",
+      "price": "$12",
+      "desc": "Locally formulated organic beeswax and tree rosin blends matched for North Florida water temps."
+    }
+  ],
+  "customBlocks": [
+    {
+      "type": "quote",
+      "quote": "There is nothing quite like a crisp November nor'easter swell wrapping around the Jax Beach Pier at sunrise. We build boards to celebrate that feeling every day.",
+      "author": "Capt. Billy Callahan • Master Shaper & Co-Founder"
+    },
+    {
+      "type": "event",
+      "title": "Full Moon Pier Paddle & Swell Jam",
+      "date": "Next Full Moon • 7:30 PM",
+      "location": "North Side Jax Beach Pier",
+      "summary": "Join our local crew for an evening community paddle, bonfire on the beach, and local live acoustic set. Free and open to all board riders."
+    }
+  ]
+}
+  </script>
+
+  <!-- ============================================================== -->
+  <!-- ZAZEN BUILDER CORE CLIENT RUNTIME (Authoring & Scrubbing Engine) -->
+  <!-- ============================================================== -->
+  <script data-zazen-builder="true">
+    const Zazen = {
+      data: null,
+      isAuthoring: false,
+      bridgeActive: false,
+      gitBranch: 'main',
+      saveTimeout: null,
+
+      // Initialize
+      async init() {
+        try {
+          const raw = document.getElementById('__ZAZEN_DATA')?.textContent || '{}';
+          this.data = JSON.parse(raw);
+        } catch (e) {
+          console.error("Failed to parse __ZAZEN_DATA", e);
+          this.data = {};
+        }
+
+        // Apply theme preferences from data or localStorage
+        const savedPalette = localStorage.getItem('zazen_palette') || this.data.meta?.palette || 'linen';
+        const savedFont = localStorage.getItem('zazen_font') || this.data.meta?.font || 'newsreader';
+        this.setPalette(savedPalette, false);
+        this.setFont(savedFont, false);
+
+        // Render reactive content
+        this.renderAll();
+
+        // Check if authoring mode is authorized
+        await this.checkAuthoringMode();
+
+        // Check MCP / Local bridge
+        await this.checkMcpBridge();
+
+        // Initialize icons
+        if (window.lucide) lucide.createIcons();
+
+        // Set current year
+        const y = document.getElementById('current-year');
+        if (y) y.textContent = new Date().getFullYear();
+      },
+
+      // Security & Dual Verification Engine
+      async checkAuthoringMode() {
+        const isLocalHost = ['localhost', '127.0.0.1', '', '::1'].includes(window.location.hostname) || window.location.protocol === 'file:';
+
+        // 1. Check build-time stamped meta tag
+        const metaTag = document.querySelector('meta[name="zazen-edit"]');
+        const metaVal = metaTag ? metaTag.getAttribute('content') : 'false';
+        let authoringAuthorized = isLocalHost || ['true', '1', 'yes', 'enabled'].includes(metaVal.toLowerCase());
+
+        // 2. If on a remote host, check zero-config serverless function /api/zazen-env
+        if (!authoringAuthorized && !isLocalHost) {
+          try {
+            const res = await fetch('/api/zazen-env', { method: 'GET', cache: 'no-store' });
+            if (res.ok) {
+              const envData = await res.json();
+              if (envData.edit || envData.isEdit) authoringAuthorized = true;
+            }
+          } catch (_) {
+            try {
+              const staticRes = await fetch('/zazen-env.json', { method: 'GET', cache: 'no-store' });
+              if (staticRes.ok) {
+                const sData = await staticRes.json();
+                if (sData.edit || sData.isEdit) authoringAuthorized = true;
+              }
+            } catch (__) {}
+          }
+        }
+
+        this.isAuthoring = authoringAuthorized;
+        const bar = document.getElementById('zazen-builder-bar');
+
+        if (this.isAuthoring) {
+          document.body.classList.add('is-authoring', 'pt-12');
+          if (bar) bar.style.display = 'flex';
+          this.bindInlineEditing();
+        } else {
+          document.body.classList.remove('is-authoring', 'pt-12');
+          if (bar) bar.style.display = 'none';
+          document.querySelectorAll('.zazen-builder-ui').forEach(el => el.remove());
+        }
+      },
+
+      // Palette Swapping
+      setPalette(palette, persist = true) {
+        document.documentElement.removeAttribute('data-theme');
+        if (palette !== 'sand') {
+          document.documentElement.setAttribute('data-theme', palette);
+        }
+        const sel = document.getElementById('zazen-palette-select');
+        if (sel) sel.value = palette;
+        if (persist) {
+          localStorage.setItem('zazen_palette', palette);
+          if (this.data.meta) this.data.meta.palette = palette;
+          this.scheduleAutoSave();
+        }
+      },
+
+      // Typography Swapping
+      setFont(font, persist = true) {
+        const root = document.documentElement;
+        if (font === 'cormorant') {
+          root.style.setProperty('--font-heading', "'Cormorant Garamond', Georgia, serif");
+          root.style.setProperty('--font-body', "'Plus Jakarta Sans', sans-serif");
+        } else {
+          root.style.setProperty('--font-heading', "'Newsreader', Georgia, serif");
+          root.style.setProperty('--font-body', "'Inter', sans-serif");
+        }
+        const sel = document.getElementById('zazen-font-select');
+        if (sel) sel.value = font;
+        if (persist) {
+          localStorage.setItem('zazen_font', font);
+          if (this.data.meta) this.data.meta.font = font;
+          this.scheduleAutoSave();
+        }
+      },
+
+      toggleAura() {
+        const aura = document.getElementById('studio-aura');
+        if (!aura) return;
+        aura.style.display = aura.style.display === 'none' ? 'block' : 'none';
+      },
+
+      // Render Reactive Views
+      renderAll() {
+        this.renderMetrics();
+        this.renderQuiver();
+        this.renderServices();
+        this.renderProvisions();
+        this.renderCustomBlocks();
+      },
+
+      renderMetrics() {
+        const c = document.getElementById('zazen-metrics-container');
+        if (!c || !this.data.metrics) return;
+        c.innerHTML = this.data.metrics.map((m, idx) => `
+          <div class="zazen-block-wrapper p-6 rounded bg-zsurface border arch-border ${this.isAuthoring ? 'zazen-draggable' : ''}" draggable="${this.isAuthoring}" ondragstart="Zazen.handleDragStart(event, 'metrics', ${idx})" ondragover="Zazen.handleDragOver(event)" ondrop="Zazen.handleDrop(event, 'metrics', ${idx})">
+            <div class="zazen-hover-tools">
+              <button onclick="Zazen.moveItem('metrics', ${idx}, -1)" class="p-1 text-stone-400 hover:text-stone-100"><i data-lucide="arrow-left" class="w-3 h-3"></i></button>
+              <button onclick="Zazen.moveItem('metrics', ${idx}, 1)" class="p-1 text-stone-400 hover:text-stone-100"><i data-lucide="arrow-right" class="w-3 h-3"></i></button>
+              <button onclick="Zazen.deleteItem('metrics', ${idx})" class="p-1 text-red-400 hover:text-red-300"><i data-lucide="trash-2" class="w-3 h-3"></i></button>
+            </div>
+            <div class="font-heading text-3xl sm:text-4xl font-bold text-ztext zazen-editable" data-bind="metrics.${idx}.value">${m.value}</div>
+            <div class="text-xs font-mono uppercase tracking-wider text-zaccent font-semibold mt-1 zazen-editable" data-bind="metrics.${idx}.label">${m.label}</div>
+            <div class="text-xs text-zmuted mt-2 leading-relaxed zazen-editable" data-bind="metrics.${idx}.desc">${m.desc}</div>
+          </div>
+        `).join('');
+      },
+
+      renderQuiver() {
+        const c = document.getElementById('zazen-quiver-container');
+        if (!c || !this.data.quiver) return;
+        c.innerHTML = this.data.quiver.map((b, idx) => `
+          <div class="zazen-block-wrapper flex flex-col justify-between p-6 rounded-xl bg-zelevated border arch-border shadow-sm hover:shadow-md transition-shadow ${this.isAuthoring ? 'zazen-draggable' : ''}" draggable="${this.isAuthoring}" ondragstart="Zazen.handleDragStart(event, 'quiver', ${idx})" ondragover="Zazen.handleDragOver(event)" ondrop="Zazen.handleDrop(event, 'quiver', ${idx})">
+            <div class="zazen-hover-tools">
+              <button onclick="Zazen.moveItem('quiver', ${idx}, -1)" class="p-1 text-stone-400 hover:text-stone-100"><i data-lucide="arrow-up" class="w-3 h-3"></i></button>
+              <button onclick="Zazen.moveItem('quiver', ${idx}, 1)" class="p-1 text-stone-400 hover:text-stone-100"><i data-lucide="arrow-down" class="w-3 h-3"></i></button>
+              <button onclick="Zazen.deleteItem('quiver', ${idx})" class="p-1 text-red-400 hover:text-red-300"><i data-lucide="trash-2" class="w-3 h-3"></i></button>
+            </div>
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-zsurface text-zaccent font-semibold border arch-border zazen-editable" data-bind="quiver.${idx}.badge">${b.badge || 'Quiver'}</span>
+                <span class="font-heading text-lg font-bold text-ztext zazen-editable" data-bind="quiver.${idx}.price">${b.price}</span>
+              </div>
+              <h4 class="font-heading text-xl font-bold text-ztext zazen-editable" data-bind="quiver.${idx}.name">${b.name}</h4>
+              <div class="text-xs font-mono text-zmuted mt-0.5 zazen-editable" data-bind="quiver.${idx}.type">${b.type}</div>
+              <div class="mt-3 p-2.5 rounded bg-zsurface/60 border arch-border text-xs font-mono text-ztext zazen-editable" data-bind="quiver.${idx}.dimensions">
+                ${b.dimensions}
+              </div>
+              <p class="text-xs text-zmuted mt-3 leading-relaxed zazen-editable" data-bind="quiver.${idx}.desc">${b.desc}</p>
+            </div>
+            <div class="mt-6 pt-4 border-t arch-border flex items-center justify-between text-[11px] font-mono text-zmuted">
+              <span class="zazen-editable" data-bind="quiver.${idx}.shaper">${b.shaper}</span>
+              <span class="zazen-editable font-medium text-ztext" data-bind="quiver.${idx}.finSetup">${b.finSetup}</span>
+            </div>
+          </div>
+        `).join('');
+      },
+
+      renderServices() {
+        const c = document.getElementById('zazen-services-container');
+        if (!c || !this.data.services) return;
+        c.innerHTML = this.data.services.map((s, idx) => `
+          <div class="zazen-block-wrapper p-6 sm:p-8 rounded-xl bg-zelevated border arch-border shadow-sm flex flex-col justify-between ${this.isAuthoring ? 'zazen-draggable' : ''}" draggable="${this.isAuthoring}" ondragstart="Zazen.handleDragStart(event, 'services', ${idx})" ondragover="Zazen.handleDragOver(event)" ondrop="Zazen.handleDrop(event, 'services', ${idx})">
+            <div class="zazen-hover-tools">
+              <button onclick="Zazen.moveItem('services', ${idx}, -1)" class="p-1 text-stone-400 hover:text-stone-100"><i data-lucide="arrow-up" class="w-3 h-3"></i></button>
+              <button onclick="Zazen.moveItem('services', ${idx}, 1)" class="p-1 text-stone-400 hover:text-stone-100"><i data-lucide="arrow-down" class="w-3 h-3"></i></button>
+              <button onclick="Zazen.deleteItem('services', ${idx})" class="p-1 text-red-400 hover:text-red-300"><i data-lucide="trash-2" class="w-3 h-3"></i></button>
+            </div>
+            <div>
+              <div class="flex items-center justify-between gap-4 mb-2">
+                <h4 class="font-heading text-2xl font-bold text-ztext zazen-editable" data-bind="services.${idx}.title">${s.title}</h4>
+                <div class="text-right">
+                  <div class="font-heading text-xl font-bold text-zaccent zazen-editable" data-bind="services.${idx}.price">${s.price}</div>
+                  <div class="text-[10px] font-mono text-zmuted zazen-editable" data-bind="services.${idx}.duration">${s.duration}</div>
+                </div>
+              </div>
+              <ul class="mt-6 space-y-2.5 text-xs text-zmuted">
+                ${(s.features || []).map((feat, fIdx) => `
+                  <li class="flex items-start gap-2.5">
+                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5"></i>
+                    <span class="zazen-editable leading-relaxed" data-bind="services.${idx}.features.${fIdx}">${feat}</span>
+                  </li>
+                `).join('')}
+              </ul>
+            </div>
+            <div class="mt-8 pt-4 border-t arch-border flex items-center justify-between">
+              <span class="text-xs font-mono text-zmuted">Includes Jax Beach Pier Access</span>
+              <a href="tel:9042477873" class="px-4 py-2 rounded bg-zsurface hover:bg-ztext hover:text-zbg border arch-border text-xs font-mono font-medium transition-colors">Book / Inquire</a>
+            </div>
+          </div>
+        `).join('');
+      },
+
+      renderProvisions() {
+        const c = document.getElementById('zazen-provisions-container');
+        if (!c || !this.data.provisions) return;
+        c.innerHTML = this.data.provisions.map((p, idx) => `
+          <div class="zazen-block-wrapper p-5 rounded-lg bg-zsurface border arch-border ${this.isAuthoring ? 'zazen-draggable' : ''}" draggable="${this.isAuthoring}" ondragstart="Zazen.handleDragStart(event, 'provisions', ${idx})" ondragover="Zazen.handleDragOver(event)" ondrop="Zazen.handleDrop(event, 'provisions', ${idx})">
+            <div class="zazen-hover-tools">
+              <button onclick="Zazen.moveItem('provisions', ${idx}, -1)" class="p-1 text-stone-400 hover:text-stone-100"><i data-lucide="arrow-left" class="w-3 h-3"></i></button>
+              <button onclick="Zazen.moveItem('provisions', ${idx}, 1)" class="p-1 text-stone-400 hover:text-stone-100"><i data-lucide="arrow-right" class="w-3 h-3"></i></button>
+              <button onclick="Zazen.deleteItem('provisions', ${idx})" class="p-1 text-red-400 hover:text-red-300"><i data-lucide="trash-2" class="w-3 h-3"></i></button>
+            </div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-zelevated text-zmuted border arch-border zazen-editable" data-bind="provisions.${idx}.tag">${p.tag}</span>
+              <span class="font-heading font-bold text-ztext zazen-editable" data-bind="provisions.${idx}.price">${p.price}</span>
+            </div>
+            <h4 class="font-heading text-lg font-bold text-ztext mt-1 zazen-editable" data-bind="provisions.${idx}.name">${p.name}</h4>
+            <p class="text-xs text-zmuted mt-2 leading-relaxed zazen-editable" data-bind="provisions.${idx}.desc">${p.desc}</p>
+          </div>
+        `).join('');
+      },
+
+      renderCustomBlocks() {
+        const c = document.getElementById('zazen-custom-blocks-container');
+        if (!c || !this.data.customBlocks) return;
+        c.innerHTML = this.data.customBlocks.map((b, idx) => {
+          if (b.type === 'quote') {
+            return `
+              <div class="zazen-block-wrapper p-8 sm:p-12 rounded-xl bg-zelevated border arch-border relative text-center max-w-3xl mx-auto shadow-sm ${this.isAuthoring ? 'zazen-draggable' : ''}" draggable="${this.isAuthoring}" ondragstart="Zazen.handleDragStart(event, 'customBlocks', ${idx})" ondragover="Zazen.handleDragOver(event)" ondrop="Zazen.handleDrop(event, 'customBlocks', ${idx})">
+                <div class="zazen-hover-tools">
+                  <button onclick="Zazen.deleteItem('customBlocks', ${idx})" class="p-1 text-red-400 hover:text-red-300"><i data-lucide="trash-2" class="w-3 h-3"></i></button>
+                </div>
+                <i data-lucide="quote" class="w-8 h-8 text-zaccent/30 mx-auto mb-4"></i>
+                <blockquote class="font-heading text-xl sm:text-2xl text-ztext italic font-light leading-relaxed zazen-editable" data-bind="customBlocks.${idx}.quote">
+                  "${b.quote}"
+                </blockquote>
+                <div class="mt-4 text-xs font-mono text-zmuted uppercase tracking-wider zazen-editable" data-bind="customBlocks.${idx}.author">
+                  — ${b.author}
+                </div>
+              </div>
+            `;
+          } else if (b.type === 'event') {
+            return `
+              <div class="zazen-block-wrapper p-6 sm:p-8 rounded-xl bg-zsurface border arch-border flex flex-col md:flex-row md:items-center justify-between gap-6 ${this.isAuthoring ? 'zazen-draggable' : ''}" draggable="${this.isAuthoring}" ondragstart="Zazen.handleDragStart(event, 'customBlocks', ${idx})" ondragover="Zazen.handleDragOver(event)" ondrop="Zazen.handleDrop(event, 'customBlocks', ${idx})">
+                <div class="zazen-hover-tools">
+                  <button onclick="Zazen.deleteItem('customBlocks', ${idx})" class="p-1 text-red-400 hover:text-red-300"><i data-lucide="trash-2" class="w-3 h-3"></i></button>
+                </div>
+                <div class="flex items-start gap-4">
+                  <div class="w-12 h-12 rounded-lg bg-zaccent/10 border arch-border flex items-center justify-center text-zaccent shrink-0">
+                    <i data-lucide="calendar" class="w-6 h-6"></i>
+                  </div>
+                  <div>
+                    <div class="flex items-center gap-2 text-xs font-mono text-zmuted">
+                      <span class="zazen-editable font-semibold text-zaccent" data-bind="customBlocks.${idx}.date">${b.date}</span>
+                      <span>•</span>
+                      <span class="zazen-editable" data-bind="customBlocks.${idx}.location">${b.location}</span>
+                    </div>
+                    <h4 class="font-heading text-xl font-bold text-ztext mt-1 zazen-editable" data-bind="customBlocks.${idx}.title">${b.title}</h4>
+                    <p class="text-xs text-zmuted mt-1 leading-relaxed zazen-editable" data-bind="customBlocks.${idx}.summary">${b.summary}</p>
+                  </div>
+                </div>
+                <div class="shrink-0">
+                  <span class="px-4 py-2 rounded bg-zelevated border arch-border text-xs font-mono text-ztext font-medium">Free & Open Event</span>
+                </div>
+              </div>
+            `;
+          }
+          return '';
+        }).join('');
+      },
+
+      // Inline Editing Engine
+      bindInlineEditing() {
+        if (!this.isAuthoring) return;
+        document.querySelectorAll('.zazen-editable').forEach(el => {
+          el.setAttribute('contenteditable', 'true');
+          el.onblur = () => {
+            const bindPath = el.getAttribute('data-bind');
+            if (bindPath) {
+              const text = el.innerText.trim();
+              this.setDeepValue(this.data, bindPath, text);
+              this.scheduleAutoSave();
+            }
+          };
+          el.onkeydown = (e) => {
+            if (e.key === 'Enter' && !el.classList.contains('allow-multiline')) {
+              e.preventDefault();
+              el.blur();
+            }
+          };
+        });
+      },
+
+      setDeepValue(obj, path, value) {
+        const parts = path.split('.');
+        let curr = obj;
+        for (let i = 0; i < parts.length - 1; i++) {
+          const p = parts[i];
+          if (!curr[p]) curr[p] = {};
+          curr = curr[p];
+        }
+        curr[parts[parts.length - 1]] = value;
+      },
+
+      // Drag and Drop
+      dragSource: null,
+      handleDragStart(e, category, index) {
+        if (!this.isAuthoring) return;
+        this.dragSource = { category, index };
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', `${category}:${index}`);
+      },
+      handleDragOver(e) {
+        if (!this.isAuthoring) return;
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+      },
+      handleDrop(e, category, targetIndex) {
+        if (!this.isAuthoring || !this.dragSource) return;
+        e.preventDefault();
+        if (this.dragSource.category === category && this.dragSource.index !== targetIndex) {
+          const list = this.data[category];
+          const [moved] = list.splice(this.dragSource.index, 1);
+          list.splice(targetIndex, 0, moved);
+          this.renderAll();
+          this.bindInlineEditing();
+          this.scheduleAutoSave();
+          if (window.lucide) lucide.createIcons();
+        }
+        this.dragSource = null;
+      },
+
+      moveItem(category, index, direction) {
+        const list = this.data[category];
+        const newIndex = index + direction;
+        if (newIndex >= 0 && newIndex < list.length) {
+          const [item] = list.splice(index, 1);
+          list.splice(newIndex, 0, item);
+          this.renderAll();
+          this.bindInlineEditing();
+          this.scheduleAutoSave();
+          if (window.lucide) lucide.createIcons();
+        }
+      },
+
+      deleteItem(category, index) {
+        if (confirm("Remove this item from the site?")) {
+          this.data[category].splice(index, 1);
+          this.renderAll();
+          this.bindInlineEditing();
+          this.scheduleAutoSave();
+          if (window.lucide) lucide.createIcons();
+        }
+      },
+
+      // Modal Triggers
+      openComponentDrawer() {
+        document.getElementById('zazen-component-drawer')?.classList.remove('hidden');
+      },
+      closeComponentDrawer() {
+        document.getElementById('zazen-component-drawer')?.classList.add('hidden');
+      },
+      openDeployModal() {
+        document.getElementById('zazen-deploy-modal')?.classList.remove('hidden');
+      },
+      closeDeployModal() {
+        document.getElementById('zazen-deploy-modal')?.classList.add('hidden');
+      },
+
+      insertBlock(type) {
+        this.closeComponentDrawer();
+        if (type === 'board') {
+          if (!this.data.quiver) this.data.quiver = [];
+          this.data.quiver.unshift({
+            id: `board-${Date.now()}`,
+            name: "New Custom Shape",
+            type: "Custom Shaper Edition",
+            dimensions: "6'4\" × 20 1/2\" × 2 5/8\" • 37.5L",
+            shaper: "First Coast Boardworks",
+            price: "$795",
+            badge: "New Arrival",
+            desc: "Handcrafted in Jacksonville Beach with custom glassing and fine-tuned rocker.",
+            finSetup: "FCS II / 5-Fin Setup"
+          });
+          this.renderQuiver();
+        } else if (type === 'service') {
+          if (!this.data.services) this.data.services = [];
+          this.data.services.push({
+            id: `service-${Date.now()}`,
+            title: "Advanced Wave Coaching",
+            duration: "2 Hours",
+            price: "$125",
+            features: [
+              "Video wave review and positioning feedback",
+              "Advanced barrel and turn mechanics",
+              "Personalized shaper quiver consultation"
+            ]
+          });
+          this.renderServices();
+        } else if (type === 'provision') {
+          if (!this.data.provisions) this.data.provisions = [];
+          this.data.provisions.push({
+            name: "Jax Beach Heritage Cap",
+            tag: "Apparel",
+            price: "$32",
+            desc: "Unstructured vintage washed cotton with embroidered Salt Pier crest."
+          });
+          this.renderProvisions();
+        } else if (type === 'quote') {
+          if (!this.data.customBlocks) this.data.customBlocks = [];
+          this.data.customBlocks.push({
+            type: "quote",
+            quote: "A good board feels alive the moment your hands touch the rail.",
+            author: "Local Shaper Note"
+          });
+          this.renderCustomBlocks();
+        } else if (type === 'event') {
+          if (!this.data.customBlocks) this.data.customBlocks = [];
+          this.data.customBlocks.push({
+            type: "event",
+            title: "Morning Coffee & Shaper Demo Day",
+            date: "Saturday • 8:00 AM",
+            location: "Jax Beach Pier Lawn",
+            summary: "Test ride our full demo quiver for free. Fresh pour-over coffee provided."
+          });
+          this.renderCustomBlocks();
+        } else if (type === 'metric') {
+          if (!this.data.metrics) this.data.metrics = [];
+          this.data.metrics.push({
+            value: "100%",
+            label: "Wave Passion",
+            desc: "Committed to First Coast surfing"
+          });
+          this.renderMetrics();
+        }
+
+        this.scheduleAutoSave();
+        this.bindInlineEditing();
+        if (window.lucide) lucide.createIcons();
+      },
+
+      // Mandate 4: Pure Clean HTML Extraction (Scrubbing Engine)
+      getCleanHtml() {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(document.documentElement.outerHTML, 'text/html');
+
+        // Scrub all builder toolbars, modals, hover tools, and management scripts from document markup
+        doc.querySelectorAll('#zazen-builder-bar, #zazen-component-drawer, #zazen-deploy-modal, .zazen-hover-tools, .zazen-builder-ui, script[data-zazen-builder]').forEach(el => el.remove());
+
+        // Scrub authoring attributes (contenteditable, draggable, data-bind)
+        doc.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+        doc.querySelectorAll('[draggable]').forEach(el => el.removeAttribute('draggable'));
+        doc.querySelectorAll('[data-bind]').forEach(el => el.removeAttribute('data-bind'));
+        doc.querySelectorAll('.zazen-editable').forEach(el => el.classList.remove('zazen-editable'));
+        doc.querySelectorAll('.zazen-draggable').forEach(el => el.classList.remove('zazen-draggable'));
+        doc.querySelectorAll('.zazen-block-wrapper').forEach(el => el.classList.remove('zazen-block-wrapper'));
+
+        // Reset body padding-top that was reserved for the builder bar
+        const body = doc.querySelector('body');
+        if (body) {
+          body.classList.remove('pt-12', 'pt-14', 'is-authoring');
+        }
+
+        // Update embedded JSON store to current state
+        const dataScript = doc.getElementById('__ZAZEN_DATA');
+        if (dataScript) {
+          dataScript.textContent = '\n' + JSON.stringify(this.data, null, 2) + '\n  ';
+        }
+
+        return '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
+      },
+
+      async checkMcpBridge() {
+        try {
+          const res = await fetch('http://localhost:3000/api/health', { method: 'GET' });
+          if (res.ok) {
+            const data = await res.json();
+            this.bridgeActive = true;
+            this.gitBranch = data.git?.branch || 'main';
+
+            const pill = document.getElementById('zazen-bridge-status');
+            if (pill) {
+              pill.textContent = `● Bridge (${this.gitBranch})`;
+              pill.className = 'text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+            }
+
+            const gitStatusText = document.getElementById('zazen-git-status-text');
+            if (gitStatusText) {
+              gitStatusText.textContent = `Active Git branch: ${this.gitBranch}. 1-click stage, commit, and push to GitHub.`;
+            }
+          }
+        } catch (_) {
+          this.bridgeActive = false;
+        }
+      },
+
+      // Tier 1: In-Browser Pure ZIP Bundle
+      async buildPureZip() {
+        const zip = new JSZip();
+        const cleanIndexHtml = this.getCleanHtml();
+        zip.file("index.html", cleanIndexHtml);
+        zip.file("zazen.config.json", JSON.stringify(this.data, null, 2));
+        return await zip.generateAsync({ type: "blob" });
+      },
+
+      downloadZip() {
+        this.buildPureZip().then(blob => {
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          const name = 'salt-pier-surf-jax-beach';
+          a.download = `${name}-production.zip`;
+          a.click();
+        });
+      },
+
+      // Tier 2: 1-Click Git Commit & Push
+      async commitAndPush() {
+        const btn = document.getElementById('zazen-git-btn');
+        const orig = btn ? btn.innerHTML : '';
+        if (btn) btn.innerHTML = '<i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i> Syncing...';
+        if (window.lucide) lucide.createIcons();
+
+        try {
+          const payload = {
+            message: `feat(site): update Salt Pier Surf Supply via Zazen Builder (${new Date().toLocaleTimeString()})`,
+            push: true
+          };
+
+          const res = await fetch('http://localhost:3000/api/git', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          if (res.ok) {
+            const result = await res.json();
+            alert(`✓ Git Sync Successful!\nBranch: ${result.branch}\nCommit: ${result.commit}\nPush: ${result.push || 'Clean'}`);
+          } else {
+            alert('Git sync requires local bridge running (node bridge.js).');
+          }
+        } catch (e) {
+          alert('Could not reach local bridge helper (http://localhost:3000). Start it with `node bridge.js`.');
+        } finally {
+          if (btn) btn.innerHTML = orig;
+          if (window.lucide) lucide.createIcons();
+        }
+      },
+
+      // Tier 3: Agent MCP Handoff
+      async prepareAgentHandoff() {
+        try {
+          const cleanHtml = this.getCleanHtml();
+          const payload = {
+            provider: "universal",
+            project: "salt-pier-surf-supply",
+            files: {
+              "index.html": cleanHtml,
+              "zazen.config.json": JSON.stringify(this.data, null, 2)
+            }
+          };
+
+          const res = await fetch('http://localhost:3000/api/deploy', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          if (res.ok) {
+            alert("✓ Clean files written to ./dist/ and .zazen/deploy-intent.json created!\nSwitch to your AI Agent and type 'deploy' to proceed.");
+          } else {
+            alert("Please start local bridge helper (node bridge.js) to export ./dist.");
+          }
+        } catch (e) {
+          alert("Could not reach local bridge. Start it with `node bridge.js`.");
+        }
+      },
+
+      // Debounced Auto-Save
+      scheduleAutoSave() {
+        const statusEl = document.getElementById('zazen-save-status');
+        if (statusEl) statusEl.textContent = '○ Saving...';
+
+        clearTimeout(this.saveTimeout);
+        this.saveTimeout = setTimeout(async () => {
+          // Update script element
+          const script = document.getElementById('__ZAZEN_DATA');
+          if (script) {
+            script.textContent = JSON.stringify(this.data, null, 2);
+          }
+
+          // Try syncing to local bridge helper if active
+          try {
+            await fetch('http://localhost:3000/api/save', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ data: this.data })
+            });
+            if (statusEl) statusEl.textContent = '✓ Saved to Disk';
+          } catch (_) {
+            if (statusEl) statusEl.textContent = '● In-Memory';
+          }
+        }, 600);
+      }
+    };
+
+    // Auto-boot on DOM ready
+    document.addEventListener('DOMContentLoaded', () => Zazen.init());
+  </script>
+</body>
+</html>

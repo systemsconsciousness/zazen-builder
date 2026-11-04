@@ -1,0 +1,11 @@
+{
+  "provider": "universal",
+  "project": "salt-pier-surf-supply",
+  "timestamp": "2026-11-04T15:40:00.000Z",
+  "outputDir": "dist",
+  "files": [
+    "index.html",
+    "zazen.config.json"
+  ],
+  "agentCommand": "deploy"
+}
