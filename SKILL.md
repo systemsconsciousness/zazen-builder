@@ -1,6 +1,6 @@
 ---
 name: zazen-builder
-description: Spin up exemplary, agency-grade websites for any hosting platform (Vercel, Contentstack Launch, Netlify, Cloudflare Pages, S3, FTP, GitHub Pages). Features an interactive visual builder with drag-and-drop section reordering, native inline text editing, studio component library, decentralized JSON state store, zero-dependency local bridge daemon, 1-click git commits, and agent-assisted MCP deployment handshakes across any harness.
+description: Design, build, and deploy agency-grade static websites for any hosting platform (Vercel, Contentstack Launch, Netlify, Cloudflare Pages, S3, GitHub Pages). Pure browser-native HTML/CSS/JS with zero build pipelines. Features an in-browser visual editor, drag-and-drop reordering, inline text editing, decentralized JSON state store, 1-click ZIP export, and seamless Git/MCP deployment.
 version: 3.2.0
 author: Dean Haddock for Zazen Labs, LLC
 license: CC-BY-NC-4.0
@@ -9,175 +9,142 @@ license: CC-BY-NC-4.0
 # Zazen Builder: Skills-Based Universal Site Builder (v3.2.0)
 **From Zazen Labs, LLC • Canonical Skill Specification**
 
-Build self-contained, AI-first websites and multi-page web applications that run anywhere without Node.js, package managers, or external build pipelines. Designed to work universally with **any hosting platform** (Vercel, Contentstack Launch, Netlify, Cloudflare Pages, AWS Amplify/S3, GitHub Pages, FTP, etc.) and **any AI harness** (Web Gemini, Claude.ai, ChatGPT, Antigravity, Cursor, Claude Desktop, gemini-cli).
+Build self-contained, AI-first websites and web applications that run universally anywhere—in browser canvas previews, static web buckets, or edge CDNs. **Zazen Builder is 100% client-side and requires zero build pipelines, zero package managers, and no server runtime.**
 
 ---
 
-## 1. End-to-End Lifecycle & Workflow
+## 1. Universal Workflow & Harness Compatibility
 
-The Zazen Builder operates on an autonomous 6-step lifecycle:
+Zazen Builder works natively across **both Web and Local AI harnesses**:
 
 ```
-[1. User Installs Skill] ──► [2. User Invokes Skill with Brief]
-                                         │
-                                         ▼
-                             [3. Scoping Interview (0-3 Qs)]
-                                         │
-                                         ▼
-                             [4. Agent Builds In-Browser Visual Builder]
-                                 • Generates index.html, zazen.config.json, bridge.js
-                                 • Launches background daemon on http://localhost:3000
-                                         │
-                                         ▼
-                             [5. User Edits Visually in Browser]
-                                 • Drag & Drop section reordering
-                                 • Native inline text editing
-                                 • Add agency components from drawer
-                                 • Live palette & font token switching
-                                 • Bi-directional auto-save to disk
-                                         │
-                                         ▼
-                             [6. Universal 3-Tier Deployment]
-                                 ├── Tier 1: Download Pure Production ZIP
-                                 ├── Tier 2: 1-Click Git Commit & Push
-                                 └── Tier 3: Agent / MCP Deploy Handshake ("deploy")
+[User Invokes Skill with Brief]
+              │
+              ▼
+  [Optional Scoping: 0-3 Questions Max]
+              │
+              ▼
+  ┌────────────────────────────────────────────────────────┐
+  │         Agent Generates Self-Contained index.html       │
+  │     (HTML5, Tailwind CDN, Lucide, Studio Typography,   │
+  │      Embedded State Store, and In-Browser Visual Editor) │
+  └───────────────────────────┬────────────────────────────┘
+                              │
+          ┌───────────────────┴───────────────────┐
+          ▼                                       ▼
+  IN WEB HARNESSES                        IN LOCAL HARNESSES
+  (Gemini Web, Claude, ChatGPT)           (Antigravity, Cursor, CLI)
+  • Renders in Canvas / Artifact          • Saves index.html & zazen.config.json
+  • 100% in-browser editing               • Runs in localhost or file://
+  • Client-side JSZip download            • 1-Click Git commit & push
 ```
 
-1. **Skill Installation:** User loads or installs the `zazen-builder` skill into their local or web harness.
-2. **Invocation:** User invokes the skill (e.g., *"Build me a personal portfolio/resume site for Dean Haddock with minimal agency design"*).
-3. **Scoping Interview (Optional, 0–3 Questions Max):** If the prompt lacks content or aesthetic direction, ask up to 3 concise questions (Structure, Feeds, Palette). If sufficient detail is provided, **zero-question autonomy** begins immediately.
-4. **Build the Interactive Builder:** The agent immediately creates `index.html` with the authoring overlay, `zazen.config.json`, and `bridge.js`, launching the background server on `http://localhost:3000`.
-5. **Visual In-Browser Editing:** The user opens `http://localhost:3000` (or the canvas window) to drag & drop sections, edit text inline, add components, and switch styles. Every edit automatically persists to disk.
-6. **Universal Deployment:** When satisfied, the user deploys via their preferred tier (ZIP, Git, or MCP).
+### Protocol A: In Web Agent Harnesses (Gemini Web, Claude.ai, ChatGPT)
+- **Zero Runtime Requirement:** The agent does not execute terminal commands or run servers.
+- **Delivery:** The agent outputs the complete, self-contained `index.html` directly in the canvas/artifact window.
+- **Editing:** The user edits visually right inside their browser canvas (inline typing, dragging sections, testing palettes).
+- **Export:** The user clicks **[Pure ZIP]** to instantly download the clean production bundle from the browser.
+
+### Protocol B: In Local IDE / CLI Harnesses (Antigravity, Cursor)
+- The agent writes `index.html` and `zazen.config.json` to the workspace.
+- The user can double-click `index.html` or open `http://localhost:3000` via the included lightweight static helper (`bridge.js`).
+- The user clicks **[Commit & Push]** to sync directly with GitHub or **[Deploy]** to prepare MCP handoffs.
 
 ---
 
-## 2. Interactive Visual Builder Engine
+## 2. Interactive In-Browser Visual Builder
 
-Every site generated by Zazen Builder must include three core interactive capabilities in authoring mode:
+Every site generated by Zazen Builder includes an authoring overlay that runs 100% in client-side JavaScript:
 
-### A. Drag-and-Drop Reordering
-- Sections (`<section class="zazen-draggable" draggable="true">`) and content cards can be reordered visually by dragging.
-- Native HTML5 Drag and Drop listeners (`dragstart`, `dragover`, `drop`, `dragend`) smoothly handle reordering in DOM and state.
-- Hover control bars display a drag grip (`⋮⋮ Drag Section`), item insertion buttons, and visual drop line indicators.
-- Dropping updates the array order in `__ZAZEN_DATA` and triggers an auto-save to disk.
+1. **Auto-Detecting Authoring vs. Production Mode:**
+   - **Local / Authoring Mode:** When loaded on `localhost`, `127.0.0.1`, `file://`, or with `?edit=true`, the fixed edit bar, drag handles, and inline editing are active.
+   - **Live Production Mode:** When deployed to a live cloud URL (e.g. `*.vercel.app`, custom domain) without `?edit=true`, the site automatically hides all builder bars and editing handles, rendering as a **100% pristine, static agency website**.
 
-### B. Native Inline Text Editing
-- Any text element (headlines, subtitles, role titles, metrics, bullet points) carries the `.zazen-editable` class and `contenteditable="true"` with a `data-bind="path.to.key"` attribute.
-- Clicking text allows instant typing with a subtle focus indicator.
-- On input/blur, changes reactively update `this.data` and trigger a debounced 600ms auto-save to `bridge.js`.
+2. **Native Inline Text Editing:**
+   - All headings, subheadings, metrics, and narrative text carry `.zazen-editable`.
+   - Clicking allows instant editing in the browser.
+   - Edits reactively sync to the embedded JSON data store (`__ZAZEN_DATA`).
 
-### C. Component Library & Dynamic Insertion Drawer
-The top bar features an **[Add Block]** button opening a studio component drawer with agency design primitives:
-- **01. Metric / Stat Card:** High-impact metric number, uppercase label, and descriptor.
-- **02. Experience Dossier:** Company, tenure, location, role title, and bullet points.
-- **03. Editorial Pullquote:** Elegant serif quotation with author attribution.
-- **04. Distinction / Honor Badge:** Fellowship, patent, or award with issuing body and year.
-- **05. Featured Initiative / Project:** Case study card with technology tags, narrative summary, and link.
-- **06. Civic / Board Role:** Commission, advisory board, or community leadership entry.
+3. **Drag-and-Drop Reordering:**
+   - Major sections and modular blocks feature native HTML5 drag-and-drop (`draggable="true"`).
+   - Dragging reorders content visually and updates the underlying JSON data array.
 
-Clicking any component appends it to `__ZAZEN_DATA`, dynamically renders it with drag handles and inline edit bindings, and saves to disk.
+4. **Studio Component Library Drawer (`+ Add Block`):**
+   - Click to append pre-styled design primitives:
+     - Metric / Stat Cards
+     - Experience Entries
+     - Editorial Pullquotes
+     - Distinction & Honor Badges
+     - Featured Project Cards
+     - Civic & Advisory Roles
 
----
-
-## 3. Strict Separation of Authoring vs. Production (Clean Export Mandate)
-
-All interactive editing controls, toolbars, and modals are strictly an **authoring overlay**.
-
-When exporting (ZIP, raw HTML, or MCP deploy payload), the DOM scrubbing engine (`getCleanHtml`) completely scrubs:
-- `#zazen-builder-bar` and `#zazen-component-drawer`
-- All modal dialogs and backdrops (`.zazen-builder-ui`)
-- All hover toolbars (`.zazen-hover-tools`)
-- All authoring attributes: `contenteditable`, `draggable`, `data-bind`
-- All authoring classes: `.zazen-editable`, `.zazen-draggable`, `.zazen-block-wrapper`
-- The runtime builder script (`script[data-zazen-builder]`)
-- Body top padding reserved for the builder bar (`pt-14`)
-
-**Result:** The exported site is 100% pure, pristine, semantic HTML, responsive typography, clean CSS tokens, and reactive client functionality.
+5. **Live Palette & Typography Swapping:**
+   - Instantly switch between 4 studio palettes (Editorial Sand, Warm Linen, Architect White, Obsidian Darkroom).
+   - Instantly switch typography pairings (Newsreader + Inter, Cormorant + Plus Jakarta).
 
 ---
 
-## 4. Universal 3-Tier Deployment Architecture
+## 3. Decentralized State Architecture
+
+All site content, metrics, navigation, and theme tokens are stored in a clean, decentralized JSON structure inside `<script id="__ZAZEN_DATA" type="application/json">[...]</script>` and mirrored in `zazen.config.json`.
+
+**The DOM is a pure reactive projection of this state.** Whenever the state updates (via inline edits, git pull, or component insertion), the entire page updates seamlessly.
+
+```json
+{
+  "meta": {
+    "title": "Site Title",
+    "author": "Creator Name",
+    "palette": "editorial",
+    "font": "newsreader",
+    "location": "New York, NY",
+    "status": "Available"
+  },
+  "summary": "High-impact narrative statement...",
+  "metrics": [],
+  "competencies": [],
+  "experience": [],
+  "honors": [],
+  "civic": [],
+  "education": [],
+  "customBlocks": []
+}
+```
+
+---
+
+## 4. Universal 3-Tier Deployment Matrix
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
 │                        ZAZEN BUILDER TOP BAR                           │
-│  [Add Block]   [Pure ZIP]        [Commit to Git]        [Deploy Host]  │
+│  [Add Block]   [Pure ZIP]        [Commit & Push]        [Deploy Host]  │
 └─────────────────────┬───────────────────┬──────────────────────┬───────┘
                       │                   │                      │
                       ▼                   ▼                      ▼
                TIER 1: UNIVERSAL    TIER 2: GIT REPO       TIER 3: HOST MCP
                (Web & Local)        (Local Clones)         (Local & Web)
-               • 1-Click JSZip      • POST /api/git        • POST /api/deploy
-               • Pure production    • Direct git commit    • Writes ./dist & intent
-               • Drag & drop        • Zero copy-paste      • Agent: "deploy"
+               • 1-Click JSZip      • Stage, commit & push • Exports ./dist
+               • Pure production    • Triggers Vercel/host • Agent: "deploy"
+               • Drag & drop        • Zero CLI commands
 ```
 
-### Tier 1: Instant Pure Production ZIP (Universal Zero-Config)
-- **Engine:** Client-side JSZip using DOM cloning and cleaning (`getCleanHtml`).
-- **Bundle Output:** Packages clean `index.html` + `zazen.config.json` into `<project>-production.zip`.
-- **Target Providers:** Universal. Instant drag-and-drop into Vercel Drop, Netlify Drop, Cloudflare Pages, S3, or FTP.
+### Tier 1: Pure Production ZIP (Universal / Web & Local)
+- Uses client-side JSZip to scrub the DOM (stripping `#zazen-builder-bar`, modals, `contenteditable`, and builder scripts).
+- Downloads `<project>-production.zip` containing 100% clean, production-ready `index.html` + `zazen.config.json`.
+- Drag and drop directly into Vercel Drop, Netlify Drop, Cloudflare Pages, S3, or FTP.
 
-### Tier 2: 1-Click Git & GitHub Repository Sync (Local Harnesses)
-- **Prerequisite:** Running in a local environment where `bridge.js` is active inside a git repository.
-- **Workflow:**
-  1. User clicks **"Commit to Git"** in the builder bar.
-  2. The browser automatically calls `POST /api/save`, then calls `POST /api/git` with an optional commit message.
-  3. `bridge.js` runs `git add -A` and `git commit -m "[message]"`, optionally pushing to the active branch (`git push`).
-  4. The builder top bar displays confirmation: `✓ Committed to branch [branch-name]`.
+### Tier 2: 1-Click Git Commit & Push (Cloud Auto-Deploy)
+- When developing in a local repository clone, clicking **[Commit & Push]** stages all visual edits, creates a git commit, and pushes to GitHub.
+- Pushing to GitHub automatically triggers connected frontend hosts (Vercel, Netlify, Cloudflare Pages) to rebuild and deploy live.
 
 ### Tier 3: Host Agent & MCP Deployment Handshake
-Bridging browser-side visual editing with host-side agent tools (Vercel, Contentstack Launch, Netlify, Cloudflare, S3, FTP):
-- **In Local Harnesses (Antigravity, Cursor, CLI):**
-  1. User selects target provider (e.g. Vercel, Launch, Netlify) and clicks **"Export & Prepare"**.
-  2. Client sends clean files to `POST /api/deploy`.
-  3. `bridge.js` writes production files into `./dist/` and writes a deployment manifest to `.zazen/deploy-intent.json`:
-     ```json
-     {
-       "provider": "vercel",
-       "project": "my-project",
-       "timestamp": "2026-11-03T21:40:00Z",
-       "outputDir": "dist",
-       "files": ["index.html"],
-       "agentCommand": "deploy to vercel"
-     }
-     ```
-  4. The browser informs the user: `Build ready in ./dist. Switch to Antigravity and say: "deploy to vercel"`.
-  5. The host agent inspects `.zazen/deploy-intent.json` and immediately executes the provider MCP tool or CLI.
-- **In Web Canvas Harnesses (Web Gemini, Claude):**
-  1. The UI provides a 1-click **"Copy Update for Chat"** button.
-  2. Copies a clean 1-line prompt for the adjacent chat: `"Deploy my site to [provider]. (State attached)"`.
+- Exports clean production files into `./dist/` and writes `.zazen/deploy-intent.json`.
+- In Antigravity or any agent harness, the user simply types `"deploy"`, and the agent triggers the corresponding MCP tool (`vercel`, `launch`, `netlify`, `wrangler`).
 
 ---
 
-## 5. Agent Execution Protocols (Harness-Specific)
-
-### Protocol A: In Local / Desktop / CLI Harnesses (Antigravity, Cursor, Claude Desktop)
-
-1. **Site Generation & Daemon Startup:**
-   - Write `index.html` (with decentralized store `<script id="__ZAZEN_DATA">`, inline editable bindings, drag handles, and component drawer).
-   - Write `zazen.config.json` with mirrored state.
-   - Write `bridge.js` (zero-dependency Node server).
-   - Launch `node bridge.js` as a background daemon process.
-   - Direct user to: **`http://localhost:3000`**.
-
-2. **Handling Deployment in Chat:**
-   - When user says **"deploy"**, check `.zazen/deploy-intent.json`.
-   - Verify `./dist/index.html` exists and is scrubbed.
-   - Execute provider tool: `vercel --prod ./dist`, `csdx launch:deploy`, `netlify deploy --prod --dir=./dist`, `wrangler pages deploy ./dist`, or S3/FTP script.
-   - Return verified production URL.
-
----
-
-### Protocol B: In Web / Canvas / Sandboxed Harnesses (Web Gemini, Claude.ai, ChatGPT)
-
-1. Render the self-contained `index.html` in the canvas.
-2. Enable Tier 1 ZIP download and in-browser state sync.
-3. Apply requested edits and re-render.
-
----
-
-## 6. Agency-Grade Aesthetic Standards
+## 5. Agency-Grade Aesthetic Standards
 
 - **Refined Editorial Typography:** 
   - Headlines: Newsreader or Cormorant Garamond (`--font-heading`).
@@ -189,9 +156,3 @@ Bridging browser-side visual editing with host-side agent tools (Vercel, Content
   - **Architect White:** `--bg: #FFFFFF`, `--surface: #F8F9FA`, `--elevated: #FFFFFF`, `--text: #111111`, `--muted: #555555`, `--border: #E5E7EB`, `--accent: #0F52BA`.
   - **Editorial Sand & Ink:** `--bg: #F4EFE6`, `--surface: #ECE4D7`, `--elevated: #FCFAF6`, `--text: #211E1B`, `--muted: #73695E`, `--border: rgba(33, 30, 27, 0.14)`, `--accent: #A35C24`.
   - **Obsidian Darkroom:** `--bg: #0D0E11`, `--surface: #14171C`, `--elevated: #1C2026`, `--text: #EAEBED`, `--muted: #8E929B`, `--border: rgba(234, 235, 237, 0.12)`, `--accent: #D97706`.
-
----
-
-## 7. Canonical Reference Implementations
-
-The zero-dependency bridge (`bridge.js`) and client runtime (`script[data-zazen-builder]`) are codified in Section 5 & 6 of `zazen_builder_skill.md` and in the repository's `scripts/bridge.js`.

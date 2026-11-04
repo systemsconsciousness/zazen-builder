@@ -107,35 +107,31 @@
       color: #ffffff;
     }
 
-    /* Inline Edit Highlight Styles (Authoring Mode) */
-    .zazen-editable {
+    /* Inline Edit Highlight Styles (Authoring Mode Only) */
+    body.is-authoring .zazen-editable {
       outline: none;
       transition: background-color 0.2s, box-shadow 0.2s;
       border-radius: 2px;
       padding: 1px 2px;
     }
-    .zazen-editable:hover {
+    body.is-authoring .zazen-editable:hover {
       background-color: rgba(163, 92, 36, 0.08);
       cursor: text;
     }
-    .zazen-editable:focus {
+    body.is-authoring .zazen-editable:focus {
       background-color: rgba(163, 92, 36, 0.12);
       box-shadow: 0 0 0 1px var(--accent);
     }
 
     /* Drag and Drop Visual Cues */
-    .zazen-draggable {
+    body.is-authoring .zazen-draggable {
       cursor: grab;
       position: relative;
-      transition: opacity 0.2s, transform 0.2s;
     }
-    .zazen-draggable:active {
-      cursor: grabbing;
-    }
-    .zazen-drag-over {
+    body.is-authoring .zazen-drag-over {
       border-top: 2px dashed var(--accent) !important;
     }
-    .zazen-dragging {
+    body.is-authoring .zazen-dragging {
       opacity: 0.4;
       transform: scale(0.99);
     }
@@ -144,14 +140,23 @@
     .zazen-block-wrapper {
       position: relative;
     }
-    .zazen-block-wrapper .zazen-hover-tools {
+    body.is-authoring .zazen-block-wrapper .zazen-hover-tools {
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.15s ease;
     }
-    .zazen-block-wrapper:hover .zazen-hover-tools {
+    body.is-authoring .zazen-block-wrapper:hover .zazen-hover-tools {
       opacity: 1;
       pointer-events: auto;
+    }
+
+    /* Production Mode (When deployed to Vercel/Cloud host without ?edit=true) */
+    body:not(.is-authoring) #zazen-builder-bar,
+    body:not(.is-authoring) #zazen-component-drawer,
+    body:not(.is-authoring) #zazen-deploy-modal,
+    body:not(.is-authoring) .zazen-hover-tools,
+    body:not(.is-authoring) .zazen-builder-ui {
+      display: none !important;
     }
 
     /* Print Styles */
@@ -163,10 +168,10 @@
     }
   </style>
 </head>
-<body class="pt-14 selection:bg-stone-800 selection:text-stone-100 min-h-screen flex flex-col justify-between">
+<body class="selection:bg-stone-800 selection:text-stone-100 min-h-screen flex flex-col justify-between">
 
   <!-- ============================================================== -->
-  <!-- ZAZEN BUILDER OVERLAY BAR (Authoring Mode Only - Scrubbed on Export) -->
+  <!-- ZAZEN BUILDER OVERLAY BAR (Authoring Mode Only - Auto-Hidden on Live Host) -->
   <!-- ============================================================== -->
   <aside id="zazen-builder-bar" class="zazen-builder-ui fixed top-0 inset-x-0 h-12 bg-stone-950/95 text-stone-200 border-b border-stone-800 z-50 backdrop-blur-md px-4 flex items-center justify-between text-xs tracking-tight select-none">
     <div class="flex items-center gap-3">
@@ -178,7 +183,7 @@
 
       <div class="hidden sm:flex items-center gap-2 pl-3 border-l border-stone-800 text-stone-400">
         <span id="zazen-bridge-status" class="text-[10px] font-mono px-2 py-0.5 rounded bg-stone-800/80 text-stone-300 border border-stone-700/60">
-          ○ Static Preview
+          ○ Authoring Mode
         </span>
         <span id="zazen-save-status" class="text-[10px] font-mono text-stone-400">
           ✓ Synced
@@ -219,10 +224,10 @@
         <span class="hidden sm:inline">Pure ZIP</span>
       </button>
 
-      <!-- Tier 2: 1-Click Git Commit -->
-      <button id="zazen-git-btn" onclick="Zazen.commitToGit()" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-stone-900 hover:bg-stone-800 text-stone-300 border border-stone-800 font-medium transition-colors" title="Tier 2: 1-Click Git Commit">
+      <!-- Tier 2: 1-Click Git Commit & Push -->
+      <button id="zazen-git-btn" onclick="Zazen.commitToGit()" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-stone-900 hover:bg-stone-800 text-stone-300 border border-stone-800 font-medium transition-colors" title="Tier 2: 1-Click Git Commit & Push">
         <i data-lucide="git-commit" class="w-3.5 h-3.5 text-emerald-400"></i>
-        <span class="hidden md:inline">Commit to Git</span>
+        <span class="hidden md:inline">Commit &amp; Push</span>
       </button>
 
       <!-- Tier 3: Host / MCP Deploy -->
@@ -252,7 +257,6 @@
       </p>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-        <!-- Component 1: Metric / Stat Card -->
         <button onclick="Zazen.addComponent('metric')" class="p-3.5 rounded-lg bg-stone-900 hover:bg-stone-850 border border-stone-800 hover:border-amber-500/50 text-left transition-all group flex items-start gap-3">
           <div class="w-8 h-8 rounded bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0">
             <i data-lucide="activity" class="w-4 h-4"></i>
@@ -263,7 +267,6 @@
           </div>
         </button>
 
-        <!-- Component 2: Experience Entry -->
         <button onclick="Zazen.addComponent('experience')" class="p-3.5 rounded-lg bg-stone-900 hover:bg-stone-850 border border-stone-800 hover:border-amber-500/50 text-left transition-all group flex items-start gap-3">
           <div class="w-8 h-8 rounded bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
             <i data-lucide="briefcase" class="w-4 h-4"></i>
@@ -274,7 +277,6 @@
           </div>
         </button>
 
-        <!-- Component 3: Editorial Quote / Pullquote -->
         <button onclick="Zazen.addComponent('quote')" class="p-3.5 rounded-lg bg-stone-900 hover:bg-stone-850 border border-stone-800 hover:border-amber-500/50 text-left transition-all group flex items-start gap-3">
           <div class="w-8 h-8 rounded bg-sky-500/10 text-sky-400 flex items-center justify-center shrink-0">
             <i data-lucide="quote" class="w-4 h-4"></i>
@@ -285,7 +287,6 @@
           </div>
         </button>
 
-        <!-- Component 4: Distinction / Honor Badge -->
         <button onclick="Zazen.addComponent('honor')" class="p-3.5 rounded-lg bg-stone-900 hover:bg-stone-850 border border-stone-800 hover:border-amber-500/50 text-left transition-all group flex items-start gap-3">
           <div class="w-8 h-8 rounded bg-purple-500/10 text-purple-400 flex items-center justify-center shrink-0">
             <i data-lucide="award" class="w-4 h-4"></i>
@@ -296,7 +297,6 @@
           </div>
         </button>
 
-        <!-- Component 5: Project / Case Study Card -->
         <button onclick="Zazen.addComponent('project')" class="p-3.5 rounded-lg bg-stone-900 hover:bg-stone-850 border border-stone-800 hover:border-amber-500/50 text-left transition-all group flex items-start gap-3">
           <div class="w-8 h-8 rounded bg-rose-500/10 text-rose-400 flex items-center justify-center shrink-0">
             <i data-lucide="layers" class="w-4 h-4"></i>
@@ -307,7 +307,6 @@
           </div>
         </button>
 
-        <!-- Component 6: Civic / Advisory Appointment -->
         <button onclick="Zazen.addComponent('civic')" class="p-3.5 rounded-lg bg-stone-900 hover:bg-stone-850 border border-stone-800 hover:border-amber-500/50 text-left transition-all group flex items-start gap-3">
           <div class="w-8 h-8 rounded bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0">
             <i data-lucide="users" class="w-4 h-4"></i>
@@ -339,7 +338,7 @@
         <div class="w-2.5 h-2.5 rounded-full bg-amber-500"></div>
         <span class="font-mono text-xs text-amber-400 uppercase tracking-widest">Universal Deployment Engine</span>
       </div>
-      <h3 class="font-heading text-2xl text-stone-100 font-serif mb-2">Deploy Dean Haddock Portfolio</h3>
+      <h3 class="font-heading text-2xl text-stone-100 font-serif mb-2">Deploy Portfolio Site</h3>
       <p class="text-stone-400 text-xs leading-relaxed mb-6">
         Select your deployment tier below. All exports scrub builder controls, leaving pure semantic HTML, responsive typography, and clean configuration.
       </p>
@@ -361,19 +360,19 @@
           </button>
         </div>
 
-        <!-- Tier 2 Card: 1-Click Git Commit -->
+        <!-- Tier 2 Card: 1-Click Git Commit & Push -->
         <div class="p-3.5 rounded-lg bg-stone-900/60 border border-stone-800 flex items-center justify-between gap-4">
           <div class="flex items-center gap-3">
             <div class="w-9 h-9 rounded-md bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
               <i data-lucide="git-branch" class="w-4 h-4"></i>
             </div>
             <div>
-              <span class="block text-sm font-medium text-stone-200">Tier 2: 1-Click Git &amp; GitHub Sync</span>
-              <span class="block text-xs text-stone-400" id="zazen-git-status-text">Stage, commit, and sync your latest visual changes directly to the current branch.</span>
+              <span class="block text-sm font-medium text-stone-200">Tier 2: 1-Click Git Commit &amp; Push</span>
+              <span class="block text-xs text-stone-400" id="zazen-git-status-text">Stage, commit, and push directly to GitHub to trigger your cloud host (Vercel/Netlify).</span>
             </div>
           </div>
-          <button onclick="Zazen.commitToGit()" class="px-3 py-1.5 bg-stone-800 hover:bg-stone-700 text-stone-100 rounded text-xs font-mono shrink-0 transition-colors">
-            Commit Now
+          <button onclick="Zazen.commitToGit(true)" class="px-3 py-1.5 bg-stone-800 hover:bg-stone-700 text-stone-100 rounded text-xs font-mono shrink-0 transition-colors">
+            Commit &amp; Push
           </button>
         </div>
 
@@ -441,21 +440,19 @@
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 font-mono text-[11px] uppercase tracking-widest text-zmuted pb-8">
         <div class="flex items-center gap-3">
           <span class="w-2 h-2 rounded-full bg-zaccent inline-block"></span>
-          <span id="site-location" class="zazen-editable" contenteditable="true" data-bind="meta.location">New York &amp; Atlantic Coast • Remote</span>
+          <span id="site-location" class="zazen-editable" data-bind="meta.location"></span>
         </div>
         <div class="flex items-center gap-6">
-          <span id="site-status" class="text-ztext font-medium zazen-editable" contenteditable="true" data-bind="meta.status">Available for Advisory &amp; Leadership</span>
+          <span id="site-status" class="text-ztext font-medium zazen-editable" data-bind="meta.status"></span>
           <span>EST. 2005</span>
         </div>
       </div>
 
       <div class="pt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
         <div class="lg:col-span-8">
-          <h1 id="hero-title" class="font-heading text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight text-ztext leading-[1.05] font-light zazen-editable" contenteditable="true" data-bind="meta.author">
-            Dean Haddock
+          <h1 id="hero-title" class="font-heading text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight text-ztext leading-[1.05] font-light zazen-editable" data-bind="meta.author">
           </h1>
-          <p id="hero-subtitle" class="mt-6 font-heading italic text-xl sm:text-2xl md:text-3xl text-zmuted leading-relaxed font-light max-w-3xl zazen-editable" contenteditable="true" data-bind="summary">
-            Empathetic tech leader, systems thinker, creative problem solver and engineer who has built and scaled multiple SaaS platforms in competitive markets.
+          <p id="hero-subtitle" class="mt-6 font-heading italic text-xl sm:text-2xl md:text-3xl text-zmuted leading-relaxed font-light max-w-3xl zazen-editable" data-bind="summary">
           </p>
         </div>
 
@@ -484,11 +481,10 @@
     <div id="sections-container" class="space-y-0">
 
       <!-- SECTION 01: CORE COMPETENCIES / PRACTICE AREAS -->
-      <section id="competencies" class="py-16 hairline-b zazen-block-wrapper zazen-draggable" draggable="true" data-section-id="competencies">
+      <section id="competencies" class="py-16 hairline-b zazen-block-wrapper zazen-draggable" data-section-id="competencies">
         <!-- Hover Controls -->
         <div class="zazen-hover-tools absolute top-4 right-0 flex items-center gap-1 z-10 select-none">
           <span class="px-2 py-0.5 rounded bg-stone-900 border border-stone-800 text-[10px] font-mono text-stone-400">⋮⋮ Drag Section</span>
-          <button onclick="Zazen.addCompetencyPrompt()" class="px-2 py-0.5 rounded bg-stone-900 hover:bg-stone-800 border border-stone-800 text-[10px] font-mono text-amber-400">+ Add Card</button>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -507,7 +503,7 @@
       </section>
 
       <!-- SECTION 02: PROFESSIONAL EXPERIENCE (CHRONOLOGICAL DOSSIER) -->
-      <section id="experience" class="py-16 hairline-b zazen-block-wrapper zazen-draggable" draggable="true" data-section-id="experience">
+      <section id="experience" class="py-16 hairline-b zazen-block-wrapper zazen-draggable" data-section-id="experience">
         <!-- Hover Controls -->
         <div class="zazen-hover-tools absolute top-4 right-0 flex items-center gap-1 z-10 select-none">
           <span class="px-2 py-0.5 rounded bg-stone-900 border border-stone-800 text-[10px] font-mono text-stone-400">⋮⋮ Drag Section</span>
@@ -528,7 +524,7 @@
       </section>
 
       <!-- SECTION 03: PATENTS, AWARDS & HONORS -->
-      <section id="patents" class="py-16 hairline-b zazen-block-wrapper zazen-draggable" draggable="true" data-section-id="patents">
+      <section id="patents" class="py-16 hairline-b zazen-block-wrapper zazen-draggable" data-section-id="patents">
         <!-- Hover Controls -->
         <div class="zazen-hover-tools absolute top-4 right-0 flex items-center gap-1 z-10 select-none">
           <span class="px-2 py-0.5 rounded bg-stone-900 border border-stone-800 text-[10px] font-mono text-stone-400">⋮⋮ Drag Section</span>
@@ -549,13 +545,11 @@
             <div class="p-6 rounded-lg bg-zelevated hairline-all shadow-sm">
               <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 font-mono text-xs text-zmuted pb-3 hairline-b">
                 <span class="text-zaccent font-medium uppercase tracking-wider">United States Patent</span>
-                <span>Patent No. 12455773 • Issued Oct 28, 2025</span>
+                <span id="patent-date">Patent No. 12455773 • Issued Oct 28, 2025</span>
               </div>
-              <h3 class="font-heading text-2xl text-ztext mt-4 mb-2 font-light zazen-editable" contenteditable="true" data-bind="patent.title">
-                Systems and Methods for Allocating System Resources Using Dual-Limit Account Provisioning
+              <h3 id="patent-title" class="font-heading text-2xl text-ztext mt-4 mb-2 font-light zazen-editable" data-bind="patent.title">
               </h3>
-              <p class="text-sm text-zmuted leading-relaxed zazen-editable" contenteditable="true" data-bind="patent.summary">
-                Proprietary architectural methodology for enterprise multi-product SaaS systems, dynamic provisioning controls, quota throttling, and resilient cloud resource segregation.
+              <p id="patent-summary" class="text-sm text-zmuted leading-relaxed zazen-editable" data-bind="patent.summary">
               </p>
             </div>
 
@@ -568,7 +562,7 @@
       </section>
 
       <!-- SECTION 04: CIVIC LEADERSHIP & GIVING BACK -->
-      <section id="civic" class="py-16 hairline-b zazen-block-wrapper zazen-draggable" draggable="true" data-section-id="civic">
+      <section id="civic" class="py-16 hairline-b zazen-block-wrapper zazen-draggable" data-section-id="civic">
         <!-- Hover Controls -->
         <div class="zazen-hover-tools absolute top-4 right-0 flex items-center gap-1 z-10 select-none">
           <span class="px-2 py-0.5 rounded bg-stone-900 border border-stone-800 text-[10px] font-mono text-stone-400">⋮⋮ Drag Section</span>
@@ -591,7 +585,7 @@
       </section>
 
       <!-- SECTION 05: EDUCATION & CREDENTIALS -->
-      <section id="education" class="py-16 hairline-b zazen-block-wrapper zazen-draggable" draggable="true" data-section-id="education">
+      <section id="education" class="py-16 hairline-b zazen-block-wrapper zazen-draggable" data-section-id="education">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div class="lg:col-span-4">
             <span class="font-mono text-xs uppercase tracking-widest text-zaccent block mb-2">05 / Scholarship</span>
@@ -619,8 +613,8 @@
       <div class="p-8 sm:p-12 rounded-xl bg-zelevated hairline-all">
         <div class="max-w-2xl">
           <span class="font-mono text-xs uppercase tracking-widest text-zaccent block mb-2">Inquiries &amp; Collaboration</span>
-          <h2 class="font-heading text-4xl sm:text-5xl text-ztext font-light zazen-editable" contenteditable="true" data-bind="meta.contactHeading">Let’s build something remarkable.</h2>
-          <p class="mt-4 text-zmuted text-base leading-relaxed zazen-editable" contenteditable="true" data-bind="meta.contactMessage">
+          <h2 id="contact-heading" class="font-heading text-4xl sm:text-5xl text-ztext font-light zazen-editable" data-bind="meta.contactHeading">Let’s build something remarkable.</h2>
+          <p id="contact-message" class="mt-4 text-zmuted text-base leading-relaxed zazen-editable" data-bind="meta.contactMessage">
             Open to select board advisory appointments, enterprise product leadership consultations, and high-impact technology initiatives.
           </p>
           <div class="mt-8 flex flex-wrap items-center gap-4 font-mono text-xs">
@@ -642,7 +636,7 @@
   <footer class="hairline-t bg-zsurface/40 py-8 px-6 sm:px-10 lg:px-16 text-zmuted text-xs font-mono">
     <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <div>
-        <span>Dean Haddock • Technology Executive Portfolio</span>
+        <span id="footer-author">Dean Haddock</span> • <span>Technology Executive Portfolio</span>
       </div>
       <div class="flex items-center gap-4 text-[11px]">
         <span>Powered by Zazen Builder v3.2.0</span>
@@ -656,314 +650,217 @@
   <!-- DECENTRALIZED DATA STORE (__ZAZEN_DATA)                          -->
   <!-- ============================================================== -->
   <script id="__ZAZEN_DATA" type="application/json">
-{
-  "meta": {
-    "title": "Dean Haddock — Portfolio & Resume",
-    "author": "Hello?",
-    "environment": "production",
-    "version": "3.2.0",
-    "updated": "2026",
-    "palette": "editorial",
-    "font": "newsreader",
-    "location": "New York & Atlantic Coast • Remote",
-    "status": "Available for Advisory & Leadership",
-    "contactHeading": "Let’s build something remarkable.",
-    "contactMessage": "Open to select board advisory appointments, enterprise product leadership consultations, and high-impact technology initiatives."
-  },
-  "summary": "Empathetic tech leader, systems thinker, creative problem solver and engineer who has built and scaled multiple SaaS platforms in competitive markets. Deep expertise in product strategy, AI, automation, and high-scale technical innovation. Nieman Fellow, Planning Commissioner and entrepreneur.",
-  "metrics": [
-    {
-      "label": "Scale & Impact",
-      "value": "$10M+",
-      "desc": "Enterprise Client Portfolios"
+  {
+    "meta": {
+      "title": "Dean Haddock — Portfolio & Resume",
+      "author": "Dean Haddock",
+      "environment": "production",
+      "version": "3.2.0",
+      "updated": "2026",
+      "palette": "editorial",
+      "font": "newsreader",
+      "location": "New York & Atlantic Coast • Remote",
+      "status": "Available for Advisory & Leadership",
+      "contactHeading": "Let’s build something remarkable.",
+      "contactMessage": "Open to select board advisory appointments, enterprise product leadership consultations, and high-impact technology initiatives."
     },
-    {
-      "label": "Product Trajectory",
-      "value": "2x+",
-      "desc": "Y1 Financial & Adoption Goals"
+    "summary": "Empathetic tech leader, systems thinker, creative problem solver and engineer who has built and scaled multiple SaaS platforms in competitive markets. Deep expertise in product strategy, AI, automation, and high-scale technical innovation. Nieman Fellow, Planning Commissioner and entrepreneur.",
+    "metrics": [
+      { "label": "Scale & Impact", "value": "$10M+", "desc": "Enterprise Client Portfolios" },
+      { "label": "Product Trajectory", "value": "2x+", "desc": "Y1 Financial & Adoption Goals" },
+      { "label": "Intellectual Property", "value": "1", "desc": "US Patent Issued (Oct 2025)" },
+      { "label": "Leadership Tenure", "value": "18+ Yrs", "desc": "SaaS & Systems Engineering" }
+    ],
+    "competencies": [
+      {
+        "category": "Product & Strategy",
+        "description": "Product Management & Strategy (SaaS, Web & Mobile), Platform, Security, PLG, Pricing & Packaging, AI Integration & Strategy, Stakeholder Relations, Sales"
+      },
+      {
+        "category": "Leadership",
+        "description": "Product & Engineering Team Leadership, Mentoring, Cross-functional Culture & Collaboration, Process Improvement, Efficiency, Mission & Vision, AI Adoption"
+      },
+      {
+        "category": "Technical",
+        "description": "Full-Stack Development (Node.js, LAMP, JS, UX), AI & Automation, Cloud (AWS, GCP, Azure, Linux), SDLC, Systems Engineering, Security, Agentic Coding & Prototyping"
+      }
+    ],
+    "experience": [
+      {
+        "company": "CONTENTSTACK",
+        "location": "Remote",
+        "tenure": "May 2022 - Present",
+        "roles": [
+          {
+            "title": "Group Product Manager, Platform & Hosting",
+            "period": "2025 - Present",
+            "highlights": [
+              "Led platform, hosting, data engineering, security & access, administration, and provisioning teams.",
+              "Delivered SaaS products and core platform features, including APIs, analytics, hosting, notifications, administration, global navigation, CLIs, MCPs, RBAC and security tools.",
+              "Executed the product and technical change strategy from single- to multi-product SaaS platform."
+            ]
+          },
+          {
+            "title": "Sr. Product Manager, Platform & Hosting",
+            "period": "2024 - 2025",
+            "highlights": [
+              "Launched a new multi-cloud, multi-region, enterprise-grade Node web application hosting platform.",
+              "Exceeded financial and user adoption goals by over 2x in Y1 with continued sustained growth.",
+              "Partnered with UX, engineering, support and sales teams to align efforts and drive successful product launches and customer outcomes."
+            ]
+          },
+          {
+            "title": "Sr. Product Manager, Plans & Packaging",
+            "period": "2022 - 2024",
+            "highlights": [
+              "Led pricing and packaging strategies to transform the business from a single-product to a multi-product SaaS model.",
+              "Simplified complex back-of-house provisioning systems, data layer architecture and observability for customers and internal teams.",
+              "Co-founded Contentstack's Internal Advisory Board and Toastmasters Club to foster cross-team collaboration.",
+              "Recognized with the Contentstack Care award for outstanding collaboration with customers and colleagues."
+            ]
+          }
+        ]
+      },
+      {
+        "company": "10UP, INC.",
+        "location": "Remote",
+        "tenure": "2019 - 2022",
+        "roles": [
+          {
+            "title": "Associate Director, New Client Strategy",
+            "period": "2019 - 2022",
+            "highlights": [
+              "Built and managed a $10M+ portfolio of technology projects for enterprises and scale-ups, including Blackstone, Microsoft, Hilton, VMware, T-Mobile, Groundworks, Samsung, Merck, Glazer Vision Foundation and more.",
+              "Led digital and product strategies across all SDLC phases to deliver top-quality results for major, high-profile initiatives.",
+              "Crafted strategy presentations, detailed project budgets, estimates and scopes of work that succeeded on time, budget and goal.",
+              "Reviewed contracts, responded to RFPs and navigated procurement processes for new clients and partners, including government agencies.",
+              "Managed, hired, mentored and led diverse staff and technical product teams."
+            ]
+          }
+        ]
+      },
+      {
+        "company": "STORYCORPS, INC.",
+        "location": "Brooklyn, NY",
+        "tenure": "2008 - 2019",
+        "roles": [
+          {
+            "title": "Managing Director, Digital & Technical Innovation",
+            "period": "2015 - 2019",
+            "highlights": [
+              "Led StoryCorps' digital organization, achieving recognition by the Knight Foundation, Nieman Foundation for Journalism, Webby Awards and more.",
+              "Spearheaded the 2015 TED Prize project for the StoryCorps App & Archive SaaS platform, creating the world's largest oral history archive.",
+              "Presented at conferences, explored new partnerships and published thought leadership pieces discussing industry technology solutions.",
+              "Cultivated strategic relationships with Apple, Google, Amazon, the United States Library of Congress, and multiple INGOs.",
+              "Founded a diverse Digital & Technical Innovation team and established a pipeline from local colleges to recruit and train promising developers."
+            ]
+          },
+          {
+            "title": "Director, Web & Information Technology",
+            "period": "2012 - 2015",
+            "highlights": [
+              "Developed and led StoryCorps' organization-wide digital strategy in close collaboration with executives, board members and directors.",
+              "Crafted and implemented product-led growth (PLG) motions that more than doubled user engagement and user-generated content (UGC).",
+              "Redesigned and relaunched the StoryCorps.org website and implemented multiple, high-conversion marketing microsites."
+            ]
+          },
+          {
+            "title": "Sr. Manager, Information Technology",
+            "period": "2010 - 2012",
+            "highlights": [
+              "Drafted and maintained annual budgets for StoryCorps' digital and IT teams and special projects.",
+              "Built and led StoryCorps' data and reporting team, centrally managing all data analysis and key reports for the organization's many programs and initiatives.",
+              "Coauthored award-winning grants for organizations like the Knight Foundation, TED, and the Nieman Foundation for Journalism at Harvard University."
+            ]
+          },
+          {
+            "title": "Manager, Information Technology",
+            "period": "2008 - 2010",
+            "highlights": [
+              "Led organization-wide Salesforce migration and nurtured new SaaS product features like StoryCorps Communities pages, AI/ML transcription at scale, ElasticSearch and WebRTC.",
+              "Designed, built and launched Facebook App integrations and other campaigns to engage and grow StoryCorps' audience.",
+              "Centralized business and programs systems, migrating from multiple legacy platforms, like FileMaker Pro and physical storage to modern, enterprise-grade cloud services, like AWS.",
+              "Developed, tested and maintained StoryCorps' first redundant disaster recovery plan and procured all company hardware, software, and networking systems."
+            ]
+          }
+        ]
+      },
+      {
+        "company": "GOOGLE'S 30 WEEKS STARTUP INCUBATOR",
+        "location": "New York, NY",
+        "tenure": "2016",
+        "roles": [
+          {
+            "title": "Engineer in Residence, Instructor",
+            "period": "2016",
+            "highlights": [
+              "Developed and taught a robust web product education curriculum, from hardware and software to IoT solutions.",
+              "Advised and collaborated with 30 Weeks leadership on program structure and sustainability.",
+              "Mentored designer-founders on technical strategy, revenue models, and scalability for their first product launches.",
+              "Advised startup founders on digital product strategy, revenue strategy, sustainability, scalability, audience growth and user retention.",
+              "Coached designer-founders as they brought their first products to market and launched their first businesses."
+            ]
+          }
+        ]
+      },
+      {
+        "company": "JOHN M. FLOYD & ASSOCIATES",
+        "location": "Remote",
+        "tenure": "2005 - 2008",
+        "roles": [
+          {
+            "title": "Assistant Manager, Information Technology",
+            "period": "2005 - 2008",
+            "highlights": [
+              "Designed and implemented major infrastructure expansion to support increase in personnel and increase impact of sales and implementation teams.",
+              "Architected and implemented virtualized network environments, workflow management systems, and disaster recovery strategies for the financial sector in a remote environment.",
+              "Contributed to on-prem product strategy with a focus on scalability and centralization in a highly regulated market."
+            ]
+          }
+        ]
+      }
+    ],
+    "patent": {
+      "title": "Systems and Methods for Allocating System Resources Using Dual-Limit Account Provisioning",
+      "number": "12455773",
+      "date": "October 28, 2025",
+      "summary": "Dual-limit provisioning engine allowing dynamic tier quotas, soft/hard threshold management, and resource safety segregation across multitenant cloud architectures."
     },
-    {
-      "label": "Intellectual Property",
-      "value": "1",
-      "desc": "US Patent Issued (Oct 2025)"
-    },
-    {
-      "label": "Leadership Tenure",
-      "value": "18+ Yrs",
-      "desc": "SaaS & Systems Engineering"
-    }
-  ],
-  "competencies": [
-    {
-      "category": "Product & Strategy",
-      "description": "Product Management & Strategy (SaaS, Web & Mobile), Platform, Security, PLG, Pricing & Packaging, AI Integration & Strategy, Stakeholder Relations, Sales"
-    },
-    {
-      "category": "Leadership",
-      "description": "Product & Engineering Team Leadership, Mentoring, Cross-functional Culture & Collaboration, Process Improvement, Efficiency, Mission & Vision, AI Adoption"
-    },
-    {
-      "category": "Technical",
-      "description": "Full-Stack Development (Node.js, LAMP, JS, UX), AI & Automation, Cloud (AWS, GCP, Azure, Linux), SDLC, Systems Engineering, Security, Agentic Coding & Prototyping"
-    }
-  ],
-  "experience": [
-    {
-      "company": "CONTENTSTACK",
-      "location": "Remote",
-      "tenure": "May 2022 - Present",
-      "roles": [
-        {
-          "title": "Group Product Manager, Platform & Hosting",
-          "period": "2025 - Present",
-          "highlights": [
-            "Led platform, hosting, data engineering, security & access, administration, and provisioning teams.",
-            "Delivered SaaS products and core platform features, including APIs, analytics, hosting, notifications, administration, global navigation, CLIs, MCPs, RBAC and security tools.",
-            "Executed the product and technical change strategy from single- to multi-product SaaS platform."
-          ]
-        },
-        {
-          "title": "Sr. Product Manager, Platform & Hosting",
-          "period": "2024 - 2025",
-          "highlights": [
-            "Launched a new multi-cloud, multi-region, enterprise-grade Node web application hosting platform.",
-            "Exceeded financial and user adoption goals by over 2x in Y1 with continued sustained growth.",
-            "Partnered with UX, engineering, support and sales teams to align efforts and drive successful product launches and customer outcomes."
-          ]
-        },
-        {
-          "title": "Sr. Product Manager, Plans & Packaging",
-          "period": "2022 - 2024",
-          "highlights": [
-            "Led pricing and packaging strategies to transform the business from a single-product to a multi-product SaaS model.",
-            "Simplified complex back-of-house provisioning systems, data layer architecture and observability for customers and internal teams.",
-            "Co-founded Contentstack's Internal Advisory Board and Toastmasters Club to foster cross-team collaboration.",
-            "Recognized with the Contentstack Care award for outstanding collaboration with customers and colleagues."
-          ]
-        }
-      ]
-    },
-    {
-      "company": "10UP, INC.",
-      "location": "Remote",
-      "tenure": "2019 - 2022",
-      "roles": [
-        {
-          "title": "Associate Director, New Client Strategy",
-          "period": "2019 - 2022",
-          "highlights": [
-            "Built and managed a $10M+ portfolio of technology projects for enterprises and scale-ups, including Blackstone, Microsoft, Hilton, VMware, T-Mobile, Groundworks, Samsung, Merck, Glazer Vision Foundation and more.",
-            "Led digital and product strategies across all SDLC phases to deliver top-quality results for major, high-profile initiatives.",
-            "Crafted strategy presentations, detailed project budgets, estimates and scopes of work that succeeded on time, budget and goal.",
-            "Reviewed contracts, responded to RFPs and navigated procurement processes for new clients and partners, including government agencies.",
-            "Managed, hired, mentored and led diverse staff and technical product teams."
-          ]
-        }
-      ]
-    },
-    {
-      "company": "STORYCORPS, INC.",
-      "location": "Brooklyn, NY",
-      "tenure": "2008 - 2019",
-      "roles": [
-        {
-          "title": "Managing Director, Digital & Technical Innovation",
-          "period": "2015 - 2019",
-          "highlights": [
-            "Led StoryCorps' digital organization, achieving recognition by the Knight Foundation, Nieman Foundation for Journalism, Webby Awards and more.",
-            "Spearheaded the 2015 TED Prize project for the StoryCorps App & Archive SaaS platform, creating the world's largest oral history archive.",
-            "Presented at conferences, explored new partnerships and published thought leadership pieces discussing industry technology solutions.",
-            "Cultivated strategic relationships with Apple, Google, Amazon, the United States Library of Congress, and multiple INGOs.",
-            "Founded a diverse Digital & Technical Innovation team and established a pipeline from local colleges to recruit and train promising developers."
-          ]
-        },
-        {
-          "title": "Director, Web & Information Technology",
-          "period": "2012 - 2015",
-          "highlights": [
-            "Developed and led StoryCorps' organization-wide digital strategy in close collaboration with executives, board members and directors.",
-            "Crafted and implemented product-led growth (PLG) motions that more than doubled user engagement and user-generated content (UGC).",
-            "Redesigned and relaunched the StoryCorps.org website and implemented multiple, high-conversion marketing microsites."
-          ]
-        },
-        {
-          "title": "Sr. Manager, Information Technology",
-          "period": "2010 - 2012",
-          "highlights": [
-            "Drafted and maintained annual budgets for StoryCorps' digital and IT teams and special projects.",
-            "Built and led StoryCorps' data and reporting team, centrally managing all data analysis and key reports for the organization's many programs and initiatives.",
-            "Coauthored award-winning grants for organizations like the Knight Foundation, TED, and the Nieman Foundation for Journalism at Harvard University."
-          ]
-        },
-        {
-          "title": "Manager, Information Technology",
-          "period": "2008 - 2010",
-          "highlights": [
-            "Led organization-wide Salesforce migration and nurtured new SaaS product features like StoryCorps Communities pages, AI/ML transcription at scale, ElasticSearch and WebRTC.",
-            "Designed, built and launched Facebook App integrations and other campaigns to engage and grow StoryCorps' audience.",
-            "Centralized business and programs systems, migrating from multiple legacy platforms, like FileMaker Pro and physical storage to modern, enterprise-grade cloud services, like AWS.",
-            "Developed, tested and maintained StoryCorps' first redundant disaster recovery plan and procured all company hardware, software, and networking systems."
-          ]
-        }
-      ]
-    },
-    {
-      "company": "GOOGLE'S 30 WEEKS STARTUP INCUBATOR",
-      "location": "New York, NY",
-      "tenure": "2016",
-      "roles": [
-        {
-          "title": "Engineer in Residence, Instructor",
-          "period": "2016",
-          "highlights": [
-            "Developed and taught a robust web product education curriculum, from hardware and software to IoT solutions.",
-            "Advised and collaborated with 30 Weeks leadership on program structure and sustainability.",
-            "Mentored designer-founders on technical strategy, revenue models, and scalability for their first product launches.",
-            "Advised startup founders on digital product strategy, revenue strategy, sustainability, scalability, audience growth and user retention.",
-            "Coached designer-founders as they brought their first products to market and launched their first businesses."
-          ]
-        }
-      ]
-    },
-    {
-      "company": "JOHN M. FLOYD & ASSOCIATES",
-      "location": "Remote",
-      "tenure": "2005 - 2008",
-      "roles": [
-        {
-          "title": "Assistant Manager, Information Technology",
-          "period": "2005 - 2008",
-          "highlights": [
-            "Designed and implemented major infrastructure expansion to support increase in personnel and increase impact of sales and implementation teams.",
-            "Architected and implemented virtualized network environments, workflow management systems, and disaster recovery strategies for the financial sector in a remote environment.",
-            "Contributed to on-prem product strategy with a focus on scalability and centralization in a highly regulated market."
-          ]
-        }
-      ]
-    }
-  ],
-  "patent": {
-    "title": "Systems and Methods for Allocating System Resources Using Dual-Limit Account Provisioning",
-    "number": "12455773",
-    "date": "October 28, 2025",
-    "summary": "Dual-limit provisioning engine allowing dynamic tier quotas, soft/hard threshold management, and resource safety segregation across multitenant cloud architectures."
-  },
-  "honors": [
-    {
-      "award": "Most High-5s Award",
-      "org": "Contentstack",
-      "year": "2026"
-    },
-    {
-      "award": "Care Award",
-      "org": "Contentstack",
-      "year": "2023"
-    },
-    {
-      "award": "Member",
-      "org": "Twilio Startups",
-      "year": "2020"
-    },
-    {
-      "award": "Nominee & Honoree",
-      "org": "The Webby Awards: StoryCorps App & Website",
-      "year": "2016"
-    },
-    {
-      "award": "Best Apps for Teaching & Learning",
-      "org": "American Association of School Librarians",
-      "year": "2016"
-    },
-    {
-      "award": "Visiting Fellow",
-      "org": "Nieman Foundation for Journalism at Harvard University",
-      "year": "2015"
-    },
-    {
-      "award": "Judge",
-      "org": "The Webby Awards",
-      "year": "2015 - Present"
-    },
-    {
-      "award": "Prototype Award",
-      "org": "Knight Foundation",
-      "year": "2014"
-    },
-    {
-      "award": "Google Fellow",
-      "org": "Personal Democracy Forum",
-      "year": "2010, 2012"
-    },
-    {
-      "award": "Chairperson",
-      "org": "Texas Leadership Forum",
-      "year": "2007"
-    }
-  ],
-  "civic": [
-    {
-      "role": "Planning Commissioner",
-      "org": "City of Jacksonville Beach",
-      "status": "Current"
-    },
-    {
-      "role": "Technology Advisor",
-      "org": "Gordon Education Initiatives",
-      "status": "Current"
-    },
-    {
-      "role": "Cofounder",
-      "org": "Secret Telephone Storytelling Project",
-      "status": "Project"
-    },
-    {
-      "role": "Cofounder & Full Stack Developer",
-      "org": "People Phone",
-      "status": "Project"
-    },
-    {
-      "role": "Technology Advisor",
-      "org": "Reach the World",
-      "status": "Advisory"
-    },
-    {
-      "role": "Surf Coach",
-      "org": "Life Rolls On",
-      "status": "Community"
-    },
-    {
-      "role": "Member",
-      "org": "61 Franklin Street Community Garden",
-      "status": "Community"
-    },
-    {
-      "role": "Surf Mentor",
-      "org": "Stoked Mentoring, Inc.",
-      "status": "Community"
-    }
-  ],
-  "education": [
-    {
-      "degree": "MS, Political Science (Institutional Economics)",
-      "institution": "University of North Texas"
-    },
-    {
-      "degree": "BA, Political Science",
-      "institution": "University of North Texas"
-    },
-    {
-      "degree": "AA, Business Administration",
-      "institution": "Tarrant County College"
-    }
-  ],
-  "customBlocks": [
-    {
-      "type": "quote",
-      "quote": "Great architecture isn't just about code—it's about empathy, resilient systems, and giving people the autonomy to build with purpose.",
-      "author": "Dean Haddock"
-    }
-  ]
-}
+    "honors": [
+      { "award": "Most High-5s Award", "org": "Contentstack", "year": "2026" },
+      { "award": "Care Award", "org": "Contentstack", "year": "2023" },
+      { "award": "Member", "org": "Twilio Startups", "year": "2020" },
+      { "award": "Nominee & Honoree", "org": "The Webby Awards: StoryCorps App & Website", "year": "2016" },
+      { "award": "Best Apps for Teaching & Learning", "org": "American Association of School Librarians", "year": "2016" },
+      { "award": "Visiting Fellow", "org": "Nieman Foundation for Journalism at Harvard University", "year": "2015" },
+      { "award": "Judge", "org": "The Webby Awards", "year": "2015 - Present" },
+      { "award": "Prototype Award", "org": "Knight Foundation", "year": "2014" },
+      { "award": "Google Fellow", "org": "Personal Democracy Forum", "year": "2010, 2012" },
+      { "award": "Chairperson", "org": "Texas Leadership Forum", "year": "2007" }
+    ],
+    "civic": [
+      { "role": "Planning Commissioner", "org": "City of Jacksonville Beach", "status": "Current" },
+      { "role": "Technology Advisor", "org": "Gordon Education Initiatives", "status": "Current" },
+      { "role": "Cofounder", "org": "Secret Telephone Storytelling Project", "status": "Project" },
+      { "role": "Cofounder & Full Stack Developer", "org": "People Phone", "status": "Project" },
+      { "role": "Technology Advisor", "org": "Reach the World", "status": "Advisory" },
+      { "role": "Surf Coach", "org": "Life Rolls On", "status": "Community" },
+      { "role": "Member", "org": "61 Franklin Street Community Garden", "status": "Community" },
+      { "role": "Surf Mentor", "org": "Stoked Mentoring, Inc.", "status": "Community" }
+    ],
+    "education": [
+      { "degree": "MS, Political Science (Institutional Economics)", "institution": "University of North Texas" },
+      { "degree": "BA, Political Science", "institution": "University of North Texas" },
+      { "degree": "AA, Business Administration", "institution": "Tarrant County College" }
+    ],
+    "customBlocks": [
+      {
+        "type": "quote",
+        "quote": "Great architecture isn't just about code—it's about empathy, resilient systems, and giving people the autonomy to build with purpose.",
+        "author": "Dean Haddock"
+      }
+    ]
+  }
   </script>
 
   <!-- ============================================================== -->
@@ -972,6 +869,7 @@
   <script data-zazen-builder>
     const Zazen = {
       data: null,
+      isAuthoring: false,
       bridgeActive: false,
       gitBranch: null,
       saveTimer: null,
@@ -979,12 +877,31 @@
 
       async init() {
         try {
+          // Detect Environment: Authoring Mode vs Live Production Mode
+          // Authoring mode is enabled ONLY on localhost, 127.0.0.1, file://, or with ?edit=true
+          const isLocal = window.location.hostname === 'localhost' ||
+                          window.location.hostname === '127.0.0.1' ||
+                          window.location.protocol === 'file:' ||
+                          window.location.search.includes('edit=true');
+
+          this.isAuthoring = isLocal;
+          if (this.isAuthoring) {
+            document.body.classList.add('is-authoring');
+            document.body.classList.add('pt-14');
+          } else {
+            // Live production deployment: remove all builder UI from DOM
+            document.querySelectorAll('#zazen-builder-bar, #zazen-component-drawer, #zazen-deploy-modal, .zazen-hover-tools').forEach(el => el.remove());
+          }
+
           const raw = document.getElementById('__ZAZEN_DATA').textContent;
           this.data = JSON.parse(raw);
           this.render();
-          this.bindInlineEditing();
-          this.initDragAndDrop();
-          await this.checkMcpBridge();
+
+          if (this.isAuthoring) {
+            this.bindInlineEditing();
+            this.initDragAndDrop();
+            await this.checkMcpBridge();
+          }
         } catch (e) {
           console.error("Zazen initialization error:", e);
         }
@@ -1003,7 +920,7 @@
             b.className = 'px-2 py-0.5 rounded text-[11px] hover:bg-stone-800 text-stone-400';
           }
         });
-        this.scheduleAutoSave();
+        if (this.isAuthoring) this.scheduleAutoSave();
       },
 
       setFontPreset(preset) {
@@ -1016,7 +933,7 @@
           document.documentElement.style.setProperty('--font-body', "'Plus Jakarta Sans', sans-serif");
           if (this.data && this.data.meta) this.data.meta.font = 'cormorant';
         }
-        this.scheduleAutoSave();
+        if (this.isAuthoring) this.scheduleAutoSave();
       },
 
       scheduleAutoSave() {
@@ -1047,9 +964,214 @@
         }
       },
 
+      // TRUE REACTIVE PROJECTION: Syncs all elements from state to DOM
+      render() {
+        const d = this.data;
+        if (!d) return;
+
+        // Document Meta
+        if (d.meta?.title) document.title = d.meta.title;
+        if (d.meta?.palette) this.setPalette(d.meta.palette);
+        if (d.meta?.font) this.setFontPreset(d.meta.font);
+
+        // Header / Masthead
+        const heroTitle = document.getElementById('hero-title');
+        if (heroTitle) heroTitle.textContent = d.meta?.author || 'Dean Haddock';
+
+        const heroSubtitle = document.getElementById('hero-subtitle');
+        if (heroSubtitle) heroSubtitle.textContent = d.summary || '';
+
+        const siteLocation = document.getElementById('site-location');
+        if (siteLocation) siteLocation.textContent = d.meta?.location || 'New York & Atlantic Coast • Remote';
+
+        const siteStatus = document.getElementById('site-status');
+        if (siteStatus) siteStatus.textContent = d.meta?.status || 'Available for Advisory & Leadership';
+
+        const footerAuthor = document.getElementById('footer-author');
+        if (footerAuthor) footerAuthor.textContent = d.meta?.author || 'Dean Haddock';
+
+        const patentTitle = document.getElementById('patent-title');
+        if (patentTitle && d.patent?.title) patentTitle.textContent = d.patent.title;
+
+        const patentSummary = document.getElementById('patent-summary');
+        if (patentSummary && d.patent?.summary) patentSummary.textContent = d.patent.summary;
+
+        const patentDate = document.getElementById('patent-date');
+        if (patentDate && d.patent?.number) patentDate.textContent = `Patent No. ${d.patent.number} • Issued ${d.patent.date || 'Oct 28, 2025'}`;
+
+        const contactHeading = document.getElementById('contact-heading');
+        if (contactHeading && d.meta?.contactHeading) contactHeading.textContent = d.meta.contactHeading;
+
+        const contactMessage = document.getElementById('contact-message');
+        if (contactMessage && d.meta?.contactMessage) contactMessage.textContent = d.meta.contactMessage;
+
+        // Repeatable Sections
+        this.renderMetrics();
+        this.renderCompetencies();
+        this.renderExperience();
+        this.renderHonors();
+        this.renderCivic();
+        this.renderEducation();
+        this.renderCustomBlocks();
+
+        if (window.lucide) lucide.createIcons();
+      },
+
+      renderMetrics() {
+        const metricsContainer = document.getElementById('metrics-strip');
+        if (metricsContainer && this.data.metrics) {
+          const editableAttr = this.isAuthoring ? 'contenteditable="true"' : '';
+          metricsContainer.innerHTML = this.data.metrics.map((m, i) => `
+            <div class="p-3 zazen-block-wrapper relative">
+              <span class="block font-mono text-xs text-zmuted uppercase tracking-wider zazen-editable" ${editableAttr} data-bind="metrics.${i}.label">${m.label}</span>
+              <span class="block font-heading text-3xl sm:text-4xl text-ztext mt-1 zazen-editable" ${editableAttr} data-bind="metrics.${i}.value">${m.value}</span>
+              <span class="block text-xs text-zmuted mt-0.5 zazen-editable" ${editableAttr} data-bind="metrics.${i}.desc">${m.desc}</span>
+            </div>
+          `).join('');
+        }
+      },
+
+      renderCompetencies() {
+        const compContainer = document.getElementById('competencies-container');
+        if (compContainer && this.data.competencies) {
+          const editableAttr = this.isAuthoring ? 'contenteditable="true"' : '';
+          compContainer.innerHTML = this.data.competencies.map((c, i) => `
+            <div class="p-6 rounded-lg bg-zelevated hairline-all flex flex-col justify-between hover:border-zaccent/40 transition-colors zazen-block-wrapper">
+              <div>
+                <span class="font-mono text-xs text-zmuted uppercase tracking-wider block mb-1">0${i + 1}</span>
+                <h3 class="font-heading text-xl text-ztext font-medium mb-3 zazen-editable" ${editableAttr} data-bind="competencies.${i}.category">${c.category}</h3>
+                <p class="text-xs text-zmuted leading-relaxed zazen-editable" ${editableAttr} data-bind="competencies.${i}.description">${c.description}</p>
+              </div>
+            </div>
+          `).join('');
+        }
+      },
+
+      renderExperience() {
+        const expContainer = document.getElementById('experience-container');
+        if (expContainer && this.data.experience) {
+          const editableAttr = this.isAuthoring ? 'contenteditable="true"' : '';
+          expContainer.innerHTML = this.data.experience.map((exp, expIdx) => `
+            <article class="hairline-t pt-10 zazen-block-wrapper">
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-4">
+                  <div class="flex items-center gap-2 font-mono text-xs text-zaccent uppercase tracking-wider">
+                    <span class="zazen-editable" ${editableAttr} data-bind="experience.${expIdx}.tenure">${exp.tenure}</span>
+                    <span>•</span>
+                    <span class="zazen-editable" ${editableAttr} data-bind="experience.${expIdx}.location">${exp.location}</span>
+                  </div>
+                  <h3 class="font-heading text-2xl sm:text-3xl text-ztext font-light mt-1 zazen-editable" ${editableAttr} data-bind="experience.${expIdx}.company">${exp.company}</h3>
+                </div>
+
+                <div class="lg:col-span-8 space-y-8">
+                  ${exp.roles.map((r, rIdx) => `
+                    <div class="space-y-3">
+                      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 pb-1 hairline-b">
+                        <h4 class="text-base sm:text-lg font-medium text-ztext zazen-editable" ${editableAttr} data-bind="experience.${expIdx}.roles.${rIdx}.title">${r.title}</h4>
+                        <span class="font-mono text-xs text-zmuted zazen-editable" ${editableAttr} data-bind="experience.${expIdx}.roles.${rIdx}.period">${r.period}</span>
+                      </div>
+                      <ul class="space-y-2 text-sm text-zmuted leading-relaxed list-disc list-outside pl-4 marker:text-zaccent">
+                        ${r.highlights.map((h, hIdx) => `
+                          <li class="zazen-editable" ${editableAttr} data-bind="experience.${expIdx}.roles.${rIdx}.highlights.${hIdx}">${h}</li>
+                        `).join('')}
+                      </ul>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </article>
+          `).join('');
+        }
+      },
+
+      renderHonors() {
+        const honorsContainer = document.getElementById('honors-container');
+        if (honorsContainer && this.data.honors) {
+          const editableAttr = this.isAuthoring ? 'contenteditable="true"' : '';
+          honorsContainer.innerHTML = this.data.honors.map((h, i) => `
+            <div class="p-4 rounded-lg bg-zsurface/50 hairline-all flex items-start justify-between gap-3 zazen-block-wrapper">
+              <div>
+                <span class="block text-sm font-medium text-ztext zazen-editable" ${editableAttr} data-bind="honors.${i}.award">${h.award}</span>
+                <span class="block text-xs text-zmuted mt-0.5 zazen-editable" ${editableAttr} data-bind="honors.${i}.org">${h.org}</span>
+              </div>
+              <span class="font-mono text-xs text-zaccent font-medium whitespace-nowrap zazen-editable" ${editableAttr} data-bind="honors.${i}.year">${h.year}</span>
+            </div>
+          `).join('');
+        }
+      },
+
+      renderCivic() {
+        const civicContainer = document.getElementById('civic-container');
+        if (civicContainer && this.data.civic) {
+          const editableAttr = this.isAuthoring ? 'contenteditable="true"' : '';
+          civicContainer.innerHTML = this.data.civic.map((c, i) => `
+            <div class="p-4 rounded-lg bg-zelevated hairline-all flex items-center justify-between gap-3 zazen-block-wrapper">
+              <div>
+                <span class="block text-sm font-medium text-ztext zazen-editable" ${editableAttr} data-bind="civic.${i}.role">${c.role}</span>
+                <span class="block text-xs text-zmuted mt-0.5 zazen-editable" ${editableAttr} data-bind="civic.${i}.org">${c.org}</span>
+              </div>
+              <span class="font-mono text-[10px] uppercase px-2 py-0.5 rounded bg-zsurface hairline-all text-zmuted zazen-editable" ${editableAttr} data-bind="civic.${i}.status">${c.status}</span>
+            </div>
+          `).join('');
+        }
+      },
+
+      renderEducation() {
+        const eduContainer = document.getElementById('education-container');
+        if (eduContainer && this.data.education) {
+          const editableAttr = this.isAuthoring ? 'contenteditable="true"' : '';
+          eduContainer.innerHTML = this.data.education.map((e, i) => `
+            <div class="p-5 rounded-lg bg-zelevated hairline-all flex flex-col sm:flex-row sm:items-center justify-between gap-2 zazen-block-wrapper">
+              <span class="text-sm font-medium text-ztext zazen-editable" ${editableAttr} data-bind="education.${i}.degree">${e.degree}</span>
+              <span class="font-mono text-xs text-zmuted zazen-editable" ${editableAttr} data-bind="education.${i}.institution">${e.institution}</span>
+            </div>
+          `).join('');
+        }
+      },
+
+      renderCustomBlocks() {
+        const container = document.getElementById('custom-sections-container');
+        if (!container) return;
+        if (!this.data.customBlocks || this.data.customBlocks.length === 0) {
+          container.innerHTML = '';
+          return;
+        }
+
+        const editableAttr = this.isAuthoring ? 'contenteditable="true"' : '';
+        const dragAttr = this.isAuthoring ? 'draggable="true"' : '';
+
+        container.innerHTML = this.data.customBlocks.map((b, i) => {
+          if (b.type === 'quote') {
+            return `
+              <section class="py-12 hairline-b zazen-block-wrapper zazen-draggable" ${dragAttr}>
+                <blockquote class="max-w-4xl mx-auto text-center">
+                  <p class="font-heading italic text-2xl sm:text-3xl md:text-4xl text-ztext leading-relaxed font-light zazen-editable" ${editableAttr} data-bind="customBlocks.${i}.quote">“${b.quote}”</p>
+                  <footer class="mt-4 font-mono text-xs uppercase tracking-widest text-zaccent zazen-editable" ${editableAttr} data-bind="customBlocks.${i}.author">— ${b.author}</footer>
+                </blockquote>
+              </section>
+            `;
+          } else if (b.type === 'project') {
+            return `
+              <section class="py-12 hairline-b zazen-block-wrapper zazen-draggable" ${dragAttr}>
+                <div class="p-6 sm:p-8 rounded-xl bg-zelevated hairline-all">
+                  <div class="flex flex-wrap gap-2 mb-3">
+                    ${(b.tags || []).map(t => `<span class="font-mono text-[10px] uppercase px-2 py-0.5 rounded bg-zsurface hairline-all text-zmuted">${t}</span>`).join('')}
+                  </div>
+                  <h3 class="font-heading text-2xl sm:text-3xl text-ztext font-light mb-2 zazen-editable" ${editableAttr} data-bind="customBlocks.${i}.title">${b.title}</h3>
+                  <p class="text-sm text-zmuted leading-relaxed zazen-editable" ${editableAttr} data-bind="customBlocks.${i}.summary">${b.summary}</p>
+                </div>
+              </section>
+            `;
+          }
+          return '';
+        }).join('');
+      },
+
       // INLINE EDITING: Two-Way Data Binding
       bindInlineEditing() {
+        if (!this.isAuthoring) return;
         document.querySelectorAll('.zazen-editable[data-bind]').forEach(el => {
+          el.setAttribute('contenteditable', 'true');
           el.addEventListener('input', () => {
             const path = el.getAttribute('data-bind');
             const value = el.innerText.trim();
@@ -1071,11 +1193,14 @@
 
       // DRAG AND DROP: Section & Card Reordering
       initDragAndDrop() {
+        if (!this.isAuthoring) return;
         const container = document.getElementById('sections-container');
         if (!container) return;
 
         const draggables = container.querySelectorAll('.zazen-draggable');
         draggables.forEach(elem => {
+          elem.setAttribute('draggable', 'true');
+
           elem.addEventListener('dragstart', (e) => {
             this.draggedItem = elem;
             elem.classList.add('zazen-dragging');
@@ -1133,7 +1258,7 @@
         if (type === 'metric') {
           if (!this.data.metrics) this.data.metrics = [];
           this.data.metrics.push({
-            label: "New Milestone",
+            label: "New Metric",
             value: "100%",
             desc: "Custom impact measurement metric"
           });
@@ -1141,15 +1266,15 @@
         } else if (type === 'experience') {
           if (!this.data.experience) this.data.experience = [];
           this.data.experience.unshift({
-            company: "INNOVATION LABS",
+            company: "ENTERPRISE SAAS CO.",
             location: "New York, NY",
             tenure: "2026 - Present",
             roles: [{
-              title: "Principal Advisor & Systems Architect",
+              title: "Chief Product Officer / VP Engineering",
               period: "2026 - Present",
               highlights: [
-                "Spearheaded multi-cloud agentic architecture and digital transformation.",
-                "Mentored product and engineering leaders on high-scale SaaS execution."
+                "Led global platform transformation and multi-product architecture.",
+                "Delivered enterprise-scale SaaS capabilities and accelerated adoption."
               ]
             }]
           });
@@ -1193,165 +1318,13 @@
         this.bindInlineEditing();
       },
 
-      render() {
-        this.renderMetrics();
-        this.renderCompetencies();
-        this.renderExperience();
-        this.renderHonors();
-        this.renderCivic();
-        this.renderEducation();
-        this.renderCustomBlocks();
-        if (window.lucide) lucide.createIcons();
-      },
-
-      renderMetrics() {
-        const metricsContainer = document.getElementById('metrics-strip');
-        if (metricsContainer && this.data.metrics) {
-          metricsContainer.innerHTML = this.data.metrics.map((m, i) => `
-            <div class="p-3 zazen-block-wrapper relative">
-              <span class="block font-mono text-xs text-zmuted uppercase tracking-wider zazen-editable" contenteditable="true" data-bind="metrics.${i}.label">${m.label}</span>
-              <span class="block font-heading text-3xl sm:text-4xl text-ztext mt-1 zazen-editable" contenteditable="true" data-bind="metrics.${i}.value">${m.value}</span>
-              <span class="block text-xs text-zmuted mt-0.5 zazen-editable" contenteditable="true" data-bind="metrics.${i}.desc">${m.desc}</span>
-            </div>
-          `).join('');
-        }
-      },
-
-      renderCompetencies() {
-        const compContainer = document.getElementById('competencies-container');
-        if (compContainer && this.data.competencies) {
-          compContainer.innerHTML = this.data.competencies.map((c, i) => `
-            <div class="p-6 rounded-lg bg-zelevated hairline-all flex flex-col justify-between hover:border-zaccent/40 transition-colors zazen-block-wrapper">
-              <div>
-                <span class="font-mono text-xs text-zmuted uppercase tracking-wider block mb-1">0${i + 1}</span>
-                <h3 class="font-heading text-xl text-ztext font-medium mb-3 zazen-editable" contenteditable="true" data-bind="competencies.${i}.category">${c.category}</h3>
-                <p class="text-xs text-zmuted leading-relaxed zazen-editable" contenteditable="true" data-bind="competencies.${i}.description">${c.description}</p>
-              </div>
-            </div>
-          `).join('');
-        }
-      },
-
-      renderExperience() {
-        const expContainer = document.getElementById('experience-container');
-        if (expContainer && this.data.experience) {
-          expContainer.innerHTML = this.data.experience.map((exp, expIdx) => `
-            <article class="hairline-t pt-10 zazen-block-wrapper">
-              <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div class="lg:col-span-4">
-                  <div class="flex items-center gap-2 font-mono text-xs text-zaccent uppercase tracking-wider">
-                    <span class="zazen-editable" contenteditable="true" data-bind="experience.${expIdx}.tenure">${exp.tenure}</span>
-                    <span>•</span>
-                    <span class="zazen-editable" contenteditable="true" data-bind="experience.${expIdx}.location">${exp.location}</span>
-                  </div>
-                  <h3 class="font-heading text-2xl sm:text-3xl text-ztext font-light mt-1 zazen-editable" contenteditable="true" data-bind="experience.${expIdx}.company">${exp.company}</h3>
-                </div>
-
-                <div class="lg:col-span-8 space-y-8">
-                  ${exp.roles.map((r, rIdx) => `
-                    <div class="space-y-3">
-                      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 pb-1 hairline-b">
-                        <h4 class="text-base sm:text-lg font-medium text-ztext zazen-editable" contenteditable="true" data-bind="experience.${expIdx}.roles.${rIdx}.title">${r.title}</h4>
-                        <span class="font-mono text-xs text-zmuted zazen-editable" contenteditable="true" data-bind="experience.${expIdx}.roles.${rIdx}.period">${r.period}</span>
-                      </div>
-                      <ul class="space-y-2 text-sm text-zmuted leading-relaxed list-disc list-outside pl-4 marker:text-zaccent">
-                        ${r.highlights.map((h, hIdx) => `
-                          <li class="zazen-editable" contenteditable="true" data-bind="experience.${expIdx}.roles.${rIdx}.highlights.${hIdx}">${h}</li>
-                        `).join('')}
-                      </ul>
-                    </div>
-                  `).join('')}
-                </div>
-              </div>
-            </article>
-          `).join('');
-        }
-      },
-
-      renderHonors() {
-        const honorsContainer = document.getElementById('honors-container');
-        if (honorsContainer && this.data.honors) {
-          honorsContainer.innerHTML = this.data.honors.map((h, i) => `
-            <div class="p-4 rounded-lg bg-zsurface/50 hairline-all flex items-start justify-between gap-3 zazen-block-wrapper">
-              <div>
-                <span class="block text-sm font-medium text-ztext zazen-editable" contenteditable="true" data-bind="honors.${i}.award">${h.award}</span>
-                <span class="block text-xs text-zmuted mt-0.5 zazen-editable" contenteditable="true" data-bind="honors.${i}.org">${h.org}</span>
-              </div>
-              <span class="font-mono text-xs text-zaccent font-medium whitespace-nowrap zazen-editable" contenteditable="true" data-bind="honors.${i}.year">${h.year}</span>
-            </div>
-          `).join('');
-        }
-      },
-
-      renderCivic() {
-        const civicContainer = document.getElementById('civic-container');
-        if (civicContainer && this.data.civic) {
-          civicContainer.innerHTML = this.data.civic.map((c, i) => `
-            <div class="p-4 rounded-lg bg-zelevated hairline-all flex items-center justify-between gap-3 zazen-block-wrapper">
-              <div>
-                <span class="block text-sm font-medium text-ztext zazen-editable" contenteditable="true" data-bind="civic.${i}.role">${c.role}</span>
-                <span class="block text-xs text-zmuted mt-0.5 zazen-editable" contenteditable="true" data-bind="civic.${i}.org">${c.org}</span>
-              </div>
-              <span class="font-mono text-[10px] uppercase px-2 py-0.5 rounded bg-zsurface hairline-all text-zmuted zazen-editable" contenteditable="true" data-bind="civic.${i}.status">${c.status}</span>
-            </div>
-          `).join('');
-        }
-      },
-
-      renderEducation() {
-        const eduContainer = document.getElementById('education-container');
-        if (eduContainer && this.data.education) {
-          eduContainer.innerHTML = this.data.education.map((e, i) => `
-            <div class="p-5 rounded-lg bg-zelevated hairline-all flex flex-col sm:flex-row sm:items-center justify-between gap-2 zazen-block-wrapper">
-              <span class="text-sm font-medium text-ztext zazen-editable" contenteditable="true" data-bind="education.${i}.degree">${e.degree}</span>
-              <span class="font-mono text-xs text-zmuted zazen-editable" contenteditable="true" data-bind="education.${i}.institution">${e.institution}</span>
-            </div>
-          `).join('');
-        }
-      },
-
-      renderCustomBlocks() {
-        const container = document.getElementById('custom-sections-container');
-        if (!container) return;
-        if (!this.data.customBlocks || this.data.customBlocks.length === 0) {
-          container.innerHTML = '';
-          return;
-        }
-
-        container.innerHTML = this.data.customBlocks.map((b, i) => {
-          if (b.type === 'quote') {
-            return `
-              <section class="py-12 hairline-b zazen-block-wrapper zazen-draggable" draggable="true">
-                <blockquote class="max-w-4xl mx-auto text-center">
-                  <p class="font-heading italic text-2xl sm:text-3xl md:text-4xl text-ztext leading-relaxed font-light zazen-editable" contenteditable="true" data-bind="customBlocks.${i}.quote">“${b.quote}”</p>
-                  <footer class="mt-4 font-mono text-xs uppercase tracking-widest text-zaccent zazen-editable" contenteditable="true" data-bind="customBlocks.${i}.author">— ${b.author}</footer>
-                </blockquote>
-              </section>
-            `;
-          } else if (b.type === 'project') {
-            return `
-              <section class="py-12 hairline-b zazen-block-wrapper zazen-draggable" draggable="true">
-                <div class="p-6 sm:p-8 rounded-xl bg-zelevated hairline-all">
-                  <div class="flex flex-wrap gap-2 mb-3">
-                    ${(b.tags || []).map(t => `<span class="font-mono text-[10px] uppercase px-2 py-0.5 rounded bg-zsurface hairline-all text-zmuted">${t}</span>`).join('')}
-                  </div>
-                  <h3 class="font-heading text-2xl sm:text-3xl text-ztext font-light mb-2 zazen-editable" contenteditable="true" data-bind="customBlocks.${i}.title">${b.title}</h3>
-                  <p class="text-sm text-zmuted leading-relaxed zazen-editable" contenteditable="true" data-bind="customBlocks.${i}.summary">${b.summary}</p>
-                </div>
-              </section>
-            `;
-          }
-          return '';
-        }).join('');
-      },
-
       // Mandate 4: Pure Clean HTML Extraction (Scrubbing Engine)
       getCleanHtml(htmlString) {
         const parser = new DOMParser();
         const doc = parser.parseFromString(htmlString || document.documentElement.outerHTML, 'text/html');
 
         // Scrub all builder toolbars, modals, hover tools, and management scripts from document markup
-        doc.querySelectorAll('#zazen-builder-bar, .zazen-builder-ui, .zazen-hover-tools, script[data-zazen-builder]').forEach(el => el.remove());
+        doc.querySelectorAll('#zazen-builder-bar, #zazen-component-drawer, #zazen-deploy-modal, .zazen-hover-tools, .zazen-builder-ui, script[data-zazen-builder]').forEach(el => el.remove());
 
         // Scrub authoring attributes (contenteditable, draggable, data-bind)
         doc.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
@@ -1365,6 +1338,7 @@
         const body = doc.querySelector('body');
         if (body) {
           body.classList.remove('pt-14');
+          body.classList.remove('is-authoring');
         }
 
         return '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
@@ -1386,7 +1360,7 @@
 
             const gitStatusText = document.getElementById('zazen-git-status-text');
             if (gitStatusText) {
-              gitStatusText.textContent = `Active Git branch: ${this.gitBranch}. 1-click stage & commit to repository.`;
+              gitStatusText.textContent = `Active Git branch: ${this.gitBranch}. 1-click stage, commit, and push to GitHub.`;
             }
           }
         } catch (_) {
@@ -1413,19 +1387,19 @@
         });
       },
 
-      // Tier 2: 1-Click Git Commit
-      async commitToGit() {
+      // Tier 2: 1-Click Git Commit & Push (Triggers Cloud Host Rebuild)
+      async commitToGit(doPush = true) {
         if (!this.bridgeActive) {
           alert('Local bridge server is not connected. Use "Pure ZIP" download for static export.');
           return;
         }
 
         const defaultMsg = `feat: update site via Zazen Builder (${new Date().toLocaleTimeString()})`;
-        const message = prompt('Enter commit message:', defaultMsg);
+        const message = prompt('Enter commit message (will commit & push to GitHub):', defaultMsg);
         if (message === null) return;
 
         const saveStatus = document.getElementById('zazen-save-status');
-        if (saveStatus) saveStatus.textContent = 'Committing...';
+        if (saveStatus) saveStatus.textContent = 'Syncing & Pushing...';
 
         try {
           await this.autoSave();
@@ -1433,13 +1407,14 @@
           const res = await fetch('http://localhost:3000/api/git', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: message || defaultMsg, push: false })
+            body: JSON.stringify({ message: message || defaultMsg, push: doPush })
           });
 
           const result = await res.json();
           if (result.status === 'success') {
-            alert(`✓ Git commit succeeded on branch "${result.branch}":\n\n${result.commit}`);
-            if (saveStatus) saveStatus.textContent = '✓ Git synced';
+            const pushNotice = result.push ? `\n\nCloud Sync:\n${result.push}` : '';
+            alert(`✓ Git commit succeeded on branch "${result.branch}"!${pushNotice}\n\nYour cloud host (Vercel/Netlify) will automatically rebuild.`);
+            if (saveStatus) saveStatus.textContent = '✓ Deployed to Git';
           } else {
             alert(`Git error: ${result.error}`);
             if (saveStatus) saveStatus.textContent = 'Git error';
