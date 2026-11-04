@@ -975,26 +975,24 @@
       async init() {
         try {
           // Detect Environment: Authoring Mode vs Live Production Mode
-          // Authoring mode is enabled on localhost, file://, with ?edit=true,
-          // or if environment flag is set (window.ZAZEN_EDIT, meta[name="zazen-edit"], or localStorage)
-          const metaEdit = document.querySelector('meta[name="zazen-edit"]')?.content === 'true';
-          const localStoredEdit = localStorage.getItem('zazen-edit') === 'true';
-          const queryEdit = window.location.search.includes('edit=true');
+          // Strict Security Mandate: Authoring mode is NEVER exposed via public URL query strings.
+          // It is active ONLY on local development (localhost, 127.0.0.1, file://) OR when explicitly
+          // enabled on the cloud host via environment variable ZAZEN_EDIT=true (meta tag or window.ZAZEN_EDIT).
+          const envEdit = (typeof window.ZAZEN_EDIT !== 'undefined' && (window.ZAZEN_EDIT === true || window.ZAZEN_EDIT === 'true')) ||
+                          (document.querySelector('meta[name="zazen-edit"]')?.content === 'true');
+
           const isLocal = window.location.hostname === 'localhost' ||
                           window.location.hostname === '127.0.0.1' ||
-                          window.location.protocol === 'file:' ||
-                          queryEdit ||
-                          window.ZAZEN_EDIT === true ||
-                          metaEdit ||
-                          localStoredEdit;
+                          window.location.protocol === 'file:';
 
-          this.isAuthoring = isLocal;
+          this.isAuthoring = isLocal || envEdit;
+
           if (this.isAuthoring) {
             document.body.classList.add('is-authoring');
             document.body.classList.add('pt-14');
           } else {
-            // Live production deployment: remove all builder UI from DOM
-            document.querySelectorAll('#zazen-builder-bar, #zazen-component-drawer, #zazen-deploy-modal, .zazen-hover-tools').forEach(el => el.remove());
+            // Live production deployment: scrub all builder UI from DOM
+            document.querySelectorAll('#zazen-builder-bar, #zazen-component-drawer, #zazen-deploy-modal, .zazen-hover-tools, .zazen-builder-ui').forEach(el => el.remove());
           }
 
           const raw = document.getElementById('__ZAZEN_DATA').textContent;
