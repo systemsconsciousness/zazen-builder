@@ -2,7 +2,7 @@
   "meta": {
     "title": "Salt Pier Surf Supply — Jacksonville Beach, FL",
     "name": "Salt Pier Surf Supply",
-    "tagline": "HANDCRAFTED QUIVERS, OCEANFRONT OUTPOST & FIRST COAST WAVE CULTURE SINCE 1978",
+    "tagline": "Handcrafted Quivers, Oceanfront Outpost & First Coast Wave Culture Since 1978",
     "location": "Jacksonville Beach, Florida",
     "coordinates": "30.2886° N, 81.3931° W",
     "address": "412 1st Street North, Jacksonville Beach, FL 32250",
@@ -10,10 +10,10 @@
     "email": "crew@saltpiersurf.com",
     "hours": "Daily 7:00 AM – 7:00 PM • Sunrise to Sunset",
     "status": "Open Daily • Oceanfront Outpost",
-    "heroHeadline": "Shaped for Atlantic swell. Rooted in Jax Beach edit the content???",
+    "heroHeadline": "Shaped for Atlantic swell. Rooted in Jax Beach.",
     "heroSubhead": "Three blocks north of the Jacksonville Beach Pier, Salt Pier Surf Supply builds hand-shaped quivers, teaches ocean confidence, and equips watermen with honest gear engineered for North Florida sandbars.",
-    "palette": "linen",
-    "font": "newsreader",
+    "palette": "sand",
+    "font": "cormorant",
     "version": "3.2.0"
   },
   "surfReport": {
@@ -32,6 +32,11 @@
       "desc": "Serving Jax Beach surfers for over 48 seasons"
     },
     {
+      "value": "48 HR",
+      "label": "Ding Hospital Turnaround",
+      "desc": "Color-matched epoxy & PU glass repair"
+    },
+    {
       "value": "350+",
       "label": "Quiver in Stock",
       "desc": "Hand-shaped fishes, logs, mid-lengths & performance glass"
@@ -40,14 +45,20 @@
       "value": "14,000+",
       "label": "Surfers Coached",
       "desc": "First Coast Surf Academy graduates & grom campers"
-    },
-    {
-      "value": "48 HR",
-      "label": "Ding Hospital Turnaround",
-      "desc": "Color-matched epoxy & PU glass repair"
     }
   ],
   "quiver": [
+    {
+      "id": "board-1793825594705",
+      "name": "New Custom Shape",
+      "type": "Custom Shaper Edition",
+      "dimensions": "6'4\" × 20 1/2\" × 2 5/8\" • 37.5L",
+      "shaper": "First Coast Boardworks",
+      "price": "$795",
+      "badge": "New Arrival",
+      "desc": "Handcrafted in Jacksonville Beach with custom glassing and fine-tuned rocker.",
+      "finSetup": "FCS II / 5-Fin Setup"
+    },
     {
       "id": "board-1",
       "name": "The Pier Fish",
@@ -71,17 +82,6 @@
       "finSetup": "Single Box (10\" Pivot Fin Included)"
     },
     {
-      "id": "board-3",
-      "name": "Pelican Reef Mid-Length",
-      "type": "2+1 Performance Egg",
-      "dimensions": "6'10\" × 21 1/4\" × 2 3/4\" • 44.2L",
-      "shaper": "Coastal Resin Craft",
-      "price": "$840",
-      "badge": "Everyday Driver",
-      "desc": "The ultimate Florida daily driver. Paddles into any ripple with ease, trims effortlessly along the high line, and allows tight roundhouse cutbacks when the swell picks up. Sea-glass resin tint with gloss finish.",
-      "finSetup": "Futures 2+1 Setup"
-    },
-    {
       "id": "board-4",
       "name": "Nor'easter Step-Up",
       "type": "Rounded Pin High-Performance",
@@ -91,6 +91,17 @@
       "badge": "Hurricane Quiver",
       "desc": "Engineered for heavy autumn hurricane swells and dredging winter nor'easters at the Poles and Pier. Pulled-in tail holds firm in hollow barrels and steep drops without skittering.",
       "finSetup": "Tri-Fin Thruster (FCS II)"
+    },
+    {
+      "id": "board-3",
+      "name": "Pelican Reef Mid-Length",
+      "type": "2+1 Performance Egg",
+      "dimensions": "6'10\" × 21 1/4\" × 2 3/4\" • 44.2L",
+      "shaper": "Coastal Resin Craft",
+      "price": "$840",
+      "badge": "Everyday Driver",
+      "desc": "The ultimate Florida daily driver. Paddles into any ripple with ease, trims effortlessly along the high line, and allows tight roundhouse cutbacks when the swell picks up. Sea-glass resin tint with gloss finish.",
+      "finSetup": "Futures 2+1 Setup"
     },
     {
       "id": "board-5",
