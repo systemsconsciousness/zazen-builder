@@ -14,10 +14,26 @@
   },
   "summary": "Empathetic tech leader, systems thinker, creative problem solver and engineer who has built and scaled multiple SaaS platforms in competitive markets. Deep expertise in product strategy, AI, automation, and high-scale technical innovation. Nieman Fellow, Planning Commissioner and entrepreneur.",
   "metrics": [
-    { "label": "Scale & Impact", "value": "$10M+", "desc": "Enterprise Client Portfolios" },
-    { "label": "Product Trajectory", "value": "2x+", "desc": "Y1 Financial & Adoption Goals" },
-    { "label": "Intellectual Property", "value": "1", "desc": "US Patent Issued (Oct 2025)" },
-    { "label": "Leadership Tenure", "value": "18+ Yrs", "desc": "SaaS & Systems Engineering" }
+    {
+      "label": "Scale & Impact",
+      "value": "$10M+",
+      "desc": "Enterprise Client Portfolios"
+    },
+    {
+      "label": "Product Trajectory",
+      "value": "2x+",
+      "desc": "Y1 Financial & Adoption Goals"
+    },
+    {
+      "label": "Intellectual Property",
+      "value": "1",
+      "desc": "US Patent Issued (Oct 2025)"
+    },
+    {
+      "label": "Leadership Tenure",
+      "value": "18+ Yrs",
+      "desc": "SaaS & Systems Engineering"
+    }
   ],
   "competencies": [
     {
@@ -175,31 +191,112 @@
     "summary": "Dual-limit provisioning engine allowing dynamic tier quotas, soft/hard threshold management, and resource safety segregation across multitenant cloud architectures."
   },
   "honors": [
-    { "award": "Most High-5s Award", "org": "Contentstack", "year": "2026" },
-    { "award": "Care Award", "org": "Contentstack", "year": "2023" },
-    { "award": "Member", "org": "Twilio Startups", "year": "2020" },
-    { "award": "Nominee & Honoree", "org": "The Webby Awards: StoryCorps App & Website", "year": "2016" },
-    { "award": "Best Apps for Teaching & Learning", "org": "American Association of School Librarians", "year": "2016" },
-    { "award": "Visiting Fellow", "org": "Nieman Foundation for Journalism at Harvard University", "year": "2015" },
-    { "award": "Judge", "org": "The Webby Awards", "year": "2015 - Present" },
-    { "award": "Prototype Award", "org": "Knight Foundation", "year": "2014" },
-    { "award": "Google Fellow", "org": "Personal Democracy Forum", "year": "2010, 2012" },
-    { "award": "Chairperson", "org": "Texas Leadership Forum", "year": "2007" }
+    {
+      "award": "Most High-5s Award",
+      "org": "Contentstack",
+      "year": "2026"
+    },
+    {
+      "award": "Care Award",
+      "org": "Contentstack",
+      "year": "2023"
+    },
+    {
+      "award": "Member",
+      "org": "Twilio Startups",
+      "year": "2020"
+    },
+    {
+      "award": "Nominee & Honoree",
+      "org": "The Webby Awards: StoryCorps App & Website",
+      "year": "2016"
+    },
+    {
+      "award": "Best Apps for Teaching & Learning",
+      "org": "American Association of School Librarians",
+      "year": "2016"
+    },
+    {
+      "award": "Visiting Fellow",
+      "org": "Nieman Foundation for Journalism at Harvard University",
+      "year": "2015"
+    },
+    {
+      "award": "Judge",
+      "org": "The Webby Awards",
+      "year": "2015 - Present"
+    },
+    {
+      "award": "Prototype Award",
+      "org": "Knight Foundation",
+      "year": "2014"
+    },
+    {
+      "award": "Google Fellow",
+      "org": "Personal Democracy Forum",
+      "year": "2010, 2012"
+    },
+    {
+      "award": "Chairperson",
+      "org": "Texas Leadership Forum",
+      "year": "2007"
+    }
   ],
   "civic": [
-    { "role": "Planning Commissioner", "org": "City of Jacksonville Beach", "status": "Current" },
-    { "role": "Technology Advisor", "org": "Gordon Education Initiatives", "status": "Current" },
-    { "role": "Cofounder", "org": "Secret Telephone Storytelling Project", "status": "Project" },
-    { "role": "Cofounder & Full Stack Developer", "org": "People Phone", "status": "Project" },
-    { "role": "Technology Advisor", "org": "Reach the World", "status": "Advisory" },
-    { "role": "Surf Coach", "org": "Life Rolls On", "status": "Community" },
-    { "role": "Member", "org": "61 Franklin Street Community Garden", "status": "Community" },
-    { "role": "Surf Mentor", "org": "Stoked Mentoring, Inc.", "status": "Community" }
+    {
+      "role": "Planning Commissioner",
+      "org": "City of Jacksonville Beach",
+      "status": "Current"
+    },
+    {
+      "role": "Technology Advisor",
+      "org": "Gordon Education Initiatives",
+      "status": "Current"
+    },
+    {
+      "role": "Cofounder",
+      "org": "Secret Telephone Storytelling Project",
+      "status": "Project"
+    },
+    {
+      "role": "Cofounder & Full Stack Developer",
+      "org": "People Phone",
+      "status": "Project"
+    },
+    {
+      "role": "Technology Advisor",
+      "org": "Reach the World",
+      "status": "Advisory"
+    },
+    {
+      "role": "Surf Coach",
+      "org": "Life Rolls On",
+      "status": "Community"
+    },
+    {
+      "role": "Member",
+      "org": "61 Franklin Street Community Garden",
+      "status": "Community"
+    },
+    {
+      "role": "Surf Mentor",
+      "org": "Stoked Mentoring, Inc.",
+      "status": "Community"
+    }
   ],
   "education": [
-    { "degree": "MS, Political Science (Institutional Economics)", "institution": "University of North Texas" },
-    { "degree": "BA, Political Science", "institution": "University of North Texas" },
-    { "degree": "AA, Business Administration", "institution": "Tarrant County College" }
+    {
+      "degree": "MS, Political Science (Institutional Economics)",
+      "institution": "University of North Texas"
+    },
+    {
+      "degree": "BA, Political Science",
+      "institution": "University of North Texas"
+    },
+    {
+      "degree": "AA, Business Administration",
+      "institution": "Tarrant County College"
+    }
   ],
   "customBlocks": [
     {
