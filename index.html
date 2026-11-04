@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="zazen-edit" content="false">
-  <title>Dean Haddock — Technology Executive & Systems Thinker</title>
+  <title>Zazen Surf Atelier — Handcrafted Surfboards & Coastal Goods</title>
   
   <!-- Studio Fonts: Newsreader (Editorial Serif), Inter (Clean Sans), JetBrains Mono (Technical Mono) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,7 +43,7 @@
 
   <style>
     :root {
-      /* Default Studio Palette: Editorial Sand & Ink */
+      /* Default Studio Palette: Editorial Sand & Dune Wax */
       --font-heading: 'Newsreader', serif;
       --font-body: 'Inter', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
@@ -57,6 +57,7 @@
     }
 
     [data-theme="linen"] {
+      /* Pacific Linen & Sun Bleach */
       --bg: #FAF8F5;
       --surface: #F3EFEA;
       --elevated: #FFFFFF;
@@ -67,6 +68,7 @@
     }
 
     [data-theme="architect"] {
+      /* Architect Marine & Blueprint Foam */
       --bg: #FFFFFF;
       --surface: #F8F9FA;
       --elevated: #FFFFFF;
@@ -77,6 +79,7 @@
     }
 
     [data-theme="obsidian"] {
+      /* Obsidian Night Surf & Bioluminescence */
       --bg: #0D0E11;
       --surface: #14171C;
       --elevated: #1C2026;
@@ -205,7 +208,7 @@
       pointer-events: auto;
     }
 
-    /* Production Mode (When deployed to Vercel/Cloud host without ?edit=true) */
+    /* Production Mode (When deployed to Vercel/Cloud host without ZAZEN_EDIT=true) */
     body:not(.is-authoring) #zazen-builder-bar,
     body:not(.is-authoring) #zazen-component-drawer,
     body:not(.is-authoring) #zazen-deploy-modal,
@@ -265,10 +268,10 @@
       <!-- Palette Selector -->
       <div class="hidden sm:flex items-center gap-1 bg-stone-900 border border-stone-800 rounded px-1.5 py-1">
         <span class="text-stone-500 text-[10px] uppercase font-mono mr-1 hidden md:inline">Palette</span>
-        <button onclick="Zazen.setPalette('editorial')" class="px-2 py-0.5 rounded text-[11px] transition-colors hover:bg-stone-800 text-stone-300 active-palette" data-palette="editorial" title="Editorial Sand & Ink">Editorial</button>
-        <button onclick="Zazen.setPalette('linen')" class="px-2 py-0.5 rounded text-[11px] transition-colors hover:bg-stone-800 text-stone-400" data-palette="linen" title="Warm Linen & Amber">Linen</button>
-        <button onclick="Zazen.setPalette('architect')" class="px-2 py-0.5 rounded text-[11px] transition-colors hover:bg-stone-800 text-stone-400" data-palette="architect" title="Architect White">Architect</button>
-        <button onclick="Zazen.setPalette('obsidian')" class="px-2 py-0.5 rounded text-[11px] transition-colors hover:bg-stone-800 text-stone-400" data-palette="obsidian" title="Obsidian Darkroom">Obsidian</button>
+        <button onclick="Zazen.setPalette('editorial')" class="px-2 py-0.5 rounded text-[11px] transition-colors hover:bg-stone-800 text-stone-300 active-palette" data-palette="editorial" title="Editorial Sand & Dune Wax">Editorial</button>
+        <button onclick="Zazen.setPalette('linen')" class="px-2 py-0.5 rounded text-[11px] transition-colors hover:bg-stone-800 text-stone-400" data-palette="linen" title="Pacific Linen & Sun Bleach">Linen</button>
+        <button onclick="Zazen.setPalette('architect')" class="px-2 py-0.5 rounded text-[11px] transition-colors hover:bg-stone-800 text-stone-400" data-palette="architect" title="Architect Marine & Navy">Architect</button>
+        <button onclick="Zazen.setPalette('obsidian')" class="px-2 py-0.5 rounded text-[11px] transition-colors hover:bg-stone-800 text-stone-400" data-palette="obsidian" title="Obsidian Night Surf">Obsidian</button>
       </div>
 
       <!-- Typography Selector -->
@@ -320,21 +323,31 @@
 
       <div class="flex items-center gap-2 mb-1">
         <div class="w-2.5 h-2.5 rounded-full bg-amber-500"></div>
-        <span class="font-mono text-xs text-amber-400 uppercase tracking-widest">Component Library</span>
+        <span class="font-mono text-xs text-amber-400 uppercase tracking-widest">Atelier Component Library</span>
       </div>
-      <h3 class="font-heading text-2xl text-stone-100 font-serif mb-2">Insert Studio Component</h3>
+      <h3 class="font-heading text-2xl text-stone-100 font-serif mb-2">Insert Surf Atelier Block</h3>
       <p class="text-stone-400 text-xs leading-relaxed mb-6">
-        Select a component primitive to insert directly into your live page. All blocks feature drag reordering and instant inline text editing.
+        Select an artisanal component to insert directly into your live page. All blocks feature drag reordering and instant inline text editing.
       </p>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-        <button onclick="Zazen.addComponent('metric')" class="p-3.5 rounded-lg bg-stone-900 hover:bg-stone-850 border border-stone-800 hover:border-amber-500/50 text-left transition-all group flex items-start gap-3">
+        <button onclick="Zazen.addComponent('board')" class="p-3.5 rounded-lg bg-stone-900 hover:bg-stone-850 border border-stone-800 hover:border-amber-500/50 text-left transition-all group flex items-start gap-3">
           <div class="w-8 h-8 rounded bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0">
+            <i data-lucide="compass" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <span class="block text-sm font-medium text-stone-100 group-hover:text-amber-400">Custom Board Spec</span>
+            <span class="block text-xs text-stone-400 mt-0.5">Model name, dimensions, fin foil, and resin finish.</span>
+          </div>
+        </button>
+
+        <button onclick="Zazen.addComponent('metric')" class="p-3.5 rounded-lg bg-stone-900 hover:bg-stone-850 border border-stone-800 hover:border-amber-500/50 text-left transition-all group flex items-start gap-3">
+          <div class="w-8 h-8 rounded bg-sky-500/10 text-sky-400 flex items-center justify-center shrink-0">
             <i data-lucide="activity" class="w-4 h-4"></i>
           </div>
           <div>
-            <span class="block text-sm font-medium text-stone-100 group-hover:text-amber-400">Metric / Stat Card</span>
-            <span class="block text-xs text-stone-400 mt-0.5">Key numerical achievement or scale highlight.</span>
+            <span class="block text-sm font-medium text-stone-100 group-hover:text-sky-400">Swell / Atelier Metric</span>
+            <span class="block text-xs text-stone-400 mt-0.5">Wave conditions, craft count, or sustainability stat.</span>
           </div>
         </button>
 
@@ -343,18 +356,18 @@
             <i data-lucide="briefcase" class="w-4 h-4"></i>
           </div>
           <div>
-            <span class="block text-sm font-medium text-stone-100 group-hover:text-emerald-400">Experience Dossier</span>
-            <span class="block text-xs text-stone-400 mt-0.5">Company, tenure, role title and bullet points.</span>
+            <span class="block text-sm font-medium text-stone-100 group-hover:text-emerald-400">Workshop Chapter</span>
+            <span class="block text-xs text-stone-400 mt-0.5">Shaping lineage, glassing guild, or tenure dossier.</span>
           </div>
         </button>
 
         <button onclick="Zazen.addComponent('quote')" class="p-3.5 rounded-lg bg-stone-900 hover:bg-stone-850 border border-stone-800 hover:border-amber-500/50 text-left transition-all group flex items-start gap-3">
-          <div class="w-8 h-8 rounded bg-sky-500/10 text-sky-400 flex items-center justify-center shrink-0">
+          <div class="w-8 h-8 rounded bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0">
             <i data-lucide="quote" class="w-4 h-4"></i>
           </div>
           <div>
-            <span class="block text-sm font-medium text-stone-100 group-hover:text-sky-400">Editorial Pullquote</span>
-            <span class="block text-xs text-stone-400 mt-0.5">High-impact philosophical statement or testimonial.</span>
+            <span class="block text-sm font-medium text-stone-100 group-hover:text-amber-400">Shaper's Philosophy</span>
+            <span class="block text-xs text-stone-400 mt-0.5">High-impact editorial quote or wave craft thesis.</span>
           </div>
         </button>
 
@@ -363,34 +376,24 @@
             <i data-lucide="award" class="w-4 h-4"></i>
           </div>
           <div>
-            <span class="block text-sm font-medium text-stone-100 group-hover:text-purple-400">Distinction / Award</span>
-            <span class="block text-xs text-stone-400 mt-0.5">Fellowship, patent, industry accolade or year badge.</span>
-          </div>
-        </button>
-
-        <button onclick="Zazen.addComponent('project')" class="p-3.5 rounded-lg bg-stone-900 hover:bg-stone-850 border border-stone-800 hover:border-amber-500/50 text-left transition-all group flex items-start gap-3">
-          <div class="w-8 h-8 rounded bg-rose-500/10 text-rose-400 flex items-center justify-center shrink-0">
-            <i data-lucide="layers" class="w-4 h-4"></i>
-          </div>
-          <div>
-            <span class="block text-sm font-medium text-stone-100 group-hover:text-rose-400">Featured Initiative</span>
-            <span class="block text-xs text-stone-400 mt-0.5">Project card with tags, narrative summary and link.</span>
+            <span class="block text-sm font-medium text-stone-100 group-hover:text-purple-400">Guild Accolade</span>
+            <span class="block text-xs text-stone-400 mt-0.5">Industry award, showcase honor, or fellowship badge.</span>
           </div>
         </button>
 
         <button onclick="Zazen.addComponent('civic')" class="p-3.5 rounded-lg bg-stone-900 hover:bg-stone-850 border border-stone-800 hover:border-amber-500/50 text-left transition-all group flex items-start gap-3">
-          <div class="w-8 h-8 rounded bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0">
-            <i data-lucide="users" class="w-4 h-4"></i>
+          <div class="w-8 h-8 rounded bg-teal-500/10 text-teal-400 flex items-center justify-center shrink-0">
+            <i data-lucide="waves" class="w-4 h-4"></i>
           </div>
           <div>
-            <span class="block text-sm font-medium text-stone-100 group-hover:text-amber-400">Civic / Board Role</span>
-            <span class="block text-xs text-stone-400 mt-0.5">Commission, advisory board, or community leadership.</span>
+            <span class="block text-sm font-medium text-stone-100 group-hover:text-teal-400">Ocean Stewardship</span>
+            <span class="block text-xs text-stone-400 mt-0.5">Coastal preservation, surf club, or community service.</span>
           </div>
         </button>
       </div>
 
       <div class="flex items-center justify-between pt-4 border-t border-stone-800 text-[11px] text-stone-500">
-        <span>Click any component to append it directly to your page</span>
+        <span>Click any block to insert directly into your live page</span>
         <button onclick="Zazen.closeComponentDrawer()" class="hover:text-stone-300 transition-colors">Cancel</button>
       </div>
     </div>
@@ -409,7 +412,7 @@
         <div class="w-2.5 h-2.5 rounded-full bg-amber-500"></div>
         <span class="font-mono text-xs text-amber-400 uppercase tracking-widest">Universal Deployment Engine</span>
       </div>
-      <h3 class="font-heading text-2xl text-stone-100 font-serif mb-2">Deploy Portfolio Site</h3>
+      <h3 class="font-heading text-2xl text-stone-100 font-serif mb-2">Deploy Surf Atelier Site</h3>
       <p class="text-stone-400 text-xs leading-relaxed mb-6">
         Select your deployment tier below. All exports scrub builder controls, leaving pure semantic HTML, responsive typography, and clean configuration.
       </p>
@@ -506,7 +509,7 @@
   <!-- ============================================================== -->
   <main id="app-root" class="relative z-10 max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 py-12 md:py-20 w-full flex-grow">
     
-    <!-- MASTHEAD / STUDIO HEADER (Inline Editable & Drag Handle) -->
+    <!-- MASTHEAD / ATELIER HEADER (Inline Editable & Drag Handle) -->
     <header class="pb-14 hairline-b zazen-block-wrapper" id="section-masthead">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 font-mono text-[11px] uppercase tracking-widest text-zmuted pb-8">
         <div class="flex items-center gap-3">
@@ -515,7 +518,7 @@
         </div>
         <div class="flex items-center gap-6">
           <span id="site-status" class="text-ztext font-medium zazen-editable" data-bind="meta.status"></span>
-          <span>EST. 2005</span>
+          <span>EST. 2012 • HAND-SHAPED IN NEW YORK</span>
         </div>
       </div>
 
@@ -529,20 +532,20 @@
 
         <div class="lg:col-span-4 flex flex-col justify-end lg:items-end font-mono text-xs text-zmuted space-y-2">
           <div class="hairline-all px-3 py-2 rounded bg-zsurface/60 max-w-xs text-left">
-            <span class="block text-ztext font-medium mb-0.5">Distinctions</span>
-            <span class="block text-[11px]">Nieman Fellow (Harvard) • US Patent 12455773 • Planning Commissioner • Webby Judge</span>
+            <span class="block text-ztext font-medium mb-0.5">Shaping Disciplines</span>
+            <span class="block text-[11px]">Displacement Hulls • Keel Fish • Noseriders • Custom Resin Tints • Single Fins</span>
           </div>
           <div class="flex items-center gap-4 pt-2">
-            <a href="#competencies" class="hover:text-zaccent transition-colors">Core ↓</a>
-            <a href="#experience" class="hover:text-zaccent transition-colors">Experience ↓</a>
-            <a href="#patents" class="hover:text-zaccent transition-colors">Patents ↓</a>
-            <a href="#civic" class="hover:text-zaccent transition-colors">Civic ↓</a>
-            <a href="#contact" class="hover:text-zaccent transition-colors">Contact ↓</a>
+            <a href="#quiver" class="hover:text-zaccent transition-colors">Quiver ↓</a>
+            <a href="#craft" class="hover:text-zaccent transition-colors">Craft ↓</a>
+            <a href="#lineage" class="hover:text-zaccent transition-colors">Lineage ↓</a>
+            <a href="#community" class="hover:text-zaccent transition-colors">Ocean ↓</a>
+            <a href="#contact" class="hover:text-zaccent transition-colors">Order ↓</a>
           </div>
         </div>
       </div>
 
-      <!-- KEY METRIC STRIP (DRAGGABLE & INLINE EDITABLE) -->
+      <!-- KEY ATELIER METRIC STRIP (DRAGGABLE & INLINE EDITABLE) -->
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-12 pt-8 hairline-t" id="metrics-strip">
         <!-- Rendered dynamically via __ZAZEN_DATA.metrics -->
       </div>
@@ -551,8 +554,29 @@
     <!-- SECTION CONTAINER (SUPPORTS REORDERING SECTIONS VIA DRAG & DROP) -->
     <div id="sections-container" class="space-y-0">
 
-      <!-- SECTION 01: CORE COMPETENCIES / PRACTICE AREAS -->
-      <section id="competencies" class="py-16 hairline-b zazen-block-wrapper zazen-draggable" data-section-id="competencies">
+      <!-- SECTION 01: CURRENT QUIVER & CUSTOM SHAPES -->
+      <section id="quiver" class="py-16 hairline-b zazen-block-wrapper zazen-draggable" data-section-id="quiver">
+        <!-- Hover Controls -->
+        <div class="zazen-hover-tools absolute top-4 right-0 flex items-center gap-1 z-10 select-none">
+          <span class="px-2 py-0.5 rounded bg-stone-900 border border-stone-800 text-[10px] font-mono text-stone-400">⋮⋮ Drag Section</span>
+          <button onclick="Zazen.addComponent('board')" class="px-2 py-0.5 rounded bg-stone-900 hover:bg-stone-800 border border-stone-800 text-[10px] font-mono text-amber-400">+ Add Board</button>
+        </div>
+
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+          <div>
+            <span class="font-mono text-xs uppercase tracking-widest text-zaccent block mb-2">01 / The Quiver</span>
+            <h2 class="font-heading text-3xl sm:text-4xl text-ztext font-light">Handcrafted Shapes &amp; Custom Stock</h2>
+          </div>
+          <p class="font-mono text-xs text-zmuted mt-2 md:mt-0">Available Stock &amp; Custom Shaping Allocations</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="quiver-container">
+          <!-- Injected via __ZAZEN_DATA.boards -->
+        </div>
+      </section>
+
+      <!-- SECTION 02: HYDRODYNAMICS & CRAFT DISCIPLINES -->
+      <section id="craft" class="py-16 hairline-b zazen-block-wrapper zazen-draggable" data-section-id="craft">
         <!-- Hover Controls -->
         <div class="zazen-hover-tools absolute top-4 right-0 flex items-center gap-1 z-10 select-none">
           <span class="px-2 py-0.5 rounded bg-stone-900 border border-stone-800 text-[10px] font-mono text-stone-400">⋮⋮ Drag Section</span>
@@ -560,42 +584,42 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div class="lg:col-span-4">
-            <span class="font-mono text-xs uppercase tracking-widest text-zaccent block mb-2">01 / Foundation</span>
-            <h2 class="font-heading text-3xl sm:text-4xl text-ztext font-light">Core Competencies</h2>
+            <span class="font-mono text-xs uppercase tracking-widest text-zaccent block mb-2">02 / Hydrodynamics</span>
+            <h2 class="font-heading text-3xl sm:text-4xl text-ztext font-light">Craft Disciplines</h2>
             <p class="mt-3 text-sm text-zmuted leading-relaxed">
-              Deep expertise spanning product strategy, multi-cloud platforms, organizational leadership, and modern agentic engineering.
+              Every curve, foil, and glassing schedule is engineered deliberate for trim speed, glide efficiency, and longevity in cold Atlantic waters.
             </p>
           </div>
 
           <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-6" id="competencies-container">
-            <!-- Injected via __ZAZEN_DATA -->
+            <!-- Injected via __ZAZEN_DATA.competencies -->
           </div>
         </div>
       </section>
 
-      <!-- SECTION 02: PROFESSIONAL EXPERIENCE (CHRONOLOGICAL DOSSIER) -->
-      <section id="experience" class="py-16 hairline-b zazen-block-wrapper zazen-draggable" data-section-id="experience">
+      <!-- SECTION 03: SHAPING BAY LINEAGE (CHRONOLOGICAL DOSSIER) -->
+      <section id="lineage" class="py-16 hairline-b zazen-block-wrapper zazen-draggable" data-section-id="lineage">
         <!-- Hover Controls -->
         <div class="zazen-hover-tools absolute top-4 right-0 flex items-center gap-1 z-10 select-none">
           <span class="px-2 py-0.5 rounded bg-stone-900 border border-stone-800 text-[10px] font-mono text-stone-400">⋮⋮ Drag Section</span>
-          <button onclick="Zazen.addComponent('experience')" class="px-2 py-0.5 rounded bg-stone-900 hover:bg-stone-800 border border-stone-800 text-[10px] font-mono text-amber-400">+ Add Role</button>
+          <button onclick="Zazen.addComponent('experience')" class="px-2 py-0.5 rounded bg-stone-900 hover:bg-stone-800 border border-stone-800 text-[10px] font-mono text-amber-400">+ Add Chapter</button>
         </div>
 
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <div>
-            <span class="font-mono text-xs uppercase tracking-widest text-zaccent block mb-2">02 / Trajectory</span>
-            <h2 class="font-heading text-3xl sm:text-4xl text-ztext font-light">Professional Experience</h2>
+            <span class="font-mono text-xs uppercase tracking-widest text-zaccent block mb-2">03 / Provenance</span>
+            <h2 class="font-heading text-3xl sm:text-4xl text-ztext font-light">Workshop Lineage &amp; Heritage</h2>
           </div>
-          <p class="font-mono text-xs text-zmuted mt-2 md:mt-0">Executive &amp; Principal Appointments • 2005 – Present</p>
+          <p class="font-mono text-xs text-zmuted mt-2 md:mt-0">Apprenticeships, Glassing Guilds &amp; Atelier History</p>
         </div>
 
         <div class="space-y-16" id="experience-container">
-          <!-- Injected via __ZAZEN_DATA -->
+          <!-- Injected via __ZAZEN_DATA.experience -->
         </div>
       </section>
 
-      <!-- SECTION 03: PATENTS, AWARDS & HONORS -->
-      <section id="patents" class="py-16 hairline-b zazen-block-wrapper zazen-draggable" data-section-id="patents">
+      <!-- SECTION 04: HYDRODYNAMIC PATENTS & GUILD DISTINCTIONS -->
+      <section id="distinctions" class="py-16 hairline-b zazen-block-wrapper zazen-draggable" data-section-id="distinctions">
         <!-- Hover Controls -->
         <div class="zazen-hover-tools absolute top-4 right-0 flex items-center gap-1 z-10 select-none">
           <span class="px-2 py-0.5 rounded bg-stone-900 border border-stone-800 text-[10px] font-mono text-stone-400">⋮⋮ Drag Section</span>
@@ -604,10 +628,10 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div class="lg:col-span-4">
-            <span class="font-mono text-xs uppercase tracking-widest text-zaccent block mb-2">03 / Distinction</span>
-            <h2 class="font-heading text-3xl sm:text-4xl text-ztext font-light">Patents &amp; Honors</h2>
+            <span class="font-mono text-xs uppercase tracking-widest text-zaccent block mb-2">04 / Distinction</span>
+            <h2 class="font-heading text-3xl sm:text-4xl text-ztext font-light">Patents &amp; Guild Honors</h2>
             <p class="mt-3 text-sm text-zmuted leading-relaxed">
-              Recognized by peer institutions, global awards bodies, journalistic foundations, and patent authorities.
+              Recognized by artisanal shaper guilds, marine innovation forums, and coastal sustainability foundations.
             </p>
           </div>
 
@@ -615,7 +639,7 @@
             <!-- Featured Patent Card -->
             <div class="p-6 rounded-lg bg-zelevated hairline-all shadow-sm">
               <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 font-mono text-xs text-zmuted pb-3 hairline-b">
-                <span class="text-zaccent font-medium uppercase tracking-wider">United States Patent</span>
+                <span class="text-zaccent font-medium uppercase tracking-wider">United States Patent &amp; Hydrodynamics</span>
                 <span id="patent-date">Patent No. 12455773 • Issued Oct 28, 2025</span>
               </div>
               <h3 id="patent-title" class="font-heading text-2xl text-ztext mt-4 mb-2 font-light zazen-editable" data-bind="patent.title">
@@ -626,14 +650,14 @@
 
             <!-- Awards & Honors Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="honors-container">
-              <!-- Injected via __ZAZEN_DATA -->
+              <!-- Injected via __ZAZEN_DATA.honors -->
             </div>
           </div>
         </div>
       </section>
 
-      <!-- SECTION 04: CIVIC LEADERSHIP & GIVING BACK -->
-      <section id="civic" class="py-16 hairline-b zazen-block-wrapper zazen-draggable" data-section-id="civic">
+      <!-- SECTION 05: OCEAN STEWARDSHIP & COMMUNITY -->
+      <section id="community" class="py-16 hairline-b zazen-block-wrapper zazen-draggable" data-section-id="community">
         <!-- Hover Controls -->
         <div class="zazen-hover-tools absolute top-4 right-0 flex items-center gap-1 z-10 select-none">
           <span class="px-2 py-0.5 rounded bg-stone-900 border border-stone-800 text-[10px] font-mono text-stone-400">⋮⋮ Drag Section</span>
@@ -642,59 +666,42 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div class="lg:col-span-4">
-            <span class="font-mono text-xs uppercase tracking-widest text-zaccent block mb-2">04 / Community</span>
-            <h2 class="font-heading text-3xl sm:text-4xl text-ztext font-light">Civic Leadership &amp; Service</h2>
+            <span class="font-mono text-xs uppercase tracking-widest text-zaccent block mb-2">05 / Conservation</span>
+            <h2 class="font-heading text-3xl sm:text-4xl text-ztext font-light">Ocean Stewardship &amp; Giving Back</h2>
             <p class="mt-3 text-sm text-zmuted leading-relaxed">
-              Committed to public service, community governance, accessible storytelling, and mentoring underrepresented creators.
+              Committed to coastal access preservation, adaptive watercraft building, and introducing youth to ocean craft.
             </p>
           </div>
 
           <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4" id="civic-container">
-            <!-- Injected via __ZAZEN_DATA -->
-          </div>
-        </div>
-      </section>
-
-      <!-- SECTION 05: EDUCATION & CREDENTIALS -->
-      <section id="education" class="py-16 hairline-b zazen-block-wrapper zazen-draggable" data-section-id="education">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          <div class="lg:col-span-4">
-            <span class="font-mono text-xs uppercase tracking-widest text-zaccent block mb-2">05 / Scholarship</span>
-            <h2 class="font-heading text-3xl sm:text-4xl text-ztext font-light">Education</h2>
-            <p class="mt-3 text-sm text-zmuted leading-relaxed">
-              Academic grounding in political science, institutional economics, governance, and business administration.
-            </p>
-          </div>
-
-          <div class="lg:col-span-8 space-y-4" id="education-container">
-            <!-- Injected via __ZAZEN_DATA -->
+            <!-- Injected via __ZAZEN_DATA.civic -->
           </div>
         </div>
       </section>
 
       <!-- DYNAMIC CUSTOM SECTIONS (Added by User) -->
       <div id="custom-sections-container" class="space-y-16">
-        <!-- Dynamically injected components (pullquotes, project cards, etc.) -->
+        <!-- Dynamically injected components (pullquotes, custom blocks) -->
       </div>
 
     </div>
 
-    <!-- CONTACT / COLOPHON SECTION -->
+    <!-- CONTACT & CUSTOM ORDER SECTION -->
     <section id="contact" class="py-20">
       <div class="p-8 sm:p-12 rounded-xl bg-zelevated hairline-all">
         <div class="max-w-2xl">
-          <span class="font-mono text-xs uppercase tracking-widest text-zaccent block mb-2">Inquiries &amp; Collaboration</span>
-          <h2 id="contact-heading" class="font-heading text-4xl sm:text-5xl text-ztext font-light zazen-editable" data-bind="meta.contactHeading">Let’s build something remarkable.</h2>
+          <span class="font-mono text-xs uppercase tracking-widest text-zaccent block mb-2">Bespoke Orders &amp; Studio Inquiries</span>
+          <h2 id="contact-heading" class="font-heading text-4xl sm:text-5xl text-ztext font-light zazen-editable" data-bind="meta.contactHeading">Order a custom shape or visit the shaping bay.</h2>
           <p id="contact-message" class="mt-4 text-zmuted text-base leading-relaxed zazen-editable" data-bind="meta.contactMessage">
-            Open to select board advisory appointments, enterprise product leadership consultations, and high-impact technology initiatives.
+            Our Montauk studio is open Thursday through Sunday. Current custom board turnaround is 4–6 weeks with custom color tint &amp; fin foil consultation.
           </p>
           <div class="mt-8 flex flex-wrap items-center gap-4 font-mono text-xs">
-            <a href="mailto:dean@zazenlabs.com" class="px-5 py-3 rounded bg-ztext text-zbg hover:opacity-90 transition-opacity font-medium">
-              Get in Touch →
+            <a href="mailto:shaper@zazensurf.com" class="px-5 py-3 rounded bg-ztext text-zbg hover:opacity-90 transition-opacity font-medium">
+              Start Custom Order →
             </a>
             <button onclick="window.print()" class="px-5 py-3 rounded hairline-all bg-zsurface/50 text-ztext hover:bg-zsurface transition-colors flex items-center gap-2">
               <i data-lucide="printer" class="w-4 h-4"></i>
-              <span>Print Dossier</span>
+              <span>Print Atelier Spec Sheet</span>
             </button>
           </div>
         </div>
@@ -707,7 +714,7 @@
   <footer class="relative z-10 hairline-t bg-zsurface/60 backdrop-blur-md py-8 px-6 sm:px-10 lg:px-16 text-zmuted text-xs font-mono">
     <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <div>
-        <span id="footer-author">Dean Haddock</span> • <span>Technology Executive Portfolio</span>
+        <span id="footer-author">ZAZEN SURF ATELIER</span> • <span>Montauk &amp; Atlantic Coast</span>
       </div>
       <div class="flex items-center gap-4 text-[11px]">
         <span>Powered by Zazen Builder v3.2.0</span>
@@ -723,309 +730,198 @@
   <script id="__ZAZEN_DATA" type="application/json">
 {
   "meta": {
-    "title": "Dean Haddock — Portfolio & Resume",
-    "author": "Dean Haddock",
+    "title": "Zazen Surf Atelier — Handcrafted Surfboards & Coastal Goods",
+    "author": "ZAZEN SURF ATELIER",
+    "tagline": "Handcrafted Displacement Hulls & Wave Craft",
     "environment": "production",
     "version": "3.2.0",
     "updated": "2026",
-    "palette": "obsidian",
-    "font": "cormorant",
-    "location": "New York & Atlantic Coast • Remote",
-    "status": "Available for Advisory & Leadership",
-    "contactHeading": "Let’s build something remarkable.",
-    "contactMessage": "Open to select board advisory appointments, enterprise product leadership consultations, and high-impact technology initiatives."
+    "palette": "editorial",
+    "font": "newsreader",
+    "location": "Montauk Point & Atlantic Coast • Shaping Bay",
+    "status": "Bay Open • Swell: 5-7ft Clean offshore WNW",
+    "contactHeading": "Order a custom shape or visit the shaping bay.",
+    "contactMessage": "Our Montauk studio is open Thursday through Sunday. Current custom board turnaround is 4–6 weeks with custom color tint & fin foil consultation."
   },
-  "summary": "Empathetic tech leader, systems thinker, creative problem solver and engineer who has built and scaled multiple SaaS platforms in competitive markets. Deep expertise in product strategy, AI, automation, and high-scale technical innovation. Nieman Fellow, Planning Commissioner and entrepreneur.",
+  "summary": "Handcrafted displacement hulls, asymmetric fish, and performance twin fins shaped deliberate for Atlantic swells and cold-water wayfarers. Crafted with bio-epoxy resins, sustainable cedar stringers, and hand-tuned hydrodynamics.",
   "metrics": [
     {
-      "label": "Scale & Impact",
-      "value": "$10M+",
-      "desc": "Enterprise Client Portfolios"
+      "label": "Custom Craft",
+      "value": "480+",
+      "desc": "Bespoke Shapes Handcrafted"
     },
     {
-      "label": "Product Trajectory",
-      "value": "2x+",
-      "desc": "Y1 Financial & Adoption Goals"
+      "label": "Eco-Hydrodynamics",
+      "value": "100%",
+      "desc": "Bio-Resin & Recycled Blanks"
     },
     {
-      "label": "Intellectual Property",
-      "value": "1",
-      "desc": "US Patent Issued (Oct 2025)"
+      "label": "Active Swell",
+      "value": "5-7 FT",
+      "desc": "Clean Offshore Groundswell"
     },
     {
-      "label": "Leadership Tenure",
-      "value": "18+ Yrs",
-      "desc": "SaaS & Systems Engineering"
+      "label": "Shaping Lineage",
+      "value": "14 YRS",
+      "desc": "Atlantic Wave Craft Heritage"
     }
   ],
   "competencies": [
     {
-      "category": "Product & Strategy",
-      "description": "Product Management & Strategy (SaaS, Web & Mobile), Platform, Security, PLG, Pricing & Packaging, AI Integration & Strategy, Stakeholder Relations, Sales"
+      "category": "Hydrodynamic Foiling",
+      "description": "Continuous belly contours, rolled displacement entries, spiral vee exits, and tailored rail volumes tuned specifically for punchy beach breaks and long peeling point breaks."
     },
     {
-      "category": "Leadership",
-      "description": "Product & Engineering Team Leadership, Mentoring, Cross-functional Culture & Collaboration, Process Improvement, Efficiency, Mission & Vision, AI Adoption"
+      "category": "Artisanal Glassing",
+      "description": "Double 4oz & 6oz S-glass cloth, single-batch opaque resin pigments, acid swirl marble laminations, and mirror gloss polish hand-finished in our dust-free curing bay."
     },
     {
-      "category": "Technical",
-      "description": "Full-Stack Development (Node.js, LAMP, JS, UX), AI & Automation, Cloud (AWS, GCP, Azure, Linux), SDLC, Systems Engineering, Security, Agentic Coding & Prototyping"
+      "category": "Regenerative Materiality",
+      "description": "SuperSap plant-derived epoxy matrices, recycled high-density EPS cores, sustainably harvested Pacific red cedar stringers, and organic linen deck reinforcements."
+    }
+  ],
+  "boards": [
+    {
+      "model": "The Atlantic Hull 6'8\"",
+      "type": "Midlength Displacement Hull",
+      "dims": "6'8\" × 21 1/4\" × 2 3/4\" • 42.5L",
+      "fin": "Single Box (9.0\" True Ames Greenough Flex)",
+      "resin": "Kelp Moss Green Resin Tint • Gloss Polish",
+      "price": "$1,150",
+      "status": "In Stock"
+    },
+    {
+      "model": "The Montauk Keel 5'6\"",
+      "type": "Traditional Twin Keel Fish",
+      "dims": "5'6\" × 20 3/4\" × 2 7/16\" • 31.8L",
+      "fin": "Glass-on Marine Plywood Keels",
+      "resin": "Amber Ochre Tint with Black Pinlines",
+      "price": "$980",
+      "status": "Made to Order"
+    },
+    {
+      "model": "The Point Glide 9'4\"",
+      "type": "Traditional Noserider Log",
+      "dims": "9'4\" × 23\" × 3\" • 74.0L",
+      "fin": "Single 10.5\" Pivot Fin Box",
+      "resin": "Double 6oz Volan Deck Patch • Matte Sanded",
+      "price": "$1,420",
+      "status": "In Stock"
+    },
+    {
+      "model": "The Hurricane Step-Up 7'0\"",
+      "type": "Round Pin Heavy Water Semi-Gun",
+      "dims": "7'0\" × 19 3/4\" × 2 7/8\" • 43.0L",
+      "fin": "Quad / 5-Fin Convertible Futures",
+      "resin": "Smoke Grey Opaque with Carbon Rail Wrap",
+      "price": "$1,090",
+      "status": "Shaping Queue"
     }
   ],
   "experience": [
     {
-      "company": "CONTENTSTACK",
-      "location": "Remote",
-      "tenure": "May 2022 - Present",
+      "company": "ZAZEN SURF ATELIER",
+      "location": "Montauk, NY",
+      "tenure": "2018 - Present",
       "roles": [
         {
-          "title": "Group Product Manager, Platform & Hosting",
-          "period": "2025 - Present",
+          "title": "Master Shaper & Studio Director",
+          "period": "2018 - Present",
           "highlights": [
-            "Led platform, hosting, data engineering, security & access, administration, and provisioning teams.",
-            "Delivered SaaS products and core platform features, including APIs, analytics, hosting, notifications, administration, global navigation, CLIs, MCPs, RBAC and security tools.",
-            "Executed the product and technical change strategy from single- to multi-product SaaS platform."
-          ]
-        },
-        {
-          "title": "Sr. Product Manager, Platform & Hosting",
-          "period": "2024 - 2025",
-          "highlights": [
-            "Launched a new multi-cloud, multi-region, enterprise-grade Node web application hosting platform.",
-            "Exceeded financial and user adoption goals by over 2x in Y1 with continued sustained growth.",
-            "Partnered with UX, engineering, support and sales teams to align efforts and drive successful product launches and customer outcomes."
-          ]
-        },
-        {
-          "title": "Sr. Product Manager, Plans & Packaging",
-          "period": "2022 - 2024",
-          "highlights": [
-            "Led pricing and packaging strategies to transform the business from a single-product to a multi-product SaaS model.",
-            "Simplified complex back-of-house provisioning systems, data layer architecture and observability for customers and internal teams.",
-            "Co-founded Contentstack's Internal Advisory Board and Toastmasters Club to foster cross-team collaboration.",
-            "Recognized with the Contentstack Care award for outstanding collaboration with customers and colleagues."
+            "Engineered proprietary displacement hull contours yielding 30% higher trim speed in cold-water Atlantic swell regimes.",
+            "Formulated zero-VOC bio-resin glassing standards now adopted across regional artisan shaping collectives.",
+            "Delivered over 450 custom shapes to surfers across Long Island, New England, California, and France."
           ]
         }
       ]
     },
     {
-      "company": "10UP, INC.",
-      "location": "Remote",
-      "tenure": "2019 - 2022",
+      "company": "ATLANTIC GLASSING GUILD",
+      "location": "Narragansett, RI",
+      "tenure": "2014 - 2018",
       "roles": [
         {
-          "title": "Associate Director, New Client Strategy",
-          "period": "2019 - 2022",
+          "title": "Head Lamination Specialist",
+          "period": "2014 - 2018",
           "highlights": [
-            "Built and managed a $10M+ portfolio of technology projects for enterprises and scale-ups, including Blackstone, Microsoft, Hilton, VMware, T-Mobile, Groundworks, Samsung, Merck, Glazer Vision Foundation and more.",
-            "Led digital and product strategies across all SDLC phases to deliver top-quality results for major, high-profile initiatives.",
-            "Crafted strategy presentations, detailed project budgets, estimates and scopes of work that succeeded on time, budget and goal.",
-            "Reviewed contracts, responded to RFPs and navigated procurement processes for new clients and partners, including government agencies.",
-            "Managed, hired, mentored and led diverse staff and technical product teams."
+            "Pioneered custom resin-tint layering, multi-tone acid swirls, and high-tensile volan cloth reinforcements.",
+            "Trained junior glassers and managed production output for East Coast custom shapers.",
+            "Implemented closed-loop acetone recycling reducing workshop chemical waste by over 60%."
           ]
         }
       ]
     },
     {
-      "company": "STORYCORPS, INC.",
-      "location": "Brooklyn, NY",
-      "tenure": "2008 - 2019",
+      "company": "OUTER BANKS BOARDWORKS",
+      "location": "Cape Hatteras, NC",
+      "tenure": "2012 - 2014",
       "roles": [
         {
-          "title": "Managing Director, Digital & Technical Innovation",
-          "period": "2015 - 2019",
+          "title": "Apprentice Shaper & Fin Foiler",
+          "period": "2012 - 2014",
           "highlights": [
-            "Led StoryCorps' digital organization, achieving recognition by the Knight Foundation, Nieman Foundation for Journalism, Webby Awards and more.",
-            "Spearheaded the 2015 TED Prize project for the StoryCorps App & Archive SaaS platform, creating the world's largest oral history archive.",
-            "Presented at conferences, explored new partnerships and published thought leadership pieces discussing industry technology solutions.",
-            "Cultivated strategic relationships with Apple, Google, Amazon, the United States Library of Congress, and multiple INGOs.",
-            "Founded a diverse Digital & Technical Innovation team and established a pipeline from local colleges to recruit and train promising developers."
-          ]
-        },
-        {
-          "title": "Director, Web & Information Technology",
-          "period": "2012 - 2015",
-          "highlights": [
-            "Developed and led StoryCorps' organization-wide digital strategy in close collaboration with executives, board members and directors.",
-            "Crafted and implemented product-led growth (PLG) motions that more than doubled user engagement and user-generated content (UGC).",
-            "Redesigned and relaunched the StoryCorps.org website and implemented multiple, high-conversion marketing microsites."
-          ]
-        },
-        {
-          "title": "Sr. Manager, Information Technology",
-          "period": "2010 - 2012",
-          "highlights": [
-            "Drafted and maintained annual budgets for StoryCorps' digital and IT teams and special projects.",
-            "Built and led StoryCorps' data and reporting team, centrally managing all data analysis and key reports for the organization's many programs and initiatives.",
-            "Coauthored award-winning grants for organizations like the Knight Foundation, TED, and the Nieman Foundation for Journalism at Harvard University."
-          ]
-        },
-        {
-          "title": "Manager, Information Technology",
-          "period": "2008 - 2010",
-          "highlights": [
-            "Led organization-wide Salesforce migration and nurtured new SaaS product features like StoryCorps Communities pages, AI/ML transcription at scale, ElasticSearch and WebRTC.",
-            "Designed, built and launched Facebook App integrations and other campaigns to engage and grow StoryCorps' audience.",
-            "Centralized business and programs systems, migrating from multiple legacy platforms, like FileMaker Pro and physical storage to modern, enterprise-grade cloud services, like AWS.",
-            "Developed, tested and maintained StoryCorps' first redundant disaster recovery plan and procured all company hardware, software, and networking systems."
-          ]
-        }
-      ]
-    },
-    {
-      "company": "GOOGLE'S 30 WEEKS STARTUP INCUBATOR",
-      "location": "New York, NY",
-      "tenure": "2016",
-      "roles": [
-        {
-          "title": "Engineer in Residence, Instructor",
-          "period": "2016",
-          "highlights": [
-            "Developed and taught a robust web product education curriculum, from hardware and software to IoT solutions.",
-            "Advised and collaborated with 30 Weeks leadership on program structure and sustainability.",
-            "Mentored designer-founders on technical strategy, revenue models, and scalability for their first product launches.",
-            "Advised startup founders on digital product strategy, revenue strategy, sustainability, scalability, audience growth and user retention.",
-            "Coached designer-founders as they brought their first products to market and launched their first businesses."
-          ]
-        }
-      ]
-    },
-    {
-      "company": "JOHN M. FLOYD & ASSOCIATES",
-      "location": "Remote",
-      "tenure": "2005 - 2008",
-      "roles": [
-        {
-          "title": "Assistant Manager, Information Technology",
-          "period": "2005 - 2008",
-          "highlights": [
-            "Designed and implemented major infrastructure expansion to support increase in personnel and increase impact of sales and implementation teams.",
-            "Architected and implemented virtualized network environments, workflow management systems, and disaster recovery strategies for the financial sector in a remote environment.",
-            "Contributed to on-prem product strategy with a focus on scalability and centralization in a highly regulated market."
+            "Hand-foiled custom marine plywood keel fins and glass-on flex fins from raw fiberglass blanks.",
+            "Milled and planed rough blanks, master rocker jigs, and template cutting under master craftsmen."
           ]
         }
       ]
     }
   ],
   "patent": {
-    "title": "Systems and Methods for Allocating System Resources Using Dual-Limit Account Provisioning",
-    "number": "12455773",
-    "date": "October 28, 2025",
-    "summary": "Dual-limit provisioning engine allowing dynamic tier quotas, soft/hard threshold management, and resource safety segregation across multitenant cloud architectures."
+    "title": "Hydrodynamic Variable-Rocker Rails with Dual Asymmetric Release",
+    "number": "US 12,455,773",
+    "date": "October 2025",
+    "summary": "Asymmetric rail foil design permitting high-speed hold on backside bottom turns while releasing cavitation freely on frontside cutbacks."
   },
   "honors": [
     {
-      "award": "Most High-5s Award",
-      "org": "Contentstack",
-      "year": "2026"
+      "award": "Best Custom Hull & Craftsmanship",
+      "org": "East Coast Shapers Guild Showcase",
+      "year": "2025"
     },
     {
-      "award": "Care Award",
-      "org": "Contentstack",
+      "award": "Sustainable Marine Craft Distinction",
+      "org": "Surfrider Coastal Innovation Forum",
+      "year": "2024"
+    },
+    {
+      "award": "Artisanal Fellowship in Wave Dynamics",
+      "org": "International Surf Craft Collective",
       "year": "2023"
-    },
-    {
-      "award": "Member",
-      "org": "Twilio Startups",
-      "year": "2020"
-    },
-    {
-      "award": "Nominee & Honoree",
-      "org": "The Webby Awards: StoryCorps App & Website",
-      "year": "2016"
-    },
-    {
-      "award": "Best Apps for Teaching & Learning",
-      "org": "American Association of School Librarians",
-      "year": "2016"
-    },
-    {
-      "award": "Visiting Fellow",
-      "org": "Nieman Foundation for Journalism at Harvard University",
-      "year": "2015"
-    },
-    {
-      "award": "Judge",
-      "org": "The Webby Awards",
-      "year": "2015 - Present"
-    },
-    {
-      "award": "Prototype Award",
-      "org": "Knight Foundation",
-      "year": "2014"
-    },
-    {
-      "award": "Google Fellow",
-      "org": "Personal Democracy Forum",
-      "year": "2010, 2012"
-    },
-    {
-      "award": "Chairperson",
-      "org": "Texas Leadership Forum",
-      "year": "2007"
     }
   ],
   "civic": [
     {
-      "role": "Planning Commissioner",
-      "org": "City of Jacksonville Beach",
-      "status": "Current"
+      "role": "Beach Steward & Advisory Trustee",
+      "org": "Atlantic Coastal Preservation Fund",
+      "status": "Active"
     },
     {
-      "role": "Technology Advisor",
-      "org": "Gordon Education Initiatives",
-      "status": "Current"
-    },
-    {
-      "role": "Cofounder",
-      "org": "Secret Telephone Storytelling Project",
-      "status": "Project"
-    },
-    {
-      "role": "Cofounder & Full Stack Developer",
-      "org": "People Phone",
-      "status": "Project"
-    },
-    {
-      "role": "Technology Advisor",
-      "org": "Reach the World",
-      "status": "Advisory"
-    },
-    {
-      "role": "Surf Coach",
-      "org": "Life Rolls On",
+      "role": "Volunteer Surf Coach & Equipment Builder",
+      "org": "Life Rolls On Adaptive Surfing",
       "status": "Community"
     },
     {
-      "role": "Member",
-      "org": "61 Franklin Street Community Garden",
-      "status": "Community"
-    },
-    {
-      "role": "Surf Mentor",
-      "org": "Stoked Mentoring, Inc.",
+      "role": "Youth Surf Mentor",
+      "org": "Stoked Mentoring New York",
       "status": "Community"
     }
   ],
   "education": [
     {
-      "degree": "MS, Political Science (Institutional Economics)",
-      "institution": "University of North Texas"
+      "degree": "Advanced Fluid Dynamics & Marine Materials",
+      "institution": "Rhode Island Marine Trades Guild"
     },
     {
-      "degree": "BA, Political Science",
-      "institution": "University of North Texas"
-    },
-    {
-      "degree": "AA, Business Administration",
-      "institution": "Tarrant County College"
+      "degree": "Traditional Timber & Composite Joinery",
+      "institution": "Northwoods Wooden Boatbuilding Institute"
     }
   ],
   "customBlocks": [
     {
       "type": "quote",
-      "quote": "Great architecture isn't just about code—it's about empathy, resilient systems, and giving people the autonomy to build with purpose.",
-      "author": "Dean Haddock"
+      "quote": "A great surfboard is not merely an object of utility—it is an instrument of harmony between human intent and the living geometry of the ocean.",
+      "author": "Zazen Surf Atelier • Montauk Point"
     }
   ]
 }
@@ -1230,19 +1126,19 @@
 
         // Header / Masthead
         const heroTitle = document.getElementById('hero-title');
-        if (heroTitle) heroTitle.textContent = d.meta?.author || 'Dean Haddock';
+        if (heroTitle) heroTitle.textContent = d.meta?.author || 'ZAZEN SURF ATELIER';
 
         const heroSubtitle = document.getElementById('hero-subtitle');
         if (heroSubtitle) heroSubtitle.textContent = d.summary || '';
 
         const siteLocation = document.getElementById('site-location');
-        if (siteLocation) siteLocation.textContent = d.meta?.location || 'New York & Atlantic Coast • Remote';
+        if (siteLocation) siteLocation.textContent = d.meta?.location || 'Montauk Point & Atlantic Coast';
 
         const siteStatus = document.getElementById('site-status');
-        if (siteStatus) siteStatus.textContent = d.meta?.status || 'Available for Advisory & Leadership';
+        if (siteStatus) siteStatus.textContent = d.meta?.status || 'Bay Open';
 
         const footerAuthor = document.getElementById('footer-author');
-        if (footerAuthor) footerAuthor.textContent = d.meta?.author || 'Dean Haddock';
+        if (footerAuthor) footerAuthor.textContent = d.meta?.author || 'ZAZEN SURF ATELIER';
 
         const patentTitle = document.getElementById('patent-title');
         if (patentTitle && d.patent?.title) patentTitle.textContent = d.patent.title;
@@ -1259,13 +1155,13 @@
         const contactMessage = document.getElementById('contact-message');
         if (contactMessage && d.meta?.contactMessage) contactMessage.textContent = d.meta.contactMessage;
 
-        // Repeatable Sections
+        // Sections
         this.renderMetrics();
+        this.renderBoards();
         this.renderCompetencies();
         this.renderExperience();
         this.renderHonors();
         this.renderCivic();
-        this.renderEducation();
         this.renderCustomBlocks();
 
         if (window.lucide) lucide.createIcons();
@@ -1280,6 +1176,33 @@
               <span class="block font-mono text-xs text-zmuted uppercase tracking-wider zazen-editable" ${editableAttr} data-bind="metrics.${i}.label">${m.label}</span>
               <span class="block font-heading text-3xl sm:text-4xl text-ztext mt-1 zazen-editable" ${editableAttr} data-bind="metrics.${i}.value">${m.value}</span>
               <span class="block text-xs text-zmuted mt-0.5 zazen-editable" ${editableAttr} data-bind="metrics.${i}.desc">${m.desc}</span>
+            </div>
+          `).join('');
+        }
+      },
+
+      renderBoards() {
+        const quiverContainer = document.getElementById('quiver-container');
+        if (quiverContainer && this.data.boards) {
+          const editableAttr = this.isAuthoring ? 'contenteditable="true"' : '';
+          quiverContainer.innerHTML = this.data.boards.map((b, i) => `
+            <div class="p-6 rounded-lg bg-zelevated hairline-all flex flex-col justify-between hover:border-zaccent/40 transition-colors zazen-block-wrapper">
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-2">
+                  <span class="font-mono text-xs text-zaccent uppercase tracking-wider zazen-editable" ${editableAttr} data-bind="boards.${i}.type">${b.type}</span>
+                  <span class="font-mono text-[10px] uppercase px-2 py-0.5 rounded bg-zsurface hairline-all text-zmuted zazen-editable" ${editableAttr} data-bind="boards.${i}.status">${b.status}</span>
+                </div>
+                <h3 class="font-heading text-2xl text-ztext font-medium mb-2 zazen-editable" ${editableAttr} data-bind="boards.${i}.model">${b.model}</h3>
+                <div class="space-y-1 text-xs text-zmuted mb-4 font-mono">
+                  <div class="zazen-editable" ${editableAttr} data-bind="boards.${i}.dims">${b.dims}</div>
+                  <div class="text-ztext zazen-editable" ${editableAttr} data-bind="boards.${i}.fin">Fin: ${b.fin}</div>
+                  <div class="zazen-editable" ${editableAttr} data-bind="boards.${i}.resin">Resin: ${b.resin}</div>
+                </div>
+              </div>
+              <div class="pt-4 border-t border-zborder/60 flex items-center justify-between font-mono text-xs">
+                <span class="font-heading text-xl text-ztext font-medium zazen-editable" ${editableAttr} data-bind="boards.${i}.price">${b.price}</span>
+                <a href="#contact" class="hover:text-zaccent transition-colors flex items-center gap-1">Inquire Shape →</a>
+              </div>
             </div>
           `).join('');
         }
@@ -1370,19 +1293,6 @@
         }
       },
 
-      renderEducation() {
-        const eduContainer = document.getElementById('education-container');
-        if (eduContainer && this.data.education) {
-          const editableAttr = this.isAuthoring ? 'contenteditable="true"' : '';
-          eduContainer.innerHTML = this.data.education.map((e, i) => `
-            <div class="p-5 rounded-lg bg-zelevated hairline-all flex flex-col sm:flex-row sm:items-center justify-between gap-2 zazen-block-wrapper">
-              <span class="text-sm font-medium text-ztext zazen-editable" ${editableAttr} data-bind="education.${i}.degree">${e.degree}</span>
-              <span class="font-mono text-xs text-zmuted zazen-editable" ${editableAttr} data-bind="education.${i}.institution">${e.institution}</span>
-            </div>
-          `).join('');
-        }
-      },
-
       renderCustomBlocks() {
         const container = document.getElementById('custom-sections-container');
         if (!container) return;
@@ -1404,18 +1314,6 @@
                 </blockquote>
               </section>
             `;
-          } else if (b.type === 'project') {
-            return `
-              <section class="py-12 hairline-b zazen-block-wrapper zazen-draggable" ${dragAttr}>
-                <div class="p-6 sm:p-8 rounded-xl bg-zelevated hairline-all">
-                  <div class="flex flex-wrap gap-2 mb-3">
-                    ${(b.tags || []).map(t => `<span class="font-mono text-[10px] uppercase px-2 py-0.5 rounded bg-zsurface hairline-all text-zmuted">${t}</span>`).join('')}
-                  </div>
-                  <h3 class="font-heading text-2xl sm:text-3xl text-ztext font-light mb-2 zazen-editable" ${editableAttr} data-bind="customBlocks.${i}.title">${b.title}</h3>
-                  <p class="text-sm text-zmuted leading-relaxed zazen-editable" ${editableAttr} data-bind="customBlocks.${i}.summary">${b.summary}</p>
-                </div>
-              </section>
-            `;
           }
           return '';
         }).join('');
@@ -1424,25 +1322,35 @@
       // INLINE EDITING: Two-Way Data Binding
       bindInlineEditing() {
         if (!this.isAuthoring) return;
+
         document.querySelectorAll('.zazen-editable[data-bind]').forEach(el => {
           el.setAttribute('contenteditable', 'true');
-          el.addEventListener('input', () => {
+
+          el.oninput = () => {
             const path = el.getAttribute('data-bind');
             const value = el.innerText.trim();
-            this.setObjectValue(this.data, path, value);
+            this.setDeepValue(this.data, path, value);
             this.scheduleAutoSave();
-          });
+          };
+
+          el.onkeydown = (e) => {
+            if (e.key === 'Enter' && !e.shiftKey && !el.classList.contains('allow-multiline')) {
+              e.preventDefault();
+              el.blur();
+            }
+          };
         });
       },
 
-      setObjectValue(obj, path, value) {
-        const parts = path.split('.');
-        let curr = obj;
-        for (let i = 0; i < parts.length - 1; i++) {
-          if (!curr[parts[i]]) curr[parts[i]] = {};
-          curr = curr[parts[i]];
+      setDeepValue(obj, path, value) {
+        const keys = path.split('.');
+        let current = obj;
+        for (let i = 0; i < keys.length - 1; i++) {
+          const k = keys[i];
+          if (!current[k]) current[k] = {};
+          current = current[k];
         }
-        curr[parts[parts.length - 1]] = value;
+        current[keys[keys.length - 1]] = value;
       },
 
       // DRAG AND DROP: Section & Card Reordering
@@ -1496,7 +1404,7 @@
         });
       },
 
-      // COMPONENT LIBRARY: Add Pre-styled Components
+      // COMPONENT LIBRARY: Add Pre-styled Surf Atelier Components
       openComponentDrawer() {
         document.getElementById('zazen-component-drawer')?.classList.remove('hidden');
         if (window.lucide) lucide.createIcons();
@@ -1509,26 +1417,38 @@
       addComponent(type) {
         this.closeComponentDrawer();
 
-        if (type === 'metric') {
+        if (type === 'board') {
+          if (!this.data.boards) this.data.boards = [];
+          this.data.boards.push({
+            model: "The Coldwater Hull 7'2\"",
+            type: "Custom Displacement Hull",
+            dims: "7'2\" × 21 1/2\" × 2 7/8\" • 46.0L",
+            fin: "Single 9.5\" Volan Flex Fin",
+            resin: "Seafoam Green Tint with Sanded Gloss",
+            price: "$1,180",
+            status: "Made to Order"
+          });
+          this.renderBoards();
+        } else if (type === 'metric') {
           if (!this.data.metrics) this.data.metrics = [];
           this.data.metrics.push({
-            label: "New Metric",
-            value: "100%",
-            desc: "Custom impact measurement metric"
+            label: "Wave Period",
+            value: "14 SEC",
+            desc: "Long-Period Atlantic Swell"
           });
           this.renderMetrics();
         } else if (type === 'experience') {
           if (!this.data.experience) this.data.experience = [];
           this.data.experience.unshift({
-            company: "ENTERPRISE SAAS CO.",
-            location: "New York, NY",
+            company: "EAST COAST SHAPERS GUILD",
+            location: "Rhode Island & NY",
             tenure: "2026 - Present",
             roles: [{
-              title: "Chief Product Officer / VP Engineering",
+              title: "Master Shaper in Residence",
               period: "2026 - Present",
               highlights: [
-                "Led global platform transformation and multi-product architecture.",
-                "Delivered enterprise-scale SaaS capabilities and accelerated adoption."
+                "Leading regional displacement hull design symposiums and bio-composite workshops.",
+                "Partnering with ocean scientists to test sustainable bio-epoxy resilience in sub-zero water temperatures."
               ]
             }]
           });
@@ -1537,42 +1457,33 @@
           if (!this.data.customBlocks) this.data.customBlocks = [];
           this.data.customBlocks.push({
             type: "quote",
-            quote: "Architecture is the deliberate organization of simplicity in a complex world.",
-            author: this.data.meta?.author || "Dean Haddock"
+            quote: "To shape a hull is to carve an invitation for water to glide with zero resistance.",
+            author: "Zazen Surf Atelier • Montauk Bay"
           });
           this.renderCustomBlocks();
         } else if (type === 'honor') {
           if (!this.data.honors) this.data.honors = [];
           this.data.honors.unshift({
-            award: "Excellence in Systems Leadership",
-            org: "Technology Innovation Forum",
+            award: "Excellence in Sustainable Wave Craft",
+            org: "International Marine Design Forum",
             year: "2026"
           });
           this.renderHonors();
         } else if (type === 'civic') {
           if (!this.data.civic) this.data.civic = [];
           this.data.civic.unshift({
-            role: "Board Member & Advisory Trustee",
-            org: "Civic Technology Alliance",
-            status: "Current"
+            role: "Coastal Trustee",
+            org: "Montauk Dune & Beach Conservancy",
+            status: "Active"
           });
           this.renderCivic();
-        } else if (type === 'project') {
-          if (!this.data.customBlocks) this.data.customBlocks = [];
-          this.data.customBlocks.push({
-            type: "project",
-            title: "Autonomous Agentic Deployment Pipeline",
-            tags: ["TypeScript", "Node.js", "MCP", "Systems Design"],
-            summary: "Zero-dependency cloud distribution pipeline connecting browser-based visual creation tools with enterprise hosting platforms."
-          });
-          this.renderCustomBlocks();
         }
 
         this.scheduleAutoSave();
         this.bindInlineEditing();
       },
 
-      // Mandate 4: Pure Clean HTML Extraction (Scrubbing Engine)
+      // Pure Clean HTML Extraction (Scrubbing Engine)
       getCleanHtml(htmlString) {
         const parser = new DOMParser();
         const doc = parser.parseFromString(htmlString || document.documentElement.outerHTML, 'text/html');
@@ -1635,8 +1546,8 @@
         this.buildPureZip().then(blob => {
           const a = document.createElement('a');
           a.href = URL.createObjectURL(blob);
-          const name = (this.data.meta?.author || 'dean-haddock').toLowerCase().replace(/\s+/g, '-');
-          a.download = `${name}-portfolio-production.zip`;
+          const name = (this.data.meta?.author || 'zazen-surf-atelier').toLowerCase().replace(/\s+/g, '-');
+          a.download = `${name}-production.zip`;
           a.click();
         });
       },
@@ -1648,7 +1559,7 @@
           return;
         }
 
-        const defaultMsg = `feat: update site via Zazen Builder (${new Date().toLocaleTimeString()})`;
+        const defaultMsg = `feat: update surf atelier site via Zazen Builder (${new Date().toLocaleTimeString()})`;
         const message = prompt('Enter commit message (will commit & push to GitHub):', defaultMsg);
         if (message === null) return;
 
@@ -1688,7 +1599,7 @@
       },
 
       generateMcpPrompt(provider = 'universal') {
-        const project = (this.data.meta?.author || 'dean-haddock').toLowerCase().replace(/\s+/g, '-') + '-portfolio';
+        const project = (this.data.meta?.author || 'zazen-surf-atelier').toLowerCase().replace(/\s+/g, '-') + '-site';
         const env = this.data.meta?.environment || 'production';
         const cleanIndexHtml = this.getCleanHtml();
 
@@ -1697,7 +1608,7 @@
           'zazen.config.json': JSON.stringify(this.data, null, 2)
         };
 
-        return `Deploy this static site to ${provider.toUpperCase()} using your active hosting MCP tool.
+        return `Deploy this static surf atelier site to ${provider.toUpperCase()} using your active hosting MCP tool.
 
 Project: "${project}"
 Environment: "${env}"
@@ -1717,7 +1628,7 @@ Instructions for Agent:
 
       // Tier 3: Host / MCP Deploy Handshake
       async handleMcpDeploy(provider = 'universal') {
-        const project = (this.data.meta?.author || 'dean-haddock').toLowerCase().replace(/\s+/g, '-') + '-portfolio';
+        const project = (this.data.meta?.author || 'zazen-surf-atelier').toLowerCase().replace(/\s+/g, '-') + '-site';
         const cleanIndexHtml = this.getCleanHtml();
 
         const files = {
@@ -1753,7 +1664,7 @@ Instructions for Agent:
 
         const prompt = this.generateMcpPrompt(provider);
         try {
-          await navigator.clipboard.writeText(`Deploy my Zazen site to ${provider}. State: ${JSON.stringify(this.data)}`);
+          await navigator.clipboard.writeText(`Deploy my Zazen surf site to ${provider}. State: ${JSON.stringify(this.data)}`);
         } catch (_) {}
 
         if (panel && textarea) {
