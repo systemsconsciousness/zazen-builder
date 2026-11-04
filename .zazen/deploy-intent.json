@@ -1,10 +1,11 @@
 {
-  "provider": "vercel",
+  "provider": "contentstack-launch",
   "project": "dean-haddock-portfolio",
-  "timestamp": "2026-11-04T02:47:53.727Z",
+  "timestamp": "2026-11-04T02:51:38.359Z",
   "outputDir": "dist",
   "files": [
-    "index.html"
+    "index.html",
+    "zazen.config.json"
   ],
-  "agentCommand": "deploy to vercel"
+  "agentCommand": "deploy to contentstack-launch"
 }
