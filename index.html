@@ -414,7 +414,7 @@
           <i data-lucide="check-circle-2" class="w-4 h-4 shrink-0 text-emerald-400 mt-0.5"></i>
           <div>
             <span class="font-medium block mb-0.5">Build ready for deployment!</span>
-            <span id="mcp-agent-instructions">Switch to Antigravity and simply type: <strong class="text-emerald-200 font-mono">"deploy"</strong></span>
+            <span id="mcp-agent-instructions">Switch to your AI agent and simply type: <strong class="text-emerald-200 font-mono">"deploy"</strong></span>
           </div>
         </div>
         <textarea id="mcp-prompt-textarea" readonly class="w-full h-24 bg-stone-950 border border-stone-800 rounded p-2 text-[10px] font-mono text-stone-400 focus:outline-none select-all"></textarea>
@@ -1487,7 +1487,7 @@ Instructions for Agent:
             if (panel && textarea) {
               panel.classList.remove('hidden');
               if (noticeText) {
-                noticeText.innerHTML = `Clean build exported to <strong class="text-amber-300 font-mono">./dist</strong>.<br>Switch to Antigravity and say: <strong class="text-emerald-200 font-mono">"deploy to ${provider}"</strong>`;
+                noticeText.innerHTML = `Clean build exported to <strong class="text-amber-300 font-mono">./dist</strong>.<br>Switch to your AI agent and say: <strong class="text-emerald-200 font-mono">"deploy to ${provider}"</strong>`;
               }
               textarea.value = `Exported to ./dist\nManifest: .zazen/deploy-intent.json\nAgent Command: "deploy to ${provider}"`;
             }
