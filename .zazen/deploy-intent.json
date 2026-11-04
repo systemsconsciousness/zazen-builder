@@ -1,0 +1,10 @@
+{
+  "provider": "vercel",
+  "project": "dean-haddock-portfolio",
+  "timestamp": "2026-11-04T02:47:53.727Z",
+  "outputDir": "dist",
+  "files": [
+    "index.html"
+  ],
+  "agentCommand": "deploy to vercel"
+}

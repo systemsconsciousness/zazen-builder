@@ -129,9 +129,12 @@
         <span class="text-stone-500 font-normal">v3.1.0</span>
       </div>
 
-      <div class="hidden sm:flex items-center gap-1 pl-3 border-l border-stone-800 text-stone-400">
+      <div class="hidden sm:flex items-center gap-2 pl-3 border-l border-stone-800 text-stone-400">
         <span id="zazen-bridge-status" class="text-[10px] font-mono px-2 py-0.5 rounded bg-stone-800/80 text-stone-300 border border-stone-700/60">
           ○ Static Preview
+        </span>
+        <span id="zazen-save-status" class="text-[10px] font-mono text-stone-400">
+          ✓ Synced
         </span>
       </div>
     </div>
@@ -155,19 +158,22 @@
       </div>
     </div>
 
-    <!-- Right Controls: State & Production Exports -->
+    <!-- Right Controls: 3-Tier Universal Deployment Actions -->
     <div class="flex items-center gap-1.5">
-      <button onclick="Zazen.exportState()" class="hidden md:inline-flex items-center gap-1 px-2.5 py-1 rounded bg-stone-900 hover:bg-stone-800 text-stone-300 border border-stone-800 transition-colors" title="Export zazen-state.json">
-        <i data-lucide="file-json" class="w-3.5 h-3.5"></i>
-        <span>State</span>
-      </button>
-
-      <button onclick="Zazen.downloadZip()" class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-stone-800 hover:bg-stone-700 text-stone-100 border border-stone-700 font-medium transition-colors" title="Download Pure Production ZIP without builder UI">
+      <!-- Tier 1: Instant Production ZIP -->
+      <button onclick="Zazen.downloadZip()" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-stone-900 hover:bg-stone-800 text-stone-300 border border-stone-800 font-medium transition-colors" title="Tier 1: Download Pure Production ZIP">
         <i data-lucide="archive" class="w-3.5 h-3.5 text-amber-400"></i>
-        <span>Pure ZIP</span>
+        <span class="hidden sm:inline">Pure ZIP</span>
       </button>
 
-      <button onclick="Zazen.openDeployModal()" class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-amber-600 hover:bg-amber-500 text-white font-medium shadow-sm transition-colors" title="Open Deploy & MCP Handoff Modal">
+      <!-- Tier 2: 1-Click Git Commit -->
+      <button id="zazen-git-btn" onclick="Zazen.commitToGit()" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-stone-900 hover:bg-stone-800 text-stone-300 border border-stone-800 font-medium transition-colors" title="Tier 2: 1-Click Git Commit">
+        <i data-lucide="git-commit" class="w-3.5 h-3.5 text-emerald-400"></i>
+        <span class="hidden md:inline">Commit to Git</span>
+      </button>
+
+      <!-- Tier 3: Host / MCP Deploy -->
+      <button onclick="Zazen.openDeployModal()" class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-amber-600 hover:bg-amber-500 text-white font-medium shadow-sm transition-colors" title="Tier 3: Deploy to Host / MCP">
         <i data-lucide="rocket" class="w-3.5 h-3.5"></i>
         <span>Deploy</span>
       </button>
@@ -175,9 +181,9 @@
   </aside>
 
   <!-- ============================================================== -->
-  <!-- UNIFIED DEPLOYMENT & MCP MODAL (Scrubbed on Export)             -->
+  <!-- UNIFIED 3-TIER DEPLOYMENT MODAL (Scrubbed on Export)           -->
   <!-- ============================================================== -->
-  <div id="zazen-deploy-modal" class="zazen-builder-ui fixed inset-0 z-[100] bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+  <div id="zazen-deploy-modal" class="zazen-builder-ui fixed inset-0 z-[100] bg-black/75 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-stone-950 border border-stone-800 text-stone-200 rounded-xl max-w-2xl w-full p-6 shadow-2xl relative">
       <button onclick="Zazen.closeDeployModal()" class="absolute top-5 right-5 text-stone-400 hover:text-white p-1 rounded-lg hover:bg-stone-900 transition-colors">
         <i data-lucide="x" class="w-5 h-5"></i>
@@ -185,63 +191,91 @@
 
       <div class="flex items-center gap-2 mb-1">
         <div class="w-2.5 h-2.5 rounded-full bg-amber-500"></div>
-        <span class="font-mono text-xs text-amber-400 uppercase tracking-widest">Production Handoff</span>
+        <span class="font-mono text-xs text-amber-400 uppercase tracking-widest">Universal Deployment Engine</span>
       </div>
-      <h3 class="font-heading text-2xl text-stone-100 font-serif mb-2">Deploy & Export Site</h3>
+      <h3 class="font-heading text-2xl text-stone-100 font-serif mb-2">Deploy Dean Haddock Portfolio</h3>
       <p class="text-stone-400 text-xs leading-relaxed mb-6">
-        All exports generate 100% pure production code. The top toolbar, modals, and builder runtime scripts are automatically scrubbed from the final bundle.
+        Select your deployment tier below. All exports scrub builder controls, leaving pure semantic HTML, responsive typography, and clean configuration.
       </p>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-        <!-- Option 1: Clean ZIP Download -->
-        <div class="p-4 rounded-lg bg-stone-900/80 border border-stone-800 hover:border-stone-700 transition-all flex flex-col justify-between">
-          <div>
-            <div class="flex items-center gap-2 text-stone-100 font-medium text-sm mb-1">
-              <i data-lucide="folder-archive" class="w-4 h-4 text-amber-400"></i>
-              <span>Pure Production ZIP</span>
+      <div class="space-y-3 mb-6">
+        <!-- Tier 1 Card: Universal Pure ZIP -->
+        <div class="p-3.5 rounded-lg bg-stone-900/60 border border-stone-800 flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-md bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shrink-0">
+              <i data-lucide="folder-archive" class="w-4 h-4"></i>
             </div>
-            <p class="text-stone-400 text-xs mb-3">Download scrubbed static bundle (`index.html` + `zazen.config.json`) ready for drag-and-drop on Vercel, Netlify Drop, Cloudflare Pages, S3, or FTP.</p>
+            <div>
+              <span class="block text-sm font-medium text-stone-200">Tier 1: Instant Production ZIP</span>
+              <span class="block text-xs text-stone-400">Zero-setup clean static bundle ready for Vercel Drop, Netlify Drop, Cloudflare, S3, or FTP.</span>
+            </div>
           </div>
-          <button onclick="Zazen.downloadZip()" class="w-full py-2 bg-stone-800 hover:bg-stone-700 text-stone-100 rounded text-xs font-mono tracking-wide transition-colors">
+          <button onclick="Zazen.downloadZip()" class="px-3 py-1.5 bg-stone-800 hover:bg-stone-700 text-stone-100 rounded text-xs font-mono shrink-0 transition-colors">
             Download ZIP
           </button>
         </div>
 
-        <!-- Option 2: 1-Click MCP Prompt Copy -->
-        <div class="p-4 rounded-lg bg-stone-900/80 border border-stone-800 hover:border-stone-700 transition-all flex flex-col justify-between">
-          <div>
-            <div class="flex items-center gap-2 text-stone-100 font-medium text-sm mb-1">
-              <i data-lucide="terminal" class="w-4 h-4 text-emerald-400"></i>
-              <span>MCP Agent Prompt</span>
+        <!-- Tier 2 Card: 1-Click Git Commit -->
+        <div class="p-3.5 rounded-lg bg-stone-900/60 border border-stone-800 flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-md bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+              <i data-lucide="git-branch" class="w-4 h-4"></i>
             </div>
-            <p class="text-stone-400 text-xs mb-3">Generate a structured deployment prompt for your active hosting MCP tool (Vercel, Contentstack Launch, Netlify, Cloudflare).</p>
+            <div>
+              <span class="block text-sm font-medium text-stone-200">Tier 2: 1-Click Git &amp; GitHub Sync</span>
+              <span class="block text-xs text-stone-400" id="zazen-git-status-text">Stage, commit, and sync your latest visual changes directly to the current branch.</span>
+            </div>
           </div>
-          <div class="flex items-center gap-2">
-            <select id="mcp-target-provider" class="bg-stone-950 border border-stone-800 text-stone-300 text-xs rounded px-2 py-1.5 focus:outline-none flex-1">
-              <option value="universal">Universal / Auto</option>
-              <option value="vercel">Vercel</option>
-              <option value="contentstack-launch">Contentstack Launch</option>
-              <option value="netlify">Netlify</option>
+          <button onclick="Zazen.commitToGit()" class="px-3 py-1.5 bg-stone-800 hover:bg-stone-700 text-stone-100 rounded text-xs font-mono shrink-0 transition-colors">
+            Commit Now
+          </button>
+        </div>
+
+        <!-- Tier 3 Card: Host / MCP Deploy -->
+        <div class="p-4 rounded-lg bg-stone-900/90 border border-stone-700/80">
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <div class="flex items-center gap-2">
+              <div class="w-6 h-6 rounded bg-amber-500/20 flex items-center justify-center text-amber-400">
+                <i data-lucide="cloud-lightning" class="w-3.5 h-3.5"></i>
+              </div>
+              <span class="text-sm font-medium text-stone-100">Tier 3: Deploy to Host via Agent / MCP</span>
+            </div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-stone-800 text-stone-300">Agent Handshake</span>
+          </div>
+          <p class="text-stone-400 text-xs mb-3">
+            Exports scrubbed files into <code class="text-amber-400 font-mono">./dist</code> and records your deployment intent so the AI agent can execute your host MCP tool or CLI immediately.
+          </p>
+
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+            <select id="mcp-target-provider" class="bg-stone-950 border border-stone-700 text-stone-200 text-xs rounded px-3 py-2 focus:outline-none flex-1">
+              <option value="vercel">Vercel (via CLI or Vercel MCP)</option>
+              <option value="contentstack-launch">Contentstack Launch (via Launch CLI / MCP)</option>
+              <option value="netlify">Netlify (via Netlify MCP)</option>
               <option value="cloudflare">Cloudflare Pages</option>
               <option value="s3">AWS S3 / Amplify</option>
+              <option value="ftp">FTP / SFTP (via Deploy Tool)</option>
             </select>
-            <button onclick="Zazen.handleMcpDeploy(document.getElementById('mcp-target-provider').value)" class="py-1.5 px-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-xs font-medium transition-colors">
-              Copy Prompt
+            <button onclick="Zazen.handleMcpDeploy(document.getElementById('mcp-target-provider').value)" class="py-2 px-4 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-medium transition-colors shrink-0 flex items-center justify-center gap-1.5">
+              <i data-lucide="send" class="w-3.5 h-3.5"></i>
+              <span>Export &amp; Prepare</span>
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Live Prompt Preview Panel -->
+      <!-- Live Deploy Intent & Agent Prompt Panel -->
       <div id="mcp-prompt-panel" class="hidden mt-4 pt-4 border-t border-stone-800">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-xs font-mono text-stone-400">Generated MCP Agent Deployment Payload:</span>
-          <span class="text-[11px] text-emerald-400 font-mono">✓ Copied to clipboard</span>
+        <div id="mcp-agent-notice" class="p-3 mb-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs flex items-start gap-2.5">
+          <i data-lucide="check-circle-2" class="w-4 h-4 shrink-0 text-emerald-400 mt-0.5"></i>
+          <div>
+            <span class="font-medium block mb-0.5">Build ready for deployment!</span>
+            <span id="mcp-agent-instructions">Switch to Antigravity and simply type: <strong class="text-emerald-200 font-mono">"deploy"</strong></span>
+          </div>
         </div>
-        <textarea id="mcp-prompt-textarea" readonly class="w-full h-32 bg-stone-950 border border-stone-800 rounded p-2.5 text-[11px] font-mono text-stone-300 focus:outline-none select-all"></textarea>
+        <textarea id="mcp-prompt-textarea" readonly class="w-full h-24 bg-stone-950 border border-stone-800 rounded p-2 text-[10px] font-mono text-stone-400 focus:outline-none select-all"></textarea>
       </div>
 
-      <div class="flex items-center justify-between pt-4 border-t border-stone-800/80 text-[11px] text-stone-500">
+      <div class="flex items-center justify-between pt-4 border-t border-stone-800 text-[11px] text-stone-500">
         <span>Zazen Labs Architectural Bridge • CC-BY-NC-4.0</span>
         <button onclick="window.print()" class="hover:text-stone-300 flex items-center gap-1 transition-colors">
           <i data-lucide="printer" class="w-3.5 h-3.5"></i>
@@ -665,6 +699,8 @@
     const Zazen = {
       data: null,
       bridgeActive: false,
+      gitBranch: null,
+      saveTimer: null,
 
       async init() {
         try {
@@ -680,6 +716,9 @@
 
       setPalette(theme) {
         document.documentElement.setAttribute('data-theme', theme);
+        if (this.data && this.data.meta) {
+          this.data.meta.palette = theme;
+        }
         document.querySelectorAll('#zazen-builder-bar [data-palette]').forEach(b => {
           if (b.getAttribute('data-palette') === theme) {
             b.className = 'px-2 py-0.5 rounded text-[11px] bg-stone-800 text-stone-100 font-medium active-palette';
@@ -687,15 +726,48 @@
             b.className = 'px-2 py-0.5 rounded text-[11px] hover:bg-stone-800 text-stone-400';
           }
         });
+        this.scheduleAutoSave();
       },
 
       setFontPreset(preset) {
         if (preset === 'newsreader') {
           document.documentElement.style.setProperty('--font-heading', "'Newsreader', serif");
           document.documentElement.style.setProperty('--font-body', "'Inter', sans-serif");
+          if (this.data && this.data.meta) this.data.meta.font = 'newsreader';
         } else if (preset === 'cormorant') {
           document.documentElement.style.setProperty('--font-heading', "'Cormorant Garamond', serif");
           document.documentElement.style.setProperty('--font-body', "'Plus Jakarta Sans', sans-serif");
+          if (this.data && this.data.meta) this.data.meta.font = 'cormorant';
+        }
+        this.scheduleAutoSave();
+      },
+
+      scheduleAutoSave() {
+        const statusEl = document.getElementById('zazen-save-status');
+        if (statusEl) statusEl.textContent = 'Syncing...';
+        clearTimeout(this.saveTimer);
+        this.saveTimer = setTimeout(() => this.autoSave(), 600);
+      },
+
+      async autoSave() {
+        const statusEl = document.getElementById('zazen-save-status');
+        try {
+          if (this.bridgeActive) {
+            const res = await fetch('http://localhost:3000/api/save', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ data: this.data })
+            });
+            if (res.ok) {
+              if (statusEl) statusEl.textContent = '✓ Saved to disk';
+              return;
+            }
+          }
+          // Fallback to localStorage in web canvas
+          localStorage.setItem('zazen_state_backup', JSON.stringify(this.data));
+          if (statusEl) statusEl.textContent = '✓ Saved (browser)';
+        } catch (_) {
+          if (statusEl) statusEl.textContent = '● Local only';
         }
       },
 
@@ -815,11 +887,19 @@
         try {
           const res = await fetch('http://localhost:3000/api/health', { method: 'GET' });
           if (res.ok) {
+            const data = await res.json();
             this.bridgeActive = true;
+            this.gitBranch = data.git?.branch || 'main';
+
             const pill = document.getElementById('zazen-bridge-status');
             if (pill) {
-              pill.textContent = '● MCP Bridge Ready';
+              pill.textContent = `● Bridge (${this.gitBranch})`;
               pill.className = 'text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+            }
+
+            const gitStatusText = document.getElementById('zazen-git-status-text');
+            if (gitStatusText) {
+              gitStatusText.textContent = `Active Git branch: ${this.gitBranch}. 1-click stage & commit to repository.`;
             }
           }
         } catch (_) {
@@ -827,6 +907,7 @@
         }
       },
 
+      // Tier 1: In-Browser Pure ZIP Bundle
       async buildPureZip() {
         const zip = new JSZip();
         const cleanIndexHtml = this.getCleanHtml();
@@ -845,12 +926,41 @@
         });
       },
 
-      exportState() {
-        const blob = new Blob([JSON.stringify(this.data, null, 2)], { type: 'application/json' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 'zazen-state.json';
-        a.click();
+      // Tier 2: 1-Click Git Commit
+      async commitToGit() {
+        if (!this.bridgeActive) {
+          alert('Local bridge server is not connected. Use "Pure ZIP" download for static export.');
+          return;
+        }
+
+        const defaultMsg = `feat: update site via Zazen Builder (${new Date().toLocaleTimeString()})`;
+        const message = prompt('Enter commit message:', defaultMsg);
+        if (message === null) return; // user cancelled
+
+        const saveStatus = document.getElementById('zazen-save-status');
+        if (saveStatus) saveStatus.textContent = 'Committing...';
+
+        try {
+          // First auto-save current state
+          await this.autoSave();
+
+          const res = await fetch('http://localhost:3000/api/git', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: message || defaultMsg, push: false })
+          });
+
+          const result = await res.json();
+          if (result.status === 'success') {
+            alert(`✓ Git commit succeeded on branch "${result.branch}":\n\n${result.commit}`);
+            if (saveStatus) saveStatus.textContent = '✓ Git synced';
+          } else {
+            alert(`Git error: ${result.error}`);
+            if (saveStatus) saveStatus.textContent = 'Git error';
+          }
+        } catch (err) {
+          alert(`Failed to trigger git commit: ${err.message}`);
+        }
       },
 
       openDeployModal() {
@@ -877,7 +987,7 @@
 Project: "${project}"
 Environment: "${env}"
 Framework: "static"
-Output Directory: "."
+Output Directory: "dist"
 
 Payload Files:
 \`\`\`json
@@ -886,22 +996,58 @@ ${JSON.stringify(files, null, 2)}
 
 Instructions for Agent:
 1. Initialize or connect to the target project "${project}".
-2. Write or deploy the supplied production files.
+2. Deploy the files in ./dist to ${provider}.
 3. Return the verified live deployment URL.`;
       },
 
+      // Tier 3: Host / MCP Deploy Handshake
       async handleMcpDeploy(provider = 'universal') {
-        const prompt = this.generateMcpPrompt(provider);
+        const project = (this.data.meta?.author || 'dean-haddock').toLowerCase().replace(/\s+/g, '-') + '-portfolio';
+        const cleanIndexHtml = this.getCleanHtml();
 
-        try {
-          await navigator.clipboard.writeText(prompt);
-        } catch (_) {}
+        const files = {
+          'index.html': cleanIndexHtml,
+          'zazen.config.json': JSON.stringify(this.data, null, 2)
+        };
 
         const panel = document.getElementById('mcp-prompt-panel');
         const textarea = document.getElementById('mcp-prompt-textarea');
+        const noticeText = document.getElementById('mcp-agent-instructions');
+
+        if (this.bridgeActive) {
+          try {
+            const res = await fetch('http://localhost:3000/api/deploy', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ provider, project, files })
+            });
+            const result = await res.json();
+
+            if (panel && textarea) {
+              panel.classList.remove('hidden');
+              if (noticeText) {
+                noticeText.innerHTML = `Clean build exported to <strong class="text-amber-300 font-mono">./dist</strong>.<br>Switch to Antigravity and say: <strong class="text-emerald-200 font-mono">"deploy to ${provider}"</strong>`;
+              }
+              textarea.value = `Exported to ./dist\nManifest: .zazen/deploy-intent.json\nAgent Command: "deploy to ${provider}"`;
+            }
+            return;
+          } catch (err) {
+            console.warn('Bridge deploy failed, falling back to prompt copy:', err);
+          }
+        }
+
+        // Web harness fallback: copy clean 1-line prompt
+        const prompt = this.generateMcpPrompt(provider);
+        try {
+          await navigator.clipboard.writeText(`Deploy my Zazen site to ${provider}. State: ${JSON.stringify(this.data)}`);
+        } catch (_) {}
+
         if (panel && textarea) {
-          textarea.value = prompt;
           panel.classList.remove('hidden');
+          if (noticeText) {
+            noticeText.innerHTML = `Copied prompt to clipboard! Paste it into your AI chat beside this canvas.`;
+          }
+          textarea.value = prompt;
         }
       }
     };
@@ -911,4 +1057,3 @@ Instructions for Agent:
   </script>
 </body>
 </html>
-
