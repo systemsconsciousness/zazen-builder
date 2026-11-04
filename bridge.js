@@ -90,7 +90,8 @@ const server = http.createServer((req, res) => {
             let currentHtml = fs.readFileSync(indexPath, 'utf8');
             const dataRegex = /<script id="__ZAZEN_DATA" type="application\/json">([\s\S]*?)<\/script>/;
             if (dataRegex.test(currentHtml)) {
-              currentHtml = currentHtml.replace(dataRegex, `<script id="__ZAZEN_DATA" type="application/json">\n${JSON.stringify(data, null, 2)}\n  </script>`);
+              const replacement = `<script id="__ZAZEN_DATA" type="application/json">\n${JSON.stringify(data, null, 2)}\n  </script>`;
+              currentHtml = currentHtml.replace(dataRegex, () => replacement);
               fs.writeFileSync(indexPath, currentHtml, 'utf8');
             }
           }
