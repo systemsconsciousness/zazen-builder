@@ -1,6 +1,6 @@
 ---
 name: zazen-builder
-description: Spin up exemplary, agency-grade websites for any hosting platform (Vercel, Contentstack Launch, Netlify, Cloudflare Pages, S3, FTP, GitHub Pages). Supports single-page and multi-page architectures, dynamic content feeds, client-side ZIP bundle download, state export/import synchronization, zero-dependency local bridge daemon, 1-click git commits, and agent-assisted MCP deployment handshakes across any harness.
+description: Spin up exemplary, agency-grade websites for any hosting platform (Vercel, Contentstack Launch, Netlify, Cloudflare Pages, S3, FTP, GitHub Pages). Features an interactive visual builder with drag-and-drop section reordering, native inline text editing, studio component library, decentralized JSON state store, zero-dependency local bridge daemon, 1-click git commits, and agent-assisted MCP deployment handshakes across any harness.
 version: 3.2.0
 author: Dean Haddock for Zazen Labs, LLC
 license: CC-BY-NC-4.0
@@ -13,56 +13,116 @@ Build self-contained, AI-first websites and multi-page web applications that run
 
 ---
 
-## 1. Core Architecture Mandates
+## 1. End-to-End Lifecycle & Workflow
 
-1. **Flexible Static Architecture (Single or Multi-Page):** Sites may be architected as an immersive single-page experience or as structured multi-page static builds (`index.html`, `about.html`, `journal/index.html`, etc.) depending on content volume, narrative flow, and information hierarchy.
+The Zazen Builder operates on an autonomous 6-step lifecycle:
 
-2. **Double-Clickable Portability:** The resulting files must be 100% functional when loaded via `file://` locally, served via static buckets, run in an in-canvas preview, or hosted on any edge CDN/server. External dependencies (Tailwind CDN, Lucide, JSZip, Google Fonts) load strictly via reliable public CDNs.
+```
+[1. User Installs Skill] ──► [2. User Invokes Skill with Brief]
+                                         │
+                                         ▼
+                             [3. Scoping Interview (0-3 Qs)]
+                                         │
+                                         ▼
+                             [4. Agent Builds In-Browser Visual Builder]
+                                 • Generates index.html, zazen.config.json, bridge.js
+                                 • Launches background daemon on http://localhost:3000
+                                         │
+                                         ▼
+                             [5. User Edits Visually in Browser]
+                                 • Drag & Drop section reordering
+                                 • Native inline text editing
+                                 • Add agency components from drawer
+                                 • Live palette & font token switching
+                                 • Bi-directional auto-save to disk
+                                         │
+                                         ▼
+                             [6. Universal 3-Tier Deployment]
+                                 ├── Tier 1: Download Pure Production ZIP
+                                 ├── Tier 2: 1-Click Git Commit & Push
+                                 └── Tier 3: Agent / MCP Deploy Handshake ("deploy")
+```
 
-3. **Decentralized State Store:** All content copy, navigation, tokens, feeds, and metadata live inside `<script id="__ZAZEN_DATA" type="application/json">[...]</script>` and are mirrored in `zazen.config.json`. The DOM is a dynamic, reactive projection of this JSON state.
-
-4. **Strict Separation of Authoring vs. Production (Clean Export Mandate):**
-   - The interactive site builder interface (fixed top edit bar, typography and palette pickers, export modals, live preview helpers, and builder runtime scripts) is strictly an *authoring overlay*.
-   - **All generated exports (ZIP archives, exported raw HTML, and MCP deployment payloads) MUST be 100% pure production code.**
-   - All builder UI elements (`#zazen-builder-bar`, `.zazen-builder-ui`, modal dialogs) and builder control scripts (`script[data-zazen-builder]`) must be scrubbed from the DOM tree before packaging or deploying. The exported site retains only pure semantic markup, typography, layout styling, clean state (`__ZAZEN_DATA`), and client interactivity.
-
-5. **Universal Bi-Directional State Synchronization:**
-   - Edits made visually in the builder must never be trapped in transient browser memory.
-   - In local harnesses with an active bridge, changes debounced at 600ms automatically persist to disk (`zazen.config.json` and `index.html`) via `POST /api/save`.
-   - In web canvas harnesses, changes persist to browser `localStorage` with a 1-click clipboard state sync back to chat.
+1. **Skill Installation:** User loads or installs the `zazen-builder` skill into their local or web harness.
+2. **Invocation:** User invokes the skill (e.g., *"Build me a personal portfolio/resume site for Dean Haddock with minimal agency design"*).
+3. **Scoping Interview (Optional, 0–3 Questions Max):** If the prompt lacks content or aesthetic direction, ask up to 3 concise questions (Structure, Feeds, Palette). If sufficient detail is provided, **zero-question autonomy** begins immediately.
+4. **Build the Interactive Builder:** The agent immediately creates `index.html` with the authoring overlay, `zazen.config.json`, and `bridge.js`, launching the background server on `http://localhost:3000`.
+5. **Visual In-Browser Editing:** The user opens `http://localhost:3000` (or the canvas window) to drag & drop sections, edit text inline, add components, and switch styles. Every edit automatically persists to disk.
+6. **Universal Deployment:** When satisfied, the user deploys via their preferred tier (ZIP, Git, or MCP).
 
 ---
 
-## 2. Universal 3-Tier Deployment Architecture
+## 2. Interactive Visual Builder Engine
 
-To guarantee effortless deployments across both Web Harnesses and Local Harnesses, Zazen Builder codifies a strict 3-tier deployment matrix:
+Every site generated by Zazen Builder must include three core interactive capabilities in authoring mode:
+
+### A. Drag-and-Drop Reordering
+- Sections (`<section class="zazen-draggable" draggable="true">`) and content cards can be reordered visually by dragging.
+- Native HTML5 Drag and Drop listeners (`dragstart`, `dragover`, `drop`, `dragend`) smoothly handle reordering in DOM and state.
+- Hover control bars display a drag grip (`⋮⋮ Drag Section`), item insertion buttons, and visual drop line indicators.
+- Dropping updates the array order in `__ZAZEN_DATA` and triggers an auto-save to disk.
+
+### B. Native Inline Text Editing
+- Any text element (headlines, subtitles, role titles, metrics, bullet points) carries the `.zazen-editable` class and `contenteditable="true"` with a `data-bind="path.to.key"` attribute.
+- Clicking text allows instant typing with a subtle focus indicator.
+- On input/blur, changes reactively update `this.data` and trigger a debounced 600ms auto-save to `bridge.js`.
+
+### C. Component Library & Dynamic Insertion Drawer
+The top bar features an **[Add Block]** button opening a studio component drawer with agency design primitives:
+- **01. Metric / Stat Card:** High-impact metric number, uppercase label, and descriptor.
+- **02. Experience Dossier:** Company, tenure, location, role title, and bullet points.
+- **03. Editorial Pullquote:** Elegant serif quotation with author attribution.
+- **04. Distinction / Honor Badge:** Fellowship, patent, or award with issuing body and year.
+- **05. Featured Initiative / Project:** Case study card with technology tags, narrative summary, and link.
+- **06. Civic / Board Role:** Commission, advisory board, or community leadership entry.
+
+Clicking any component appends it to `__ZAZEN_DATA`, dynamically renders it with drag handles and inline edit bindings, and saves to disk.
+
+---
+
+## 3. Strict Separation of Authoring vs. Production (Clean Export Mandate)
+
+All interactive editing controls, toolbars, and modals are strictly an **authoring overlay**.
+
+When exporting (ZIP, raw HTML, or MCP deploy payload), the DOM scrubbing engine (`getCleanHtml`) completely scrubs:
+- `#zazen-builder-bar` and `#zazen-component-drawer`
+- All modal dialogs and backdrops (`.zazen-builder-ui`)
+- All hover toolbars (`.zazen-hover-tools`)
+- All authoring attributes: `contenteditable`, `draggable`, `data-bind`
+- All authoring classes: `.zazen-editable`, `.zazen-draggable`, `.zazen-block-wrapper`
+- The runtime builder script (`script[data-zazen-builder]`)
+- Body top padding reserved for the builder bar (`pt-14`)
+
+**Result:** The exported site is 100% pure, pristine, semantic HTML, responsive typography, clean CSS tokens, and reactive client functionality.
+
+---
+
+## 4. Universal 3-Tier Deployment Architecture
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
 │                        ZAZEN BUILDER TOP BAR                           │
-│  [Pure ZIP]              [Commit to Git]              [Deploy Host]    │
-└────────┬────────────────────────┬───────────────────────────┬──────────┘
-         │                        │                           │
-         ▼                        ▼                           ▼
-  TIER 1: UNIVERSAL         TIER 2: GIT REPO            TIER 3: HOST MCP
-  (Web & Local)             (Local Clones)              (Local & Web)
-  • 1-Click JSZip           • POST /api/git             • POST /api/deploy
-  • Pure production code    • Direct git commit/push    • Writes ./dist & intent
-  • Drag & drop anywhere    • Zero copy-paste           • Agent 1-word execution:
-                                                          "deploy to vercel"
+│  [Add Block]   [Pure ZIP]        [Commit to Git]        [Deploy Host]  │
+└─────────────────────┬───────────────────┬──────────────────────┬───────┘
+                      │                   │                      │
+                      ▼                   ▼                      ▼
+               TIER 1: UNIVERSAL    TIER 2: GIT REPO       TIER 3: HOST MCP
+               (Web & Local)        (Local Clones)         (Local & Web)
+               • 1-Click JSZip      • POST /api/git        • POST /api/deploy
+               • Pure production    • Direct git commit    • Writes ./dist & intent
+               • Drag & drop        • Zero copy-paste      • Agent: "deploy"
 ```
 
 ### Tier 1: Instant Pure Production ZIP (Universal Zero-Config)
 - **Engine:** Client-side JSZip using DOM cloning and cleaning (`getCleanHtml`).
-- **Scrubbing:** Automatically strips `#zazen-builder-bar`, `.zazen-builder-ui`, modal backdrops, and `script[data-zazen-builder]`.
 - **Bundle Output:** Packages clean `index.html` + `zazen.config.json` into `<project>-production.zip`.
 - **Target Providers:** Universal. Instant drag-and-drop into Vercel Drop, Netlify Drop, Cloudflare Pages, S3, or FTP.
 
 ### Tier 2: 1-Click Git & GitHub Repository Sync (Local Harnesses)
 - **Prerequisite:** Running in a local environment where `bridge.js` is active inside a git repository.
 - **Workflow:**
-  1. The user clicks **"Commit to Git"** in the builder bar.
-  2. The browser automatically calls `POST /api/save` to persist latest state, then calls `POST /api/git` with an optional commit message.
+  1. User clicks **"Commit to Git"** in the builder bar.
+  2. The browser automatically calls `POST /api/save`, then calls `POST /api/git` with an optional commit message.
   3. `bridge.js` runs `git add -A` and `git commit -m "[message]"`, optionally pushing to the active branch (`git push`).
   4. The builder top bar displays confirmation: `✓ Committed to branch [branch-name]`.
 
@@ -90,49 +150,34 @@ Bridging browser-side visual editing with host-side agent tools (Vercel, Content
 
 ---
 
-## 3. Agent Execution Protocols (Harness-Specific)
+## 5. Agent Execution Protocols (Harness-Specific)
 
 ### Protocol A: In Local / Desktop / CLI Harnesses (Antigravity, Cursor, Claude Desktop)
 
-When the user asks the agent to build, update, or deploy a site:
+1. **Site Generation & Daemon Startup:**
+   - Write `index.html` (with decentralized store `<script id="__ZAZEN_DATA">`, inline editable bindings, drag handles, and component drawer).
+   - Write `zazen.config.json` with mirrored state.
+   - Write `bridge.js` (zero-dependency Node server).
+   - Launch `node bridge.js` as a background daemon process.
+   - Direct user to: **`http://localhost:3000`**.
 
-#### Phase 1: Site Generation & Server Startup
-1. **Generate Files:** Write `index.html` (with decentralized store `<script id="__ZAZEN_DATA">`), `zazen.config.json`, and the zero-dependency `bridge.js`.
-2. **Start Daemon Server:** Launch `bridge.js` in the background as a daemon process:
-   ```bash
-   node bridge.js
-   ```
-   (Wait 1000ms, ensure port 3000 is listening).
-3. **Notify User:** Inform the user with a direct clickable link:
-   > *"Your live visual site builder is ready at **http://localhost:3000** with the green `● Bridge Active` status indicator."*
-
-#### Phase 2: Handling Deployment Requests in Chat
-When the user says **"deploy"**, **"deploy to vercel"**, **"publish"**, or similar in chat:
-1. **Read Intent Manifest:** Inspect `.zazen/deploy-intent.json` to identify target provider and project name.
-2. **Verify Clean Production Bundle:** Confirm `./dist/index.html` exists and is scrubbed of all builder overlay elements.
-3. **Execute Provider Tool or CLI:**
-   - **Vercel:** Run `vercel --prod ./dist` or invoke Vercel MCP `deploy`.
-   - **Contentstack Launch:** Run `csdx launch:deploy` or Launch MCP tool.
-   - **Netlify:** Run `netlify deploy --prod --dir=./dist` or Netlify MCP tool.
-   - **Cloudflare Pages:** Run `wrangler pages deploy ./dist` or Cloudflare MCP.
-   - **AWS S3:** Run `aws s3 sync ./dist s3://<bucket> --delete`.
-   - **GitHub Pages:** Commit `./dist` contents to branch `gh-pages` and push.
-   - **FTP / SFTP:** Run upload script or FTP MCP tool.
-4. **Report Verified URL:** Return the live production URL to the user.
+2. **Handling Deployment in Chat:**
+   - When user says **"deploy"**, check `.zazen/deploy-intent.json`.
+   - Verify `./dist/index.html` exists and is scrubbed.
+   - Execute provider tool: `vercel --prod ./dist`, `csdx launch:deploy`, `netlify deploy --prod --dir=./dist`, `wrangler pages deploy ./dist`, or S3/FTP script.
+   - Return verified production URL.
 
 ---
 
 ### Protocol B: In Web / Canvas / Sandboxed Harnesses (Web Gemini, Claude.ai, ChatGPT)
 
-1. **Render in Canvas:** Output the self-contained `index.html` directly into the canvas/artifact window.
-2. **Enable Tier 1 ZIP:** User can download the pure production ZIP in 1 click.
-3. **Handle State Updates:** When the user asks to update the site or deploy from chat, read the latest canvas state, apply updates, and re-render.
+1. Render the self-contained `index.html` in the canvas.
+2. Enable Tier 1 ZIP download and in-browser state sync.
+3. Apply requested edits and re-render.
 
 ---
 
-## 4. Agency-Grade Aesthetic Standards
-
-Every generated site must achieve the standard of work featured in the portfolios of top global design studios (Pentagram, Area 17, Bureau Oberman, Collins, Fantasy, Apple Design Award winners):
+## 6. Agency-Grade Aesthetic Standards
 
 - **Refined Editorial Typography:** 
   - Headlines: Newsreader or Cormorant Garamond (`--font-heading`).
@@ -147,330 +192,6 @@ Every generated site must achieve the standard of work featured in the portfolio
 
 ---
 
-## 5. Canonical Zero-Dependency Local Bridge (`bridge.js`)
+## 7. Canonical Reference Implementations
 
-The bridge script requires **zero external npm dependencies** and uses only Node.js native standard libraries (`http`, `fs`, `path`, `child_process`):
-
-```javascript
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
-
-const PORT = process.env.PORT || 3000;
-const ROOT_DIR = process.cwd();
-const DIST_DIR = path.join(ROOT_DIR, 'dist');
-const ZAZEN_DIR = path.join(ROOT_DIR, '.zazen');
-
-const MIME_TYPES = {
-  '.html': 'text/html; charset=utf-8',
-  '.json': 'application/json; charset=utf-8',
-  '.js': 'text/javascript; charset=utf-8',
-  '.css': 'text/css; charset=utf-8',
-  '.svg': 'image/svg+xml',
-  '.png': 'image/png',
-  '.jpg': 'image/jpeg',
-  '.ico': 'image/x-icon'
-};
-
-function setCorsHeaders(res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-}
-
-function getGitInfo() {
-  try {
-    const branch = execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] }).trim();
-    const status = execSync('git status --porcelain', { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] }).trim();
-    return { isGit: true, branch, clean: status.length === 0 };
-  } catch (_) {
-    return { isGit: false, branch: null, clean: true };
-  }
-}
-
-const server = http.createServer((req, res) => {
-  setCorsHeaders(res);
-
-  if (req.method === 'OPTIONS') {
-    res.writeHead(204);
-    return res.end();
-  }
-
-  const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
-  const pathname = parsedUrl.pathname;
-
-  // Endpoint: GET /api/health
-  if (req.method === 'GET' && pathname === '/api/health') {
-    const gitInfo = getGitInfo();
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({
-      status: 'ok',
-      bridge: 'zazen-local',
-      version: '3.2.0',
-      rootDir: ROOT_DIR,
-      git: gitInfo
-    }));
-  }
-
-  // Endpoint: POST /api/save (Auto-Save State & HTML to Disk)
-  if (req.method === 'POST' && pathname === '/api/save') {
-    let body = '';
-    req.on('data', chunk => { body += chunk; });
-    return req.on('end', () => {
-      try {
-        const payload = JSON.parse(body);
-        const { data, html } = payload;
-
-        if (data) {
-          fs.writeFileSync(path.join(ROOT_DIR, 'zazen.config.json'), JSON.stringify(data, null, 2), 'utf8');
-        }
-
-        if (html) {
-          fs.writeFileSync(path.join(ROOT_DIR, 'index.html'), html, 'utf8');
-        } else if (data) {
-          const indexPath = path.join(ROOT_DIR, 'index.html');
-          if (fs.existsSync(indexPath)) {
-            let current = fs.readFileSync(indexPath, 'utf8');
-            const regex = /<script id="__ZAZEN_DATA" type="application\/json">([\s\S]*?)<\/script>/;
-            if (regex.test(current)) {
-              current = current.replace(regex, `<script id="__ZAZEN_DATA" type="application/json">\n${JSON.stringify(data, null, 2)}\n  </script>`);
-              fs.writeFileSync(indexPath, current, 'utf8');
-            }
-          }
-        }
-
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ status: 'success' }));
-      } catch (err) {
-        res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ status: 'error', error: err.message }));
-      }
-    });
-  }
-
-  // Endpoint: POST /api/git (Tier 2: 1-Click Commit & Push)
-  if (req.method === 'POST' && pathname === '/api/git') {
-    let body = '';
-    req.on('data', chunk => { body += chunk; });
-    return req.on('end', () => {
-      try {
-        const payload = JSON.parse(body || '{}');
-        const message = payload.message || `feat: update site via Zazen Builder (${new Date().toLocaleTimeString()})`;
-        const doPush = Boolean(payload.push);
-
-        execSync('git add -A', { cwd: ROOT_DIR, encoding: 'utf8' });
-        const status = execSync('git status --porcelain', { cwd: ROOT_DIR, encoding: 'utf8' }).trim();
-        let commitOut = 'Working tree clean, nothing new to commit.';
-        if (status.length > 0) {
-          commitOut = execSync(`git commit -m "${message.replace(/"/g, '\\"')}"`, { cwd: ROOT_DIR, encoding: 'utf8' }).trim();
-        }
-
-        let pushOut = null;
-        if (doPush) {
-          try {
-            pushOut = execSync('git push', { cwd: ROOT_DIR, encoding: 'utf8' }).trim();
-          } catch (e) {
-            pushOut = `Push skipped: ${e.message}`;
-          }
-        }
-
-        const gitInfo = getGitInfo();
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ status: 'success', commit: commitOut, push: pushOut, branch: gitInfo.branch }));
-      } catch (err) {
-        res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ status: 'error', error: err.message }));
-      }
-    });
-  }
-
-  // Endpoint: POST /api/deploy (Tier 3: Export Clean Build & Write Deploy Intent)
-  if (req.method === 'POST' && pathname === '/api/deploy') {
-    let body = '';
-    req.on('data', chunk => { body += chunk; });
-    return req.on('end', () => {
-      try {
-        const payload = JSON.parse(body);
-        const { provider = 'universal', project = 'zazen-site', files = {} } = payload;
-
-        if (!fs.existsSync(DIST_DIR)) fs.mkdirSync(DIST_DIR, { recursive: true });
-        if (!fs.existsSync(ZAZEN_DIR)) fs.mkdirSync(ZAZEN_DIR, { recursive: true });
-
-        const savedFiles = [];
-        for (const [filename, content] of Object.entries(files)) {
-          const filePath = path.join(DIST_DIR, filename);
-          const dir = path.dirname(filePath);
-          if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-          fs.writeFileSync(filePath, content, 'utf8');
-          savedFiles.push(filename);
-        }
-
-        const intent = {
-          provider,
-          project,
-          timestamp: new Date().toISOString(),
-          outputDir: 'dist',
-          files: savedFiles,
-          agentCommand: `deploy to ${provider}`
-        };
-
-        fs.writeFileSync(path.join(ZAZEN_DIR, 'deploy-intent.json'), JSON.stringify(intent, null, 2), 'utf8');
-
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({
-          status: 'success',
-          provider,
-          project,
-          outputDir: DIST_DIR,
-          files: savedFiles,
-          intentFile: '.zazen/deploy-intent.json'
-        }));
-      } catch (err) {
-        res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ status: 'error', error: err.message }));
-      }
-    });
-  }
-
-  // Static File Serving
-  let filePath = path.join(ROOT_DIR, pathname === '/' ? 'index.html' : pathname);
-  if (!fs.existsSync(filePath)) {
-    res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-    return res.end('404 Not Found');
-  }
-
-  const stats = fs.statSync(filePath);
-  if (stats.isDirectory()) filePath = path.join(filePath, 'index.html');
-
-  const ext = path.extname(filePath).toLowerCase();
-  const contentType = MIME_TYPES[ext] || 'application/octet-stream';
-
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
-      res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
-      return res.end('500 Internal Server Error');
-    }
-    res.writeHead(200, { 'Content-Type': contentType });
-    res.end(data);
-  });
-});
-
-server.listen(PORT);
-```
-
----
-
-## 6. Canonical Client-Side Builder Overlay (`data-zazen-builder`)
-
-The following client-side controller script is embedded in `index.html` with attribute `data-zazen-builder` so that `getCleanHtml()` automatically strips it during all exports:
-
-```javascript
-const Zazen = {
-  data: null,
-  bridgeActive: false,
-  gitBranch: null,
-  saveTimer: null,
-
-  async init() {
-    this.data = JSON.parse(document.getElementById('__ZAZEN_DATA').textContent);
-    this.render();
-    await this.checkMcpBridge();
-  },
-
-  // Mandate 4: Pure Clean HTML Extraction (Scrubbing Engine)
-  getCleanHtml(htmlString) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlString || document.documentElement.outerHTML, 'text/html');
-    doc.querySelectorAll('#zazen-builder-bar, .zazen-builder-ui, script[data-zazen-builder]').forEach(el => el.remove());
-    const body = doc.querySelector('body');
-    if (body) body.classList.remove('pt-14');
-    return '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
-  },
-
-  async checkMcpBridge() {
-    try {
-      const res = await fetch('http://localhost:3000/api/health', { method: 'GET' });
-      if (res.ok) {
-        const info = await res.json();
-        this.bridgeActive = true;
-        this.gitBranch = info.git?.branch || 'main';
-        const pill = document.getElementById('zazen-bridge-status');
-        if (pill) {
-          pill.textContent = `● Bridge (${this.gitBranch})`;
-          pill.className = 'text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
-        }
-      }
-    } catch (_) {
-      this.bridgeActive = false;
-    }
-  },
-
-  // Bi-Directional Auto-Save
-  scheduleAutoSave() {
-    clearTimeout(this.saveTimer);
-    this.saveTimer = setTimeout(() => this.autoSave(), 600);
-  },
-
-  async autoSave() {
-    if (this.bridgeActive) {
-      await fetch('http://localhost:3000/api/save', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ data: this.data })
-      });
-    } else {
-      localStorage.setItem('zazen_state_backup', JSON.stringify(this.data));
-    }
-  },
-
-  // Tier 1: Pure ZIP Download
-  async downloadZip() {
-    const zip = new JSZip();
-    zip.file("index.html", this.getCleanHtml());
-    zip.file("zazen.config.json", JSON.stringify(this.data, null, 2));
-    const blob = await zip.generateAsync({ type: "blob" });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `${(this.data.meta?.title || 'site').toLowerCase().replace(/\s+/g, '-')}-production.zip`;
-    a.click();
-  },
-
-  // Tier 2: 1-Click Git Commit
-  async commitToGit() {
-    if (!this.bridgeActive) return alert('Bridge server inactive.');
-    const msg = prompt('Commit message:', `feat: update site via Zazen Builder (${new Date().toLocaleTimeString()})`);
-    if (!msg) return;
-    await this.autoSave();
-    const res = await fetch('http://localhost:3000/api/git', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: msg, push: false })
-    });
-    const result = await res.json();
-    alert(result.status === 'success' ? `✓ Committed to ${result.branch}` : `Git error: ${result.error}`);
-  },
-
-  // Tier 3: Host Agent Deploy Handshake
-  async handleMcpDeploy(provider = 'universal') {
-    const project = (this.data.meta?.title || 'site').toLowerCase().replace(/\s+/g, '-');
-    const files = {
-      'index.html': this.getCleanHtml(),
-      'zazen.config.json': JSON.stringify(this.data, null, 2)
-    };
-
-    if (this.bridgeActive) {
-      await fetch('http://localhost:3000/api/deploy', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ provider, project, files })
-      });
-      alert(`Clean build exported to ./dist! Switch to your agent and say: "deploy to ${provider}"`);
-    } else {
-      await navigator.clipboard.writeText(`Deploy my Zazen site to ${provider}. State: ${JSON.stringify(this.data)}`);
-      alert(`Copied deployment command to clipboard! Paste it into your AI chat.`);
-    }
-  }
-};
-```
-
+The zero-dependency bridge (`bridge.js`) and client runtime (`script[data-zazen-builder]`) are codified in Section 5 & 6 of `zazen_builder_skill.md` and in the repository's `scripts/bridge.js`.
