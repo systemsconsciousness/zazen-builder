@@ -158,3 +158,152 @@ All site content, metrics, navigation, and theme tokens are stored in a clean, d
   - **Architect White:** `--bg: #FFFFFF`, `--surface: #F8F9FA`, `--elevated: #FFFFFF`, `--text: #111111`, `--muted: #555555`, `--border: #E5E7EB`, `--accent: #0F52BA`.
   - **Editorial Sand & Ink:** `--bg: #F4EFE6`, `--surface: #ECE4D7`, `--elevated: #FCFAF6`, `--text: #211E1B`, `--muted: #73695E`, `--border: rgba(33, 30, 27, 0.14)`, `--accent: #A35C24`.
   - **Obsidian Darkroom:** `--bg: #0D0E11`, `--surface: #14171C`, `--elevated: #1C2026`, `--text: #EAEBED`, `--muted: #8E929B`, `--border: rgba(234, 235, 237, 0.12)`, `--accent: #D97706`.
+
+---
+
+## 6. Local Bridge Helper (Built on the Fly in Local Harnesses)
+
+In local IDE or CLI harnesses, the agent automatically creates `bridge.js` on the fly from the specification below and launches it via `node bridge.js` to power local authoring, auto-saving, and 1-click git synchronization:
+
+```javascript
+// Zero-dependency local bridge helper (bridge.js)
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
+
+const PORT = process.env.PORT || 3000;
+const ROOT_DIR = process.cwd();
+const DIST_DIR = path.join(ROOT_DIR, 'dist');
+const ZAZEN_DIR = path.join(ROOT_DIR, '.zazen');
+
+const MIME_TYPES = {
+  '.html': 'text/html; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',
+  '.js': 'text/javascript; charset=utf-8',
+  '.css': 'text/css; charset=utf-8',
+  '.svg': 'image/svg+xml',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.ico': 'image/x-icon'
+};
+
+function setCorsHeaders(res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+}
+
+function getGitInfo() {
+  try {
+    const branch = execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] }).trim();
+    const status = execSync('git status --porcelain', { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] }).trim();
+    return { isGit: true, branch, clean: status.length === 0 };
+  } catch (_) {
+    return { isGit: false, branch: null, clean: true };
+  }
+}
+
+const server = http.createServer((req, res) => {
+  setCorsHeaders(res);
+  if (req.method === 'OPTIONS') { res.writeHead(204); return res.end(); }
+
+  const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
+  const pathname = parsedUrl.pathname;
+
+  // Health Check
+  if (req.method === 'GET' && pathname === '/api/health') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    return res.end(JSON.stringify({ status: 'ok', bridge: 'zazen-local', version: '3.2.0', git: getGitInfo() }));
+  }
+
+  // Auto-Save
+  if (req.method === 'POST' && pathname === '/api/save') {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    return req.on('end', () => {
+      try {
+        const { data, html } = JSON.parse(body);
+        if (data) fs.writeFileSync(path.join(ROOT_DIR, 'zazen.config.json'), JSON.stringify(data, null, 2), 'utf8');
+        if (html) {
+          fs.writeFileSync(path.join(ROOT_DIR, 'index.html'), html, 'utf8');
+        } else if (data) {
+          const indexPath = path.join(ROOT_DIR, 'index.html');
+          if (fs.existsSync(indexPath)) {
+            let current = fs.readFileSync(indexPath, 'utf8');
+            const regex = /<script id="__ZAZEN_DATA" type="application\/json">([\s\S]*?)<\/script>/;
+            if (regex.test(current)) {
+              const rep = `<script id="__ZAZEN_DATA" type="application/json">\n${JSON.stringify(data, null, 2)}\n  </script>`;
+              current = current.replace(regex, () => rep);
+              fs.writeFileSync(indexPath, current, 'utf8');
+            }
+          }
+        }
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ status: 'success' }));
+      } catch (e) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ status: 'error', error: e.message }));
+      }
+    });
+  }
+
+  // 1-Click Git Commit & Push
+  if (req.method === 'POST' && pathname === '/api/git') {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    return req.on('end', () => {
+      try {
+        const { message = 'feat: update site via Zazen Builder', push = true } = JSON.parse(body || '{}');
+        execSync('git add -A', { cwd: ROOT_DIR, encoding: 'utf8' });
+        const status = execSync('git status --porcelain', { cwd: ROOT_DIR, encoding: 'utf8' }).trim();
+        let commitOut = 'Working tree clean, nothing to commit.';
+        if (status.length > 0) {
+          commitOut = execSync(`git commit -m "${message.replace(/"/g, '\\"')}"`, { cwd: ROOT_DIR, encoding: 'utf8' }).trim();
+        }
+        let pushOut = null;
+        if (push) {
+          try { pushOut = execSync('git push', { cwd: ROOT_DIR, encoding: 'utf8' }).trim(); } catch (pe) { pushOut = `Push note: ${pe.message}`; }
+        }
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ status: 'success', commit: commitOut, push: pushOut, branch: getGitInfo().branch }));
+      } catch (e) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ status: 'error', error: e.message }));
+      }
+    });
+  }
+
+  // Tier 3 Clean Export & Deploy Intent
+  if (req.method === 'POST' && pathname === '/api/deploy') {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    return req.on('end', () => {
+      try {
+        const { provider = 'universal', project = 'zazen-site', files = {} } = JSON.parse(body);
+        if (!fs.existsSync(DIST_DIR)) fs.mkdirSync(DIST_DIR, { recursive: true });
+        if (!fs.existsSync(ZAZEN_DIR)) fs.mkdirSync(ZAZEN_DIR, { recursive: true });
+        for (const [name, content] of Object.entries(files)) {
+          fs.writeFileSync(path.join(DIST_DIR, name), content, 'utf8');
+        }
+        fs.writeFileSync(path.join(ZAZEN_DIR, 'deploy-intent.json'), JSON.stringify({ provider, project, timestamp: new Date().toISOString(), outputDir: 'dist' }, null, 2));
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ status: 'success', outputDir: DIST_DIR }));
+      } catch (e) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ status: 'error', error: e.message }));
+      }
+    });
+  }
+
+  // Static File Serving
+  let filePath = path.join(ROOT_DIR, pathname === '/' ? 'index.html' : pathname);
+  if (!fs.existsSync(filePath)) { res.writeHead(404); return res.end('Not Found'); }
+  if (fs.statSync(filePath).isDirectory()) filePath = path.join(filePath, 'index.html');
+  const ext = path.extname(filePath).toLowerCase();
+  res.writeHead(200, { 'Content-Type': MIME_TYPES[ext] || 'application/octet-stream' });
+  fs.createReadStream(filePath).pipe(res);
+});
+
+server.listen(PORT);
+```
