@@ -2,7 +2,7 @@
 name: zazen-builder
 description: Spin up exemplary, agency-grade websites for any hosting platform (Vercel, Contentstack Launch, Netlify, Cloudflare Pages, S3, FTP). Supports single-page and multi-page architectures, dynamic content feeds, client-side ZIP bundle download, state export/import synchronization, and 1-click MCP triggers in local/CLI harnesses.
 version: 3.0.0
-author: Zazen Labs, LLC
+author: Dean Haddock for Zazen Labs, LLC
 license: CC-BY-NC-4.0
 ---
 
