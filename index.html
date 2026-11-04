@@ -975,11 +975,18 @@
       async init() {
         try {
           // Detect Environment: Authoring Mode vs Live Production Mode
-          // Authoring mode is enabled ONLY on localhost, 127.0.0.1, file://, or with ?edit=true
+          // Authoring mode is enabled on localhost, file://, with ?edit=true,
+          // or if environment flag is set (window.ZAZEN_EDIT, meta[name="zazen-edit"], or localStorage)
+          const metaEdit = document.querySelector('meta[name="zazen-edit"]')?.content === 'true';
+          const localStoredEdit = localStorage.getItem('zazen-edit') === 'true';
+          const queryEdit = window.location.search.includes('edit=true');
           const isLocal = window.location.hostname === 'localhost' ||
                           window.location.hostname === '127.0.0.1' ||
                           window.location.protocol === 'file:' ||
-                          window.location.search.includes('edit=true');
+                          queryEdit ||
+                          window.ZAZEN_EDIT === true ||
+                          metaEdit ||
+                          localStoredEdit;
 
           this.isAuthoring = isLocal;
           if (this.isAuthoring) {
