@@ -30,7 +30,10 @@ Build self-contained, AI-first websites and multi-page web applications that run
      - **Pure Production ZIP Export:** Download complete production bundle (all pure HTML files + `zazen.config.json`) free of any builder UI code.
      - **Copy MCP Agent Deployment Prompt:** 1-click clipboard copy containing a clean, structured JSON and markdown prompt ready to paste directly into any host agent (Cursor, Claude Desktop, gemini-cli) or hosting MCP server to deploy immediately.
      - **Export/Import Site State:** 1-click JSON snapshot export/import (`zazen-state.json`) so users can transfer exact site configuration between browser canvas and local CLI/IDE harnesses.
-   - **In Local / Desktop / CLI Harnesses (e.g., Claude Desktop, Cursor, gemini-cli):** The agent can directly invoke whatever hosting MCP the user has configured (Vercel, Launch, Netlify, Cloudflare, AWS, FTP) via direct MCP tool calls or the local bridge.
+   - **In Local / Desktop / CLI Harnesses (e.g., Claude Desktop, Cursor, gemini-cli, Antigravity):**
+     - **Automatic Local Bridge Daemon:** The agent automatically creates and runs the zero-dependency Node bridge (`node bridge.js`) in the background on `http://localhost:3000`.
+     - **Live Local Authoring:** The user visualizes and edits the site at `http://localhost:3000` with the active bridge status (`● MCP Bridge Ready`).
+     - **Direct Clean Export & MCP Handoff:** Deployments write scrubbed, production-pure HTML and configs directly to `./dist/` via `POST /api/deploy` and can trigger active hosting MCP tools directly.
 
 ---
 
@@ -43,6 +46,10 @@ When the user initializes the skill, the agent prioritizes swift execution while
   2. *Content Feeds:* "Do you need a dynamic feed (e.g., a blog, case study journal, news feed, or changelog), or curated static sections?"
   3. *Aesthetic Mood:* "Do you have a preferred aesthetic direction (e.g., Warm Linen & Amber, Architect White, Editorial Sand, Obsidian Darkroom), or should I pick the best fit for your domain?"
 - **Zero-Question Autonomy:** If the user's initial prompt already contains sufficient content, structure, or aesthetic direction, **no questions are required**—the agent should begin building immediately.
+- **Local Harness Execution Protocol:** When running in a local environment (CLI, Desktop IDE, Antigravity, Cursor), the agent must:
+  1. Generate `index.html` (with decentralized store `__ZAZEN_DATA`), `zazen.config.json`, and the zero-dependency `bridge.js`.
+  2. Launch `bridge.js` in the background (as a daemon process) on port 3000.
+  3. Direct the user to open `http://localhost:3000` to interact with the live builder bar and edit overlay.
 
 ---
 
@@ -104,6 +111,50 @@ Every generated site must achieve the standard of work featured in the portfolio
 ### Mode 3: 1-Click MCP Agent Prompt Generation & Direct Trigger
 - **Direct Bridge:** If running in a local environment where `http://localhost:3000/api/health` responds, posts the deployment payload directly to the active hosting MCP server.
 - **Copy MCP Deploy Prompt (Universal Clipboard Fallback):** When running in browser sandboxes, copies a structured, provider-aware prompt to the clipboard containing project settings, target provider (Vercel, Contentstack Launch, Netlify, Cloudflare, S3), and clean HTML payloads. The user pastes this prompt directly into their chat or agent to execute immediate deployment.
+
+### Mode 4: The Local Zero-Dependency Bridge Daemon (`bridge.js`)
+In local environments, Zazen uses a lightweight Node.js daemon (using built-in `http` and `fs`, requiring zero `npm` dependencies):
+1. **Static Serving:** Serves `index.html` and assets on `http://localhost:3000`.
+2. **Health Check (`GET /api/health`):** Responds with `{ status: "ok", bridge: "zazen-local" }`, immediately enabling the green `● MCP Bridge Ready` pill in the edit bar.
+3. **Local Clean Export (`POST /api/deploy`):** Receives the scrubbed production files from the client-side builder runtime and writes them cleanly into `./dist/`, ready for local preview or automated CLI deployment.
+
+```javascript
+// Minimal Reference bridge.js
+const http = require('http'), fs = require('fs'), path = require('path');
+const PORT = process.env.PORT || 3000, ROOT = process.cwd(), DIST = path.join(ROOT, 'dist');
+const MIME = { '.html': 'text/html', '.json': 'application/json', '.js': 'text/javascript', '.css': 'text/css' };
+
+http.createServer((req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  const parsed = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
+  
+  if (req.method === 'GET' && parsed.pathname === '/api/health') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    return res.end(JSON.stringify({ status: 'ok', bridge: 'zazen-local' }));
+  }
+  
+  if (req.method === 'POST' && parsed.pathname === '/api/deploy') {
+    let body = '';
+    req.on('data', c => body += c);
+    return req.on('end', () => {
+      const { files = {} } = JSON.parse(body);
+      if (!fs.existsSync(DIST)) fs.mkdirSync(DIST, { recursive: true });
+      for (const [name, content] of Object.entries(files)) {
+        fs.writeFileSync(path.join(DIST, name), content, 'utf8');
+      }
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ status: 'success', outputDir: DIST }));
+    });
+  }
+
+  let file = path.join(ROOT, parsed.pathname === '/' ? 'index.html' : parsed.pathname);
+  if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file, 'index.html');
+  if (!fs.existsSync(file)) { res.writeHead(404); return res.end('Not Found'); }
+  res.writeHead(200, { 'Content-Type': MIME[path.extname(file)] || 'text/plain' });
+  fs.createReadStream(file).pipe(res);
+}).listen(PORT);
+```
 
 ---
 
