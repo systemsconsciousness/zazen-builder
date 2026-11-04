@@ -36,8 +36,9 @@
     }
   </script>
 
-  <!-- Lucide Icons & JSZip for production bundling -->
+  <!-- Lucide Icons, Three.js 3D Engine & JSZip for production bundling -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
   <style>
@@ -48,7 +49,7 @@
       --font-mono: 'JetBrains Mono', monospace;
       --bg: #F4EFE6;
       --surface: #ECE4D7;
-      --elevated: #FCFAF6;
+      --elevated: rgba(252, 250, 246, 0.90);
       --text: #211E1B;
       --muted: #73695E;
       --border: rgba(33, 30, 27, 0.14);
@@ -58,7 +59,7 @@
     [data-theme="linen"] {
       --bg: #FAF8F5;
       --surface: #F3EFEA;
-      --elevated: #FFFFFF;
+      --elevated: rgba(255, 255, 255, 0.90);
       --text: #1C1A17;
       --muted: #6B665E;
       --border: rgba(28, 26, 23, 0.12);
@@ -68,7 +69,7 @@
     [data-theme="architect"] {
       --bg: #FFFFFF;
       --surface: #F8F9FA;
-      --elevated: #FFFFFF;
+      --elevated: rgba(255, 255, 255, 0.92);
       --text: #111111;
       --muted: #555555;
       --border: #E5E7EB;
@@ -78,11 +79,17 @@
     [data-theme="obsidian"] {
       --bg: #0D0E11;
       --surface: #14171C;
-      --elevated: #1C2026;
+      --elevated: rgba(28, 32, 38, 0.88);
       --text: #EAEBED;
       --muted: #8E929B;
       --border: rgba(234, 235, 237, 0.12);
       --accent: #D97706;
+    }
+
+    /* Translucent Elevated Surface Backdrop */
+    .bg-zelevated {
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
 
     body {
@@ -171,6 +178,11 @@
 <body class="selection:bg-stone-800 selection:text-stone-100 min-h-screen flex flex-col justify-between">
 
   <!-- ============================================================== -->
+  <!-- 3D AMBIENT TOPOLOGICAL CANVAS (Hardware-Accelerated Three.js)   -->
+  <!-- ============================================================== -->
+  <canvas id="zazen-3d-canvas" class="fixed inset-0 pointer-events-none z-0 transition-opacity duration-1000"></canvas>
+
+  <!-- ============================================================== -->
   <!-- ZAZEN BUILDER OVERLAY BAR (Authoring Mode Only - Auto-Hidden on Live Host) -->
   <!-- ============================================================== -->
   <aside id="zazen-builder-bar" class="zazen-builder-ui fixed top-0 inset-x-0 h-12 bg-stone-950/95 text-stone-200 border-b border-stone-800 z-50 backdrop-blur-md px-4 flex items-center justify-between text-xs tracking-tight select-none">
@@ -191,7 +203,7 @@
       </div>
     </div>
 
-    <!-- Center Controls: Palette, Typography & Component Drawer -->
+    <!-- Center Controls: Palette, Typography, 3D FX & Component Drawer -->
     <div class="flex items-center gap-2">
       <!-- Add Component Button -->
       <button onclick="Zazen.openComponentDrawer()" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-stone-900 hover:bg-stone-800 text-amber-400 border border-stone-800 font-medium transition-colors" title="Add New Component Block">
@@ -213,6 +225,14 @@
         <span class="text-stone-500 text-[10px] uppercase font-mono mr-1">Type</span>
         <button onclick="Zazen.setFontPreset('newsreader')" class="px-2 py-0.5 rounded text-[11px] hover:bg-stone-800 text-stone-300 font-serif" title="Newsreader + Inter">Newsreader</button>
         <button onclick="Zazen.setFontPreset('cormorant')" class="px-2 py-0.5 rounded text-[11px] hover:bg-stone-800 text-stone-400 font-serif" title="Cormorant + Jakarta">Cormorant</button>
+      </div>
+
+      <!-- 3D Background FX Toggle -->
+      <div class="hidden md:flex items-center bg-stone-900 border border-stone-800 rounded px-1.5 py-1">
+        <button id="zazen-3d-toggle" onclick="Zazen.toggle3D()" class="px-2 py-0.5 rounded text-[11px] hover:bg-stone-800 text-amber-400 flex items-center gap-1 font-mono transition-colors" title="Toggle Animated 3D Wavefield">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span class="text-[10px]">3D</span>
+        </button>
       </div>
     </div>
 
@@ -433,7 +453,7 @@
   <!-- ============================================================== -->
   <!-- MAIN EDITORIAL CONTENT (Dynamic Projection of __ZAZEN_DATA)     -->
   <!-- ============================================================== -->
-  <main id="app-root" class="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 py-12 md:py-20 w-full flex-grow">
+  <main id="app-root" class="relative z-10 max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 py-12 md:py-20 w-full flex-grow">
     
     <!-- MASTHEAD / STUDIO HEADER (Inline Editable & Drag Handle) -->
     <header class="pb-14 hairline-b zazen-block-wrapper" id="section-masthead">
@@ -633,7 +653,7 @@
   </main>
 
   <!-- FOOTER -->
-  <footer class="hairline-t bg-zsurface/40 py-8 px-6 sm:px-10 lg:px-16 text-zmuted text-xs font-mono">
+  <footer class="relative z-10 hairline-t bg-zsurface/60 backdrop-blur-md py-8 px-6 sm:px-10 lg:px-16 text-zmuted text-xs font-mono">
     <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <div>
         <span id="footer-author">Dean Haddock</span> • <span>Technology Executive Portfolio</span>
@@ -961,6 +981,256 @@
   </script>
 
   <!-- ============================================================== -->
+  <!-- 3D AMBIENT TOPOLOGICAL WAVEFIELD (Three.js Creative Runtime)    -->
+  <!-- Preserved in Clean Static Production Exports                    -->
+  <!-- ============================================================== -->
+  <script id="zazen-3d-engine">
+    class ZazenBackground3D {
+      constructor(canvasId = 'zazen-3d-canvas') {
+        this.canvas = document.getElementById(canvasId);
+        if (!this.canvas) return;
+        if (typeof THREE === 'undefined') {
+          console.info('Three.js not loaded, 3D ambient background skipped gracefully.');
+          return;
+        }
+
+        this.active = true;
+        this.currentTheme = document.documentElement.getAttribute('data-theme') || 'architect';
+        this.init();
+      }
+
+      getPalettes() {
+        return {
+          editorial: {
+            wireColor: 0xA35C24,    // Warm Studio Amber
+            pointColor: 0xC27A3C,   // Sepia Glow
+            starColor: 0x8A4A1C,    // Deep Terroir
+            opacity: 0.32
+          },
+          linen: {
+            wireColor: 0x8C3A27,    // Terracotta
+            pointColor: 0xB2533E,   // Warm Rust
+            starColor: 0x6E2D1D,    // Umber
+            opacity: 0.28
+          },
+          architect: {
+            wireColor: 0x0F52BA,    // Blueprint Sapphire
+            pointColor: 0x2563EB,   // Cobalt Glow
+            starColor: 0x1D4ED8,    // Crisp Azure
+            opacity: 0.22
+          },
+          obsidian: {
+            wireColor: 0xD97706,    // Neon Amber
+            pointColor: 0xF59E0B,   // Radiant Gold
+            starColor: 0xFBBF24,    // Stardust Flare
+            opacity: 0.50
+          }
+        };
+      }
+
+      init() {
+        // Scene & Camera
+        this.scene = new THREE.Scene();
+        this.camera = new THREE.PerspectiveCamera(52, window.innerWidth / window.innerHeight, 0.1, 1000);
+        this.camera.position.set(0, 8, 24);
+        this.camera.lookAt(0, -1, 0);
+
+        // WebGL Renderer
+        try {
+          this.renderer = new THREE.WebGLRenderer({
+            canvas: this.canvas,
+            alpha: true,
+            antialias: true,
+            powerPreference: 'high-performance'
+          });
+        } catch (err) {
+          console.warn('WebGL not supported:', err);
+          return;
+        }
+
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+        const palettes = this.getPalettes();
+        const cfg = palettes[this.currentTheme] || palettes.editorial;
+        this.canvas.style.opacity = cfg.opacity;
+
+        // Undulating Topological Manifold (Terrain Wireframe)
+        this.planeGeo = new THREE.PlaneGeometry(105, 70, 48, 32);
+        this.planeGeo.rotateX(-Math.PI * 0.42);
+
+        this.wireMaterial = new THREE.MeshBasicMaterial({
+          color: cfg.wireColor,
+          wireframe: true,
+          transparent: true,
+          opacity: 0.30
+        });
+        this.terrainMesh = new THREE.Mesh(this.planeGeo, this.wireMaterial);
+        this.terrainMesh.position.set(0, -5, -4);
+        this.scene.add(this.terrainMesh);
+
+        // Glowing Vertex Nodes
+        this.pointMaterial = new THREE.PointsMaterial({
+          color: cfg.pointColor,
+          size: 2.2,
+          transparent: true,
+          opacity: 0.65
+        });
+        this.terrainPoints = new THREE.Points(this.planeGeo, this.pointMaterial);
+        this.terrainPoints.position.copy(this.terrainMesh.position);
+        this.scene.add(this.terrainPoints);
+
+        // Floating Stardust Particles
+        const starCount = 130;
+        const starGeo = new THREE.BufferGeometry();
+        const starCoords = new Float32Array(starCount * 3);
+        this.starData = [];
+
+        for (let i = 0; i < starCount; i++) {
+          starCoords[i * 3] = (Math.random() - 0.5) * 85;
+          starCoords[i * 3 + 1] = (Math.random() - 0.5) * 48;
+          starCoords[i * 3 + 2] = (Math.random() - 0.5) * 35;
+          this.starData.push({
+            origY: starCoords[i * 3 + 1],
+            speed: 0.006 + Math.random() * 0.012,
+            phase: Math.random() * Math.PI * 2
+          });
+        }
+        starGeo.setAttribute('position', new THREE.BufferAttribute(starCoords, 3));
+
+        this.starMaterial = new THREE.PointsMaterial({
+          color: cfg.starColor,
+          size: 2.8,
+          transparent: true,
+          opacity: 0.45
+        });
+        this.stars = new THREE.Points(starGeo, this.starMaterial);
+        this.scene.add(this.stars);
+
+        // Smooth Mouse Parallax Tracking
+        this.targetMouseX = 0;
+        this.targetMouseY = 0;
+        this.mouseX = 0;
+        this.mouseY = 0;
+
+        window.addEventListener('pointermove', (e) => {
+          this.targetMouseX = (e.clientX / window.innerWidth) * 2 - 1;
+          this.targetMouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        }, { passive: true });
+
+        // Responsive Resizing
+        window.addEventListener('resize', () => this.onResize(), { passive: true });
+
+        // Battery / Tab Hibernation Guard
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) {
+            this.pause();
+          } else if (this.active) {
+            this.resume();
+          }
+        });
+
+        this.clock = new THREE.Clock();
+        this.animate = this.animate.bind(this);
+        this.resume();
+      }
+
+      setPalette(theme) {
+        this.currentTheme = theme;
+        const palettes = this.getPalettes();
+        const cfg = palettes[theme] || palettes.editorial;
+
+        if (this.wireMaterial) this.wireMaterial.color.setHex(cfg.wireColor);
+        if (this.pointMaterial) this.pointMaterial.color.setHex(cfg.pointColor);
+        if (this.starMaterial) this.starMaterial.color.setHex(cfg.starColor);
+        if (this.canvas) this.canvas.style.opacity = cfg.opacity;
+      }
+
+      toggle() {
+        this.active = !this.active;
+        if (this.active) {
+          this.canvas.style.display = 'block';
+          this.resume();
+        } else {
+          this.canvas.style.display = 'none';
+          this.pause();
+        }
+        return this.active;
+      }
+
+      pause() {
+        if (this.animId) {
+          cancelAnimationFrame(this.animId);
+          this.animId = null;
+        }
+      }
+
+      resume() {
+        if (!this.animId && this.active && this.renderer) {
+          this.clock.start();
+          this.animate();
+        }
+      }
+
+      onResize() {
+        if (!this.camera || !this.renderer) return;
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      }
+
+      animate() {
+        if (!this.active) return;
+        this.animId = requestAnimationFrame(this.animate);
+
+        const t = this.clock.getElapsedTime();
+
+        // Parallax easing
+        this.mouseX += (this.targetMouseX - this.mouseX) * 0.04;
+        this.mouseY += (this.targetMouseY - this.mouseY) * 0.04;
+
+        this.scene.rotation.y = this.mouseX * 0.12;
+        this.scene.rotation.x = this.mouseY * 0.08;
+        this.camera.position.x = this.mouseX * 2.5;
+        this.camera.position.y = 8 + this.mouseY * 1.5;
+
+        // Wave harmonics on terrain
+        if (this.planeGeo) {
+          const pos = this.planeGeo.attributes.position;
+          const count = pos.count;
+          for (let i = 0; i < count; i++) {
+            const u = pos.getX(i);
+            const v = pos.getY(i);
+            const wave = Math.sin(u * 0.08 + t * 0.65) * Math.cos(v * 0.11 + t * 0.45) * 2.3 +
+                         Math.sin((u + v) * 0.05 + t * 0.8) * 1.3;
+            pos.setZ(i, wave);
+          }
+          pos.needsUpdate = true;
+        }
+
+        // Stardust orbital drift
+        if (this.stars) {
+          const starPos = this.stars.geometry.attributes.position;
+          for (let i = 0; i < this.starData.length; i++) {
+            const d = this.starData[i];
+            starPos.setY(i, d.origY + Math.sin(t * d.speed * 20 + d.phase) * 2.2);
+          }
+          starPos.needsUpdate = true;
+          this.stars.rotation.y = t * 0.015;
+        }
+
+        this.renderer.render(this.scene, this.camera);
+      }
+    }
+
+    // Auto-mount ambient 3D scene on DOM ready
+    document.addEventListener('DOMContentLoaded', () => {
+      window.ZazenBackground = new ZazenBackground3D();
+    });
+  </script>
+
+  <!-- ============================================================== -->
   <!-- ZAZEN BUILDER & RENDERING ENGINE (data-zazen-builder)          -->
   <!-- ============================================================== -->
   <script data-zazen-builder>
@@ -1010,10 +1280,24 @@
         if (window.lucide) lucide.createIcons();
       },
 
+      toggle3D() {
+        if (window.ZazenBackground) {
+          const active = window.ZazenBackground.toggle();
+          const btn = document.getElementById('zazen-3d-toggle');
+          if (btn) {
+            btn.classList.toggle('text-amber-400', active);
+            btn.classList.toggle('text-stone-500', !active);
+          }
+        }
+      },
+
       setPalette(theme) {
         document.documentElement.setAttribute('data-theme', theme);
         if (this.data && this.data.meta) {
           this.data.meta.palette = theme;
+        }
+        if (window.ZazenBackground) {
+          window.ZazenBackground.setPalette(theme);
         }
         document.querySelectorAll('#zazen-builder-bar [data-palette]').forEach(b => {
           if (b.getAttribute('data-palette') === theme) {
