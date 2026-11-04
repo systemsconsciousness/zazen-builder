@@ -36,9 +36,19 @@ console.log(`[Zazen Build] Cloud environment check: zazen-edit="${rawEnv}" => Au
 
 const rootDir = path.resolve(__dirname, '..');
 const indexPath = path.join(rootDir, 'index.html');
+const envJsonPath = path.join(rootDir, 'zazen-env.json');
+const distDir = path.join(rootDir, 'dist');
+const distIndexPath = path.join(distDir, 'index.html');
+const distEnvJsonPath = path.join(distDir, 'zazen-env.json');
 
-if (fs.existsSync(indexPath)) {
-  let html = fs.readFileSync(indexPath, 'utf8');
+const envPayload = JSON.stringify({ edit: isAuthoringActive, isEdit: isAuthoringActive, timestamp: Date.now() }, null, 2);
+
+// Write static fallback JSON endpoint
+fs.writeFileSync(envJsonPath, envPayload, 'utf8');
+
+function updateHtmlFile(filePath) {
+  if (!fs.existsSync(filePath)) return;
+  let html = fs.readFileSync(filePath, 'utf8');
 
   // Look for existing zazen-edit meta tag
   const metaRegex = /<meta\s+name=["']zazen-edit["']\s+content=["'][^"']*["']\s*\/?>/i;
@@ -51,9 +61,13 @@ if (fs.existsSync(indexPath)) {
     html = html.replace(/(<head[^>]*>)/i, `$1\n  ${newMeta}`);
   }
 
-  fs.writeFileSync(indexPath, html, 'utf8');
-  console.log(`[Zazen Build] Injected <meta name="zazen-edit" content="${isAuthoringActive ? 'true' : 'false'}"> into index.html`);
-} else {
-  console.warn(`[Zazen Build] index.html not found at ${indexPath}`);
+  fs.writeFileSync(filePath, html, 'utf8');
+  console.log(`[Zazen Build] Stamped ${filePath} with meta zazen-edit="${isAuthoringActive ? 'true' : 'false'}"`);
 }
 
+updateHtmlFile(indexPath);
+
+if (fs.existsSync(distDir)) {
+  updateHtmlFile(distIndexPath);
+  fs.writeFileSync(distEnvJsonPath, envPayload, 'utf8');
+}

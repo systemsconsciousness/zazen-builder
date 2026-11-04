@@ -1,0 +1,13 @@
+[build]
+  command = "node scripts/build.js"
+  publish = "."
+
+[[redirects]]
+  from = "/api/zazen-env"
+  to = "/.netlify/functions/zazen-env"
+  status = 200
+
+[[redirects]]
+  from = "/api/env"
+  to = "/.netlify/functions/zazen-env"
+  status = 200

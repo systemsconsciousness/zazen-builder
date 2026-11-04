@@ -1046,7 +1046,7 @@
       // Multi-tier authoring authorization detector
       // Strictly enforces security: authoring mode is NEVER exposed via public query strings.
       // Active ONLY on local development OR when explicitly authorized via the zazen-edit environment variable.
-      detectAuthoringMode() {
+      async detectAuthoringMode() {
         const isTruthy = (val) => {
           if (val === true || val === 1) return true;
           if (typeof val === 'string') {
@@ -1099,12 +1099,34 @@
           }
         }
 
+        // 5. Cloud Host Live API Endpoint (/api/zazen-env, /api/env, or /zazen-env.json)
+        // Dynamically queries the cloud host serverless environment to check if ZAZEN_EDIT was set in the hosting dashboard
+        try {
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), 2000);
+          const endpoints = ['/api/zazen-env', '/api/env', '/zazen-env.json'];
+
+          for (const ep of endpoints) {
+            try {
+              const res = await fetch(ep, { signal: controller.signal, cache: 'no-store' });
+              if (res.ok) {
+                const data = await res.json();
+                if (data && (isTruthy(data.edit) || isTruthy(data.isEdit))) {
+                  clearTimeout(timer);
+                  return true;
+                }
+              }
+            } catch (_) {}
+          }
+          clearTimeout(timer);
+        } catch (_) {}
+
         return false;
       },
 
       async init() {
         try {
-          this.isAuthoring = this.detectAuthoringMode();
+          this.isAuthoring = await this.detectAuthoringMode();
 
           if (this.isAuthoring) {
             document.body.classList.add('is-authoring');
