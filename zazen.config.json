@@ -10,9 +10,9 @@
     "email": "crew@saltpiersurf.com",
     "hours": "Daily 7:00 AM – 7:00 PM • Sunrise to Sunset",
     "status": "Open Daily • Oceanfront Outpost",
-    "heroHeadline": "Shaped for Atlantic swell. Rooted in Jax Beach!",
-    "heroSubhead": "Three blocks north of the Jacksonville Beach Pier, Salt Pier Surf Supply builds hand-shaped quivers, teaches ocean confidence, and equips watermen with honest gear engineered for North Florida sandbars. And turtles!",
-    "palette": "linen",
+    "heroHeadline": "Shaped for Atlantic swell. Rooted in Jax Beach???",
+    "heroSubhead": "Three blocks north of the Jacksonville Beach Pier, Salt Pier Surf Supply builds hand-shaped quivers, teaches ocean confidence, and equips watermen with honest gear engineered for North Florida sandbars.",
+    "palette": "sand",
     "font": "cormorant",
     "version": "3.2.0"
   },
@@ -128,30 +128,6 @@
   ],
   "services": [
     {
-      "id": "service-1",
-      "title": "Private Surf Coaching",
-      "duration": "90 Minutes",
-      "price": "$95 / Person",
-      "features": [
-        "1-on-1 instruction with CPR & Lifeguard certified coach",
-        "Includes premium board, rashguard, and leash",
-        "Paddle technique, ocean awareness & pop-up mechanics",
-        "In-water wave selection & etiquette coaching"
-      ]
-    },
-    {
-      "id": "service-2",
-      "title": "Grom Ocean Academy",
-      "duration": "Weekly Mon–Thu (Summer & Breaks)",
-      "price": "$325 / Week",
-      "features": [
-        "Ages 6–15 • Low 1:4 instructor-to-student ratio",
-        "Daily surf instruction, rip-current safety & ocean science",
-        "Fun heats, beach games & pizza party on Thursdays",
-        "Includes camp tee and graduation rashguard"
-      ]
-    },
-    {
       "id": "service-3",
       "title": "Board Rentals & Beach Gear",
       "duration": "Hourly, Daily or Weekly",
@@ -164,6 +140,18 @@
       ]
     },
     {
+      "id": "service-1",
+      "title": "Private Surf Coaching",
+      "duration": "90 Minutes",
+      "price": "$95 / Person",
+      "features": [
+        "1-on-1 instruction with CPR & Lifeguard certified coach",
+        "Includes premium board, rashguard, and leash",
+        "Paddle technique, ocean awareness & pop-up mechanics",
+        "In-water wave selection & etiquette coaching"
+      ]
+    },
+    {
       "id": "service-4",
       "title": "In-House Ding Hospital",
       "duration": "24–48 Hr Express Available",
@@ -173,6 +161,18 @@
         "Color-matched resin tinting and gloss polish finish",
         "Fin box replacement (Futures, FCS II, Single Box)",
         "Creased board reinforcement and snapped tail reconstruction"
+      ]
+    },
+    {
+      "id": "service-2",
+      "title": "Grom Ocean Academy",
+      "duration": "Weekly Mon–Thu (Summer & Breaks)",
+      "price": "$325 / Week",
+      "features": [
+        "Ages 6–15 • Low 1:4 instructor-to-student ratio",
+        "Daily surf instruction, rip-current safety & ocean science",
+        "Fun heats, beach games & pizza party on Thursdays",
+        "Includes camp tee and graduation rashguard"
       ]
     }
   ],
