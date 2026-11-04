@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dean Haddock — Technology Executive & Systems Thinker</title>
+  
+  <!-- Studio Fonts: Newsreader (Editorial Serif), Inter (Clean Sans), JetBrains Mono (Technical Mono) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            heading: ['var(--font-heading)', 'Newsreader', 'Georgia', 'serif'],
+            body: ['var(--font-body)', 'Inter', '-apple-system', 'sans-serif'],
+            mono: ['var(--font-mono)', 'JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            zbg: 'var(--bg)',
+            zsurface: 'var(--surface)',
+            zelevated: 'var(--elevated)',
+            ztext: 'var(--text)',
+            zmuted: 'var(--muted)',
+            zborder: 'var(--border)',
+            zaccent: 'var(--accent)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons & JSZip for production bundling -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <style>
+    :root {
+      /* Default Studio Palette: Editorial Sand & Ink */
+      --font-heading: 'Newsreader', serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --bg: #F4EFE6;
+      --surface: #ECE4D7;
+      --elevated: #FCFAF6;
+      --text: #211E1B;
+      --muted: #73695E;
+      --border: rgba(33, 30, 27, 0.14);
+      --accent: #A35C24;
+    }
+
+    [data-theme="linen"] {
+      --bg: #FAF8F5;
+      --surface: #F3EFEA;
+      --elevated: #FFFFFF;
+      --text: #1C1A17;
+      --muted: #6B665E;
+      --border: rgba(28, 26, 23, 0.12);
+      --accent: #8C3A27;
+    }
+
+    [data-theme="architect"] {
+      --bg: #FFFFFF;
+      --surface: #F8F9FA;
+      --elevated: #FFFFFF;
+      --text: #111111;
+      --muted: #555555;
+      --border: #E5E7EB;
+      --accent: #0F52BA;
+    }
+
+    [data-theme="obsidian"] {
+      --bg: #0D0E11;
+      --surface: #14171C;
+      --elevated: #1C2026;
+      --text: #EAEBED;
+      --muted: #8E929B;
+      --border: rgba(234, 235, 237, 0.12);
+      --accent: #D97706;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      transition: background-color 0.25s ease, color 0.25s ease;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Subtle Architectural Hairline Grids */
+    .hairline-b { border-bottom: 1px solid var(--border); }
+    .hairline-t { border-top: 1px solid var(--border); }
+    .hairline-l { border-left: 1px solid var(--border); }
+    .hairline-r { border-right: 1px solid var(--border); }
+    .hairline-all { border: 1px solid var(--border); }
+
+    /* Selection Highlight */
+    ::selection {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    /* Print Styles */
+    @media print {
+      #zazen-builder-bar, .zazen-builder-ui { display: none !important; }
+      body { background: white !important; color: black !important; padding-top: 0 !important; }
+      .no-print { display: none !important; }
+      a { text-decoration: none !important; color: inherit !important; }
+    }
+  </style>
+</head>
+<body class="pt-14 selection:bg-stone-800 selection:text-stone-100 min-h-screen flex flex-col justify-between">
+
+  <!-- ============================================================== -->
+  <!-- ZAZEN BUILDER OVERLAY BAR (Authoring Mode Only - Scrubbed on Export) -->
+  <!-- ============================================================== -->
+  <aside id="zazen-builder-bar" class="zazen-builder-ui fixed top-0 inset-x-0 h-12 bg-stone-950/95 text-stone-200 border-b border-stone-800 z-50 backdrop-blur-md px-4 flex items-center justify-between text-xs tracking-tight select-none">
+    <div class="flex items-center gap-3">
+      <div class="flex items-center gap-1.5 font-mono uppercase tracking-widest text-[11px] font-semibold text-stone-100">
+        <span class="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+        <span>ZAZEN BUILDER</span>
+        <span class="text-stone-500 font-normal">v3.1.0</span>
+      </div>
+
+      <div class="hidden sm:flex items-center gap-1 pl-3 border-l border-stone-800 text-stone-400">
+        <span id="zazen-bridge-status" class="text-[10px] font-mono px-2 py-0.5 rounded bg-stone-800/80 text-stone-300 border border-stone-700/60">
+          ○ Static Preview
+        </span>
+      </div>
+    </div>
+
+    <!-- Center Controls: Palette & Typography -->
+    <div class="flex items-center gap-2">
+      <!-- Palette Selector -->
+      <div class="flex items-center gap-1 bg-stone-900 border border-stone-800 rounded px-1.5 py-1">
+        <span class="text-stone-500 text-[10px] uppercase font-mono mr-1 hidden md:inline">Palette</span>
+        <button onclick="Zazen.setPalette('editorial')" class="px-2 py-0.5 rounded text-[11px] transition-colors hover:bg-stone-800 text-stone-300 active-palette" data-palette="editorial" title="Editorial Sand & Ink">Editorial</button>
+        <button onclick="Zazen.setPalette('linen')" class="px-2 py-0.5 rounded text-[11px] transition-colors hover:bg-stone-800 text-stone-400" data-palette="linen" title="Warm Linen & Amber">Linen</button>
+        <button onclick="Zazen.setPalette('architect')" class="px-2 py-0.5 rounded text-[11px] transition-colors hover:bg-stone-800 text-stone-400" data-palette="architect" title="Architect White">Architect</button>
+        <button onclick="Zazen.setPalette('obsidian')" class="px-2 py-0.5 rounded text-[11px] transition-colors hover:bg-stone-800 text-stone-400" data-palette="obsidian" title="Obsidian Darkroom">Obsidian</button>
+      </div>
+
+      <!-- Typography Selector -->
+      <div class="hidden lg:flex items-center gap-1 bg-stone-900 border border-stone-800 rounded px-1.5 py-1">
+        <span class="text-stone-500 text-[10px] uppercase font-mono mr-1">Type</span>
+        <button onclick="Zazen.setFontPreset('newsreader')" class="px-2 py-0.5 rounded text-[11px] hover:bg-stone-800 text-stone-300 font-serif" title="Newsreader + Inter">Newsreader</button>
+        <button onclick="Zazen.setFontPreset('cormorant')" class="px-2 py-0.5 rounded text-[11px] hover:bg-stone-800 text-stone-400 font-serif" title="Cormorant + Jakarta">Cormorant</button>
+      </div>
+    </div>
+
+    <!-- Right Controls: State & Production Exports -->
+    <div class="flex items-center gap-1.5">
+      <button onclick="Zazen.exportState()" class="hidden md:inline-flex items-center gap-1 px-2.5 py-1 rounded bg-stone-900 hover:bg-stone-800 text-stone-300 border border-stone-800 transition-colors" title="Export zazen-state.json">
+        <i data-lucide="file-json" class="w-3.5 h-3.5"></i>
+        <span>State</span>
+      </button>
+
+      <button onclick="Zazen.downloadZip()" class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-stone-800 hover:bg-stone-700 text-stone-100 border border-stone-700 font-medium transition-colors" title="Download Pure Production ZIP without builder UI">
+        <i data-lucide="archive" class="w-3.5 h-3.5 text-amber-400"></i>
+        <span>Pure ZIP</span>
+      </button>
+
+      <button onclick="Zazen.openDeployModal()" class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-amber-600 hover:bg-amber-500 text-white font-medium shadow-sm transition-colors" title="Open Deploy & MCP Handoff Modal">
+        <i data-lucide="rocket" class="w-3.5 h-3.5"></i>
+        <span>Deploy</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ============================================================== -->
+  <!-- UNIFIED DEPLOYMENT & MCP MODAL (Scrubbed on Export)             -->
+  <!-- ============================================================== -->
+  <div id="zazen-deploy-modal" class="zazen-builder-ui fixed inset-0 z-[100] bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-stone-950 border border-stone-800 text-stone-200 rounded-xl max-w-2xl w-full p-6 shadow-2xl relative">
+      <button onclick="Zazen.closeDeployModal()" class="absolute top-5 right-5 text-stone-400 hover:text-white p-1 rounded-lg hover:bg-stone-900 transition-colors">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="flex items-center gap-2 mb-1">
+        <div class="w-2.5 h-2.5 rounded-full bg-amber-500"></div>
+        <span class="font-mono text-xs text-amber-400 uppercase tracking-widest">Production Handoff</span>
+      </div>
+      <h3 class="font-heading text-2xl text-stone-100 font-serif mb-2">Deploy & Export Site</h3>
+      <p class="text-stone-400 text-xs leading-relaxed mb-6">
+        All exports generate 100% pure production code. The top toolbar, modals, and builder runtime scripts are automatically scrubbed from the final bundle.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+        <!-- Option 1: Clean ZIP Download -->
+        <div class="p-4 rounded-lg bg-stone-900/80 border border-stone-800 hover:border-stone-700 transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 text-stone-100 font-medium text-sm mb-1">
+              <i data-lucide="folder-archive" class="w-4 h-4 text-amber-400"></i>
+              <span>Pure Production ZIP</span>
+            </div>
+            <p class="text-stone-400 text-xs mb-3">Download scrubbed static bundle (`index.html` + `zazen.config.json`) ready for drag-and-drop on Vercel, Netlify Drop, Cloudflare Pages, S3, or FTP.</p>
+          </div>
+          <button onclick="Zazen.downloadZip()" class="w-full py-2 bg-stone-800 hover:bg-stone-700 text-stone-100 rounded text-xs font-mono tracking-wide transition-colors">
+            Download ZIP
+          </button>
+        </div>
+
+        <!-- Option 2: 1-Click MCP Prompt Copy -->
+        <div class="p-4 rounded-lg bg-stone-900/80 border border-stone-800 hover:border-stone-700 transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 text-stone-100 font-medium text-sm mb-1">
+              <i data-lucide="terminal" class="w-4 h-4 text-emerald-400"></i>
+              <span>MCP Agent Prompt</span>
+            </div>
+            <p class="text-stone-400 text-xs mb-3">Generate a structured deployment prompt for your active hosting MCP tool (Vercel, Contentstack Launch, Netlify, Cloudflare).</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <select id="mcp-target-provider" class="bg-stone-950 border border-stone-800 text-stone-300 text-xs rounded px-2 py-1.5 focus:outline-none flex-1">
+              <option value="universal">Universal / Auto</option>
+              <option value="vercel">Vercel</option>
+              <option value="contentstack-launch">Contentstack Launch</option>
+              <option value="netlify">Netlify</option>
+              <option value="cloudflare">Cloudflare Pages</option>
+              <option value="s3">AWS S3 / Amplify</option>
+            </select>
+            <button onclick="Zazen.handleMcpDeploy(document.getElementById('mcp-target-provider').value)" class="py-1.5 px-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-xs font-medium transition-colors">
+              Copy Prompt
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Prompt Preview Panel -->
+      <div id="mcp-prompt-panel" class="hidden mt-4 pt-4 border-t border-stone-800">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-mono text-stone-400">Generated MCP Agent Deployment Payload:</span>
+          <span class="text-[11px] text-emerald-400 font-mono">✓ Copied to clipboard</span>
+        </div>
+        <textarea id="mcp-prompt-textarea" readonly class="w-full h-32 bg-stone-950 border border-stone-800 rounded p-2.5 text-[11px] font-mono text-stone-300 focus:outline-none select-all"></textarea>
+      </div>
+
+      <div class="flex items-center justify-between pt-4 border-t border-stone-800/80 text-[11px] text-stone-500">
+        <span>Zazen Labs Architectural Bridge • CC-BY-NC-4.0</span>
+        <button onclick="window.print()" class="hover:text-stone-300 flex items-center gap-1 transition-colors">
+          <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+          <span>Print / Save as PDF</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MAIN EDITORIAL CONTENT (Dynamic Projection of __ZAZEN_DATA)     -->
+  <!-- ============================================================== -->
+  <main id="app-root" class="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 py-12 md:py-20 w-full flex-grow">
+    
+    <!-- MASTHEAD / STUDIO HEADER -->
+    <header class="pb-14 hairline-b">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 font-mono text-[11px] uppercase tracking-widest text-zmuted pb-8">
+        <div class="flex items-center gap-3">
+          <span class="w-2 h-2 rounded-full bg-zaccent inline-block"></span>
+          <span id="site-location">New York &amp; Atlantic Coast • Remote</span>
+        </div>
+        <div class="flex items-center gap-6">
+          <span id="site-status" class="text-ztext font-medium">Available for Advisory &amp; Leadership</span>
+          <span>EST. 2005</span>
+        </div>
+      </div>
+
+      <div class="pt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+        <div class="lg:col-span-8">
+          <h1 id="hero-title" class="font-heading text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight text-ztext leading-[1.05] font-light">
+            Dean Haddock
+          </h1>
+          <p id="hero-subtitle" class="mt-6 font-heading italic text-xl sm:text-2xl md:text-3xl text-zmuted leading-relaxed font-light max-w-3xl">
+            Empathetic tech leader, systems thinker, creative problem solver and engineer who has built and scaled multiple SaaS platforms in competitive markets.
+          </p>
+        </div>
+
+        <div class="lg:col-span-4 flex flex-col justify-end lg:items-end font-mono text-xs text-zmuted space-y-2">
+          <div class="hairline-all px-3 py-2 rounded bg-zsurface/60 max-w-xs text-left">
+            <span class="block text-ztext font-medium mb-0.5">Distinctions</span>
+            <span class="block text-[11px]">Nieman Fellow (Harvard) • US Patent 12455773 • Planning Commissioner • Webby Judge</span>
+          </div>
+          <div class="flex items-center gap-4 pt-2">
+            <a href="#experience" class="hover:text-zaccent transition-colors">Experience ↓</a>
+            <a href="#patents" class="hover:text-zaccent transition-colors">Patents &amp; Honors ↓</a>
+            <a href="#civic" class="hover:text-zaccent transition-colors">Civic ↓</a>
+            <a href="#contact" class="hover:text-zaccent transition-colors">Contact ↓</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- KEY METRIC STRIP -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-12 pt-8 hairline-t">
+        <div class="p-3">
+          <span class="block font-mono text-xs text-zmuted uppercase tracking-wider">Scale &amp; Impact</span>
+          <span class="block font-heading text-3xl sm:text-4xl text-ztext mt-1">$10M+</span>
+          <span class="block text-xs text-zmuted mt-0.5">Enterprise Client Portfolios</span>
+        </div>
+        <div class="p-3">
+          <span class="block font-mono text-xs text-zmuted uppercase tracking-wider">Product Trajectory</span>
+          <span class="block font-heading text-3xl sm:text-4xl text-ztext mt-1">2x+</span>
+          <span class="block text-xs text-zmuted mt-0.5">Y1 Financial &amp; Adoption Goals</span>
+        </div>
+        <div class="p-3">
+          <span class="block font-mono text-xs text-zmuted uppercase tracking-wider">Intellectual Property</span>
+          <span class="block font-heading text-3xl sm:text-4xl text-ztext mt-1">1</span>
+          <span class="block text-xs text-zmuted mt-0.5">US Patent Issued (Oct 2025)</span>
+        </div>
+        <div class="p-3">
+          <span class="block font-mono text-xs text-zmuted uppercase tracking-wider">Leadership Tenure</span>
+          <span class="block font-heading text-3xl sm:text-4xl text-ztext mt-1">18+ Yrs</span>
+          <span class="block text-xs text-zmuted mt-0.5">SaaS &amp; Systems Engineering</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- CORE COMPETENCIES / PRACTICE AREAS -->
+    <section id="competencies" class="py-16 hairline-b">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div class="lg:col-span-4">
+          <span class="font-mono text-xs uppercase tracking-widest text-zaccent block mb-2">01 / Foundation</span>
+          <h2 class="font-heading text-3xl sm:text-4xl text-ztext font-light">Core Competencies</h2>
+          <p class="mt-3 text-sm text-zmuted leading-relaxed">
+            Deep expertise spanning product strategy, multi-cloud platforms, organizational leadership, and modern agentic engineering.
+          </p>
+        </div>
+
+        <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-6" id="competencies-container">
+          <!-- Injected via __ZAZEN_DATA -->
+        </div>
+      </div>
+    </section>
+
+    <!-- PROFESSIONAL EXPERIENCE (CHRONOLOGICAL DOSSIER) -->
+    <section id="experience" class="py-16 hairline-b">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+        <div>
+          <span class="font-mono text-xs uppercase tracking-widest text-zaccent block mb-2">02 / Trajectory</span>
+          <h2 class="font-heading text-3xl sm:text-4xl text-ztext font-light">Professional Experience</h2>
+        </div>
+        <p class="font-mono text-xs text-zmuted mt-2 md:mt-0">Executive &amp; Principal Appointments • 2005 – Present</p>
+      </div>
+
+      <div class="space-y-16" id="experience-container">
+        <!-- Injected via __ZAZEN_DATA -->
+      </div>
+    </section>
+
+    <!-- PATENTS, AWARDS & HONORS -->
+    <section id="patents" class="py-16 hairline-b">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div class="lg:col-span-4">
+          <span class="font-mono text-xs uppercase tracking-widest text-zaccent block mb-2">03 / Distinction</span>
+          <h2 class="font-heading text-3xl sm:text-4xl text-ztext font-light">Patents &amp; Honors</h2>
+          <p class="mt-3 text-sm text-zmuted leading-relaxed">
+            Recognized by peer institutions, global awards bodies, journalistic foundations, and patent authorities.
+          </p>
+        </div>
+
+        <div class="lg:col-span-8 space-y-8">
+          <!-- Featured Patent Card -->
+          <div class="p-6 rounded-lg bg-zelevated hairline-all shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 font-mono text-xs text-zmuted pb-3 hairline-b">
+              <span class="text-zaccent font-medium uppercase tracking-wider">United States Patent</span>
+              <span>Patent No. 12455773 • Issued Oct 28, 2025</span>
+            </div>
+            <h3 class="font-heading text-2xl text-ztext mt-4 mb-2 font-light">
+              Systems and Methods for Allocating System Resources Using Dual-Limit Account Provisioning
+            </h3>
+            <p class="text-sm text-zmuted leading-relaxed">
+              Proprietary architectural methodology for enterprise multi-product SaaS systems, dynamic provisioning controls, quota throttling, and resilient cloud resource segregation.
+            </p>
+          </div>
+
+          <!-- Awards & Honors Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="honors-container">
+            <!-- Injected via __ZAZEN_DATA -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CIVIC LEADERSHIP & GIVING BACK -->
+    <section id="civic" class="py-16 hairline-b">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div class="lg:col-span-4">
+          <span class="font-mono text-xs uppercase tracking-widest text-zaccent block mb-2">04 / Community</span>
+          <h2 class="font-heading text-3xl sm:text-4xl text-ztext font-light">Civic Leadership &amp; Service</h2>
+          <p class="mt-3 text-sm text-zmuted leading-relaxed">
+            Committed to public service, community governance, accessible storytelling, and mentoring underrepresented creators.
+          </p>
+        </div>
+
+        <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4" id="civic-container">
+          <!-- Injected via __ZAZEN_DATA -->
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION & CREDENTIALS -->
+    <section id="education" class="py-16 hairline-b">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div class="lg:col-span-4">
+          <span class="font-mono text-xs uppercase tracking-widest text-zaccent block mb-2">05 / Scholarship</span>
+          <h2 class="font-heading text-3xl sm:text-4xl text-ztext font-light">Education</h2>
+          <p class="mt-3 text-sm text-zmuted leading-relaxed">
+            Academic grounding in political science, institutional economics, governance, and business administration.
+          </p>
+        </div>
+
+        <div class="lg:col-span-8 space-y-4" id="education-container">
+          <!-- Injected via __ZAZEN_DATA -->
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT / COLOPHON SECTION -->
+    <section id="contact" class="py-20">
+      <div class="p-8 sm:p-12 rounded-xl bg-zelevated hairline-all">
+        <div class="max-w-2xl">
+          <span class="font-mono text-xs uppercase tracking-widest text-zaccent block mb-2">Inquiries &amp; Collaboration</span>
+          <h2 class="font-heading text-4xl sm:text-5xl text-ztext font-light">Let’s build something remarkable.</h2>
+          <p class="mt-4 text-zmuted text-base leading-relaxed">
+            Open to select board advisory appointments, enterprise product leadership consultations, and high-impact technology initiatives.
+          </p>
+          <div class="mt-8 flex flex-wrap items-center gap-4 font-mono text-xs">
+            <a href="mailto:dean@zazenlabs.com" class="px-5 py-3 rounded bg-ztext text-zbg hover:opacity-90 transition-opacity font-medium">
+              Get in Touch →
+            </a>
+            <button onclick="window.print()" class="px-5 py-3 rounded hairline-all bg-zsurface/50 text-ztext hover:bg-zsurface transition-colors flex items-center gap-2">
+              <i data-lucide="printer" class="w-4 h-4"></i>
+              <span>Print Dossier</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="hairline-t bg-zsurface/40 py-8 px-6 sm:px-10 lg:px-16 text-zmuted text-xs font-mono">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <span>Dean Haddock • Technology Executive Portfolio</span>
+      </div>
+      <div class="flex items-center gap-4 text-[11px]">
+        <span>Powered by Zazen Builder v3.1.0</span>
+        <span>•</span>
+        <span>Agency Grade</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================== -->
+  <!-- DECENTRALIZED DATA STORE (__ZAZEN_DATA)                          -->
+  <!-- ============================================================== -->
+  <script id="__ZAZEN_DATA" type="application/json">
+  {
+    "meta": {
+      "title": "Dean Haddock — Portfolio & Resume",
+      "author": "Dean Haddock",
+      "environment": "production",
+      "version": "3.1.0",
+      "updated": "2026",
+      "palette": "editorial",
+      "font": "newsreader",
+      "location": "New York & Atlantic Coast • Remote",
+      "status": "Available for Advisory & Leadership"
+    },
+    "summary": "Empathetic tech leader, systems thinker, creative problem solver and engineer who has built and scaled multiple SaaS platforms in competitive markets. Deep expertise in product strategy, AI, automation, and high-scale technical innovation. Nieman Fellow, Planning Commissioner and entrepreneur.",
+    "competencies": [
+      {
+        "category": "Product & Strategy",
+        "description": "Product Management & Strategy (SaaS, Web & Mobile), Platform, Security, PLG, Pricing & Packaging, AI Integration & Strategy, Stakeholder Relations, Sales"
+      },
+      {
+        "category": "Leadership",
+        "description": "Product & Engineering Team Leadership, Mentoring, Cross-functional Culture & Collaboration, Process Improvement, Efficiency, Mission & Vision, AI Adoption"
+      },
+      {
+        "category": "Technical",
+        "description": "Full-Stack Development (Node.js, LAMP, JS, UX), AI & Automation, Cloud (AWS, GCP, Azure, Linux), SDLC, Systems Engineering, Security, Agentic Coding & Prototyping"
+      }
+    ],
+    "experience": [
+      {
+        "company": "CONTENTSTACK",
+        "location": "Remote",
+        "tenure": "May 2022 - Present",
+        "roles": [
+          {
+            "title": "Group Product Manager, Platform & Hosting",
+            "period": "2025 - Present",
+            "highlights": [
+              "Led platform, hosting, data engineering, security & access, administration, and provisioning teams.",
+              "Delivered SaaS products and core platform features, including APIs, analytics, hosting, notifications, administration, global navigation, CLIs, MCPs, RBAC and security tools.",
+              "Executed the product and technical change strategy from single- to multi-product SaaS platform."
+            ]
+          },
+          {
+            "title": "Sr. Product Manager, Platform & Hosting",
+            "period": "2024 - 2025",
+            "highlights": [
+              "Launched a new multi-cloud, multi-region, enterprise-grade Node web application hosting platform.",
+              "Exceeded financial and user adoption goals by over 2x in Y1 with continued sustained growth.",
+              "Partnered with UX, engineering, support and sales teams to align efforts and drive successful product launches and customer outcomes."
+            ]
+          },
+          {
+            "title": "Sr. Product Manager, Plans & Packaging",
+            "period": "2022 - 2024",
+            "highlights": [
+              "Led pricing and packaging strategies to transform the business from a single-product to a multi-product SaaS model.",
+              "Simplified complex back-of-house provisioning systems, data layer architecture and observability for customers and internal teams.",
+              "Co-founded Contentstack's Internal Advisory Board and Toastmasters Club to foster cross-team collaboration.",
+              "Recognized with the Contentstack Care award for outstanding collaboration with customers and colleagues."
+            ]
+          }
+        ]
+      },
+      {
+        "company": "10UP, INC.",
+        "location": "Remote",
+        "tenure": "2019 - 2022",
+        "roles": [
+          {
+            "title": "Associate Director, New Client Strategy",
+            "period": "2019 - 2022",
+            "highlights": [
+              "Built and managed a $10M+ portfolio of technology projects for enterprises and scale-ups, including Blackstone, Microsoft, Hilton, VMware, T-Mobile, Groundworks, Samsung, Merck, Glazer Vision Foundation and more.",
+              "Led digital and product strategies across all SDLC phases to deliver top-quality results for major, high-profile initiatives.",
+              "Crafted strategy presentations, detailed project budgets, estimates and scopes of work that succeeded on time, budget and goal.",
+              "Reviewed contracts, responded to RFPs and navigated procurement processes for new clients and partners, including government agencies.",
+              "Managed, hired, mentored and led diverse staff and technical product teams."
+            ]
+          }
+        ]
+      },
+      {
+        "company": "STORYCORPS, INC.",
+        "location": "Brooklyn, NY",
+        "tenure": "2008 - 2019",
+        "roles": [
+          {
+            "title": "Managing Director, Digital & Technical Innovation",
+            "period": "2015 - 2019",
+            "highlights": [
+              "Led StoryCorps' digital organization, achieving recognition by the Knight Foundation, Nieman Foundation for Journalism, Webby Awards and more.",
+              "Spearheaded the 2015 TED Prize project for the StoryCorps App & Archive SaaS platform, creating the world's largest oral history archive.",
+              "Presented at conferences, explored new partnerships and published thought leadership pieces discussing industry technology solutions.",
+              "Cultivated strategic relationships with Apple, Google, Amazon, the United States Library of Congress, and multiple INGOs.",
+              "Founded a diverse Digital & Technical Innovation team and established a pipeline from local colleges to recruit and train promising developers."
+            ]
+          },
+          {
+            "title": "Director, Web & Information Technology",
+            "period": "2012 - 2015",
+            "highlights": [
+              "Developed and led StoryCorps' organization-wide digital strategy in close collaboration with executives, board members and directors.",
+              "Crafted and implemented product-led growth (PLG) motions that more than doubled user engagement and user-generated content (UGC).",
+              "Redesigned and relaunched the StoryCorps.org website and implemented multiple, high-conversion marketing microsites."
+            ]
+          },
+          {
+            "title": "Sr. Manager, Information Technology",
+            "period": "2010 - 2012",
+            "highlights": [
+              "Drafted and maintained annual budgets for StoryCorps' digital and IT teams and special projects.",
+              "Built and led StoryCorps' data and reporting team, centrally managing all data analysis and key reports for the organization's many programs and initiatives.",
+              "Coauthored award-winning grants for organizations like the Knight Foundation, TED, and the Nieman Foundation for Journalism at Harvard University."
+            ]
+          },
+          {
+            "title": "Manager, Information Technology",
+            "period": "2008 - 2010",
+            "highlights": [
+              "Led organization-wide Salesforce migration and nurtured new SaaS product features like StoryCorps Communities pages, AI/ML transcription at scale, ElasticSearch and WebRTC.",
+              "Designed, built and launched Facebook App integrations and other campaigns to engage and grow StoryCorps' audience.",
+              "Centralized business and programs systems, migrating from multiple legacy platforms, like FileMaker Pro and physical storage to modern, enterprise-grade cloud services, like AWS.",
+              "Developed, tested and maintained StoryCorps' first redundant disaster recovery plan and procured all company hardware, software, and networking systems."
+            ]
+          }
+        ]
+      },
+      {
+        "company": "GOOGLE'S 30 WEEKS STARTUP INCUBATOR",
+        "location": "New York, NY",
+        "tenure": "2016",
+        "roles": [
+          {
+            "title": "Engineer in Residence, Instructor",
+            "period": "2016",
+            "highlights": [
+              "Developed and taught a robust web product education curriculum, from hardware and software to IoT solutions.",
+              "Advised and collaborated with 30 Weeks leadership on program structure and sustainability.",
+              "Mentored designer-founders on technical strategy, revenue models, and scalability for their first product launches.",
+              "Advised startup founders on digital product strategy, revenue strategy, sustainability, scalability, audience growth and user retention.",
+              "Coached designer-founders as they brought their first products to market and launched their first businesses."
+            ]
+          }
+        ]
+      },
+      {
+        "company": "JOHN M. FLOYD & ASSOCIATES",
+        "location": "Remote",
+        "tenure": "2005 - 2008",
+        "roles": [
+          {
+            "title": "Assistant Manager, Information Technology",
+            "period": "2005 - 2008",
+            "highlights": [
+              "Designed and implemented major infrastructure expansion to support increase in personnel and increase impact of sales and implementation teams.",
+              "Architected and implemented virtualized network environments, workflow management systems, and disaster recovery strategies for the financial sector in a remote environment.",
+              "Contributed to on-prem product strategy with a focus on scalability and centralization in a highly regulated market."
+            ]
+          }
+        ]
+      }
+    ],
+    "patent": {
+      "title": "Systems and Methods for Allocating System Resources Using Dual-Limit Account Provisioning",
+      "number": "12455773",
+      "date": "October 28, 2025",
+      "summary": "Dual-limit provisioning engine allowing dynamic tier quotas, soft/hard threshold management, and resource safety segregation across multitenant cloud architectures."
+    },
+    "honors": [
+      { "award": "Most High-5s Award", "org": "Contentstack", "year": "2026" },
+      { "award": "Care Award", "org": "Contentstack", "year": "2023" },
+      { "award": "Member", "org": "Twilio Startups", "year": "2020" },
+      { "award": "Nominee & Honoree", "org": "The Webby Awards: StoryCorps App & Website", "year": "2016" },
+      { "award": "Best Apps for Teaching & Learning", "org": "American Association of School Librarians", "year": "2016" },
+      { "award": "Visiting Fellow", "org": "Nieman Foundation for Journalism at Harvard University", "year": "2015" },
+      { "award": "Judge", "org": "The Webby Awards", "year": "2015 - Present" },
+      { "award": "Prototype Award", "org": "Knight Foundation", "year": "2014" },
+      { "award": "Google Fellow", "org": "Personal Democracy Forum", "year": "2010, 2012" },
+      { "award": "Chairperson", "org": "Texas Leadership Forum", "year": "2007" }
+    ],
+    "civic": [
+      { "role": "Planning Commissioner", "org": "City of Jacksonville Beach", "status": "Current" },
+      { "role": "Technology Advisor", "org": "Gordon Education Initiatives", "status": "Current" },
+      { "role": "Cofounder", "org": "Secret Telephone Storytelling Project", "status": "Project" },
+      { "role": "Cofounder & Full Stack Developer", "org": "People Phone", "status": "Project" },
+      { "role": "Technology Advisor", "org": "Reach the World", "status": "Advisory" },
+      { "role": "Surf Coach", "org": "Life Rolls On", "status": "Community" },
+      { "role": "Member", "org": "61 Franklin Street Community Garden", "status": "Community" },
+      { "role": "Surf Mentor", "org": "Stoked Mentoring, Inc.", "status": "Community" }
+    ],
+    "education": [
+      { "degree": "MS, Political Science (Institutional Economics)", "institution": "University of North Texas" },
+      { "degree": "BA, Political Science", "institution": "University of North Texas" },
+      { "degree": "AA, Business Administration", "institution": "Tarrant County College" }
+    ]
+  }
+  </script>
+
+  <!-- ============================================================== -->
+  <!-- ZAZEN BUILDER & RENDERING ENGINE (data-zazen-builder)          -->
+  <!-- ============================================================== -->
+  <script data-zazen-builder>
+    const Zazen = {
+      data: null,
+      bridgeActive: false,
+
+      async init() {
+        try {
+          const raw = document.getElementById('__ZAZEN_DATA').textContent;
+          this.data = JSON.parse(raw);
+          this.render();
+          await this.checkMcpBridge();
+        } catch (e) {
+          console.error("Zazen initialization error:", e);
+        }
+        if (window.lucide) lucide.createIcons();
+      },
+
+      setPalette(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        document.querySelectorAll('#zazen-builder-bar [data-palette]').forEach(b => {
+          if (b.getAttribute('data-palette') === theme) {
+            b.className = 'px-2 py-0.5 rounded text-[11px] bg-stone-800 text-stone-100 font-medium active-palette';
+          } else {
+            b.className = 'px-2 py-0.5 rounded text-[11px] hover:bg-stone-800 text-stone-400';
+          }
+        });
+      },
+
+      setFontPreset(preset) {
+        if (preset === 'newsreader') {
+          document.documentElement.style.setProperty('--font-heading', "'Newsreader', serif");
+          document.documentElement.style.setProperty('--font-body', "'Inter', sans-serif");
+        } else if (preset === 'cormorant') {
+          document.documentElement.style.setProperty('--font-heading', "'Cormorant Garamond', serif");
+          document.documentElement.style.setProperty('--font-body', "'Plus Jakarta Sans', sans-serif");
+        }
+      },
+
+      render() {
+        const d = this.data;
+        if (!d) return;
+
+        // Render Competencies
+        const compContainer = document.getElementById('competencies-container');
+        if (compContainer && d.competencies) {
+          compContainer.innerHTML = d.competencies.map((c, i) => `
+            <div class="p-6 rounded-lg bg-zelevated hairline-all flex flex-col justify-between hover:border-zaccent/40 transition-colors">
+              <div>
+                <span class="font-mono text-xs text-zmuted uppercase tracking-wider block mb-1">0${i + 1}</span>
+                <h3 class="font-heading text-xl text-ztext font-medium mb-3">${c.category}</h3>
+                <p class="text-xs text-zmuted leading-relaxed">${c.description}</p>
+              </div>
+            </div>
+          `).join('');
+        }
+
+        // Render Experience
+        const expContainer = document.getElementById('experience-container');
+        if (expContainer && d.experience) {
+          expContainer.innerHTML = d.experience.map(exp => `
+            <article class="hairline-t pt-10">
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Left Column: Company & Metadata -->
+                <div class="lg:col-span-4">
+                  <div class="flex items-center gap-2 font-mono text-xs text-zaccent uppercase tracking-wider">
+                    <span>${exp.tenure}</span>
+                    <span>•</span>
+                    <span>${exp.location}</span>
+                  </div>
+                  <h3 class="font-heading text-2xl sm:text-3xl text-ztext font-light mt-1">${exp.company}</h3>
+                </div>
+
+                <!-- Right Column: Roles & Highlights -->
+                <div class="lg:col-span-8 space-y-8">
+                  ${exp.roles.map(r => `
+                    <div class="space-y-3">
+                      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 pb-1 hairline-b">
+                        <h4 class="text-base sm:text-lg font-medium text-ztext">${r.title}</h4>
+                        <span class="font-mono text-xs text-zmuted">${r.period}</span>
+                      </div>
+                      <ul class="space-y-2 text-sm text-zmuted leading-relaxed list-disc list-outside pl-4 marker:text-zaccent">
+                        ${r.highlights.map(h => `<li>${h}</li>`).join('')}
+                      </ul>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </article>
+          `).join('');
+        }
+
+        // Render Honors
+        const honorsContainer = document.getElementById('honors-container');
+        if (honorsContainer && d.honors) {
+          honorsContainer.innerHTML = d.honors.map(h => `
+            <div class="p-4 rounded-lg bg-zsurface/50 hairline-all flex items-start justify-between gap-3">
+              <div>
+                <span class="block text-sm font-medium text-ztext">${h.award}</span>
+                <span class="block text-xs text-zmuted mt-0.5">${h.org}</span>
+              </div>
+              <span class="font-mono text-xs text-zaccent font-medium whitespace-nowrap">${h.year}</span>
+            </div>
+          `).join('');
+        }
+
+        // Render Civic
+        const civicContainer = document.getElementById('civic-container');
+        if (civicContainer && d.civic) {
+          civicContainer.innerHTML = d.civic.map(c => `
+            <div class="p-4 rounded-lg bg-zelevated hairline-all flex items-center justify-between gap-3">
+              <div>
+                <span class="block text-sm font-medium text-ztext">${c.role}</span>
+                <span class="block text-xs text-zmuted mt-0.5">${c.org}</span>
+              </div>
+              <span class="font-mono text-[10px] uppercase px-2 py-0.5 rounded bg-zsurface hairline-all text-zmuted">${c.status}</span>
+            </div>
+          `).join('');
+        }
+
+        // Render Education
+        const eduContainer = document.getElementById('education-container');
+        if (eduContainer && d.education) {
+          eduContainer.innerHTML = d.education.map(e => `
+            <div class="p-5 rounded-lg bg-zelevated hairline-all flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <span class="text-sm font-medium text-ztext">${e.degree}</span>
+              <span class="font-mono text-xs text-zmuted">${e.institution}</span>
+            </div>
+          `).join('');
+        }
+
+        if (window.lucide) lucide.createIcons();
+      },
+
+      // Mandate 4: Pure Clean HTML Extraction
+      getCleanHtml(htmlString) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlString || document.documentElement.outerHTML, 'text/html');
+
+        // Scrub all builder toolbars, modals, and management scripts from document markup
+        doc.querySelectorAll('#zazen-builder-bar, .zazen-builder-ui, script[data-zazen-builder]').forEach(el => el.remove());
+
+        // Reset body padding-top that was reserved for the builder bar
+        const body = doc.querySelector('body');
+        if (body) {
+          body.classList.remove('pt-14');
+        }
+
+        return '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
+      },
+
+      async checkMcpBridge() {
+        try {
+          const res = await fetch('http://localhost:3000/api/health', { method: 'GET' });
+          if (res.ok) {
+            this.bridgeActive = true;
+            const pill = document.getElementById('zazen-bridge-status');
+            if (pill) {
+              pill.textContent = '● MCP Bridge Ready';
+              pill.className = 'text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+            }
+          }
+        } catch (_) {
+          this.bridgeActive = false;
+        }
+      },
+
+      async buildPureZip() {
+        const zip = new JSZip();
+        const cleanIndexHtml = this.getCleanHtml();
+        zip.file("index.html", cleanIndexHtml);
+        zip.file("zazen.config.json", JSON.stringify(this.data, null, 2));
+        return await zip.generateAsync({ type: "blob" });
+      },
+
+      downloadZip() {
+        this.buildPureZip().then(blob => {
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          const name = (this.data.meta?.author || 'dean-haddock').toLowerCase().replace(/\s+/g, '-');
+          a.download = `${name}-portfolio-production.zip`;
+          a.click();
+        });
+      },
+
+      exportState() {
+        const blob = new Blob([JSON.stringify(this.data, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'zazen-state.json';
+        a.click();
+      },
+
+      openDeployModal() {
+        document.getElementById('zazen-deploy-modal')?.classList.remove('hidden');
+        if (window.lucide) lucide.createIcons();
+      },
+
+      closeDeployModal() {
+        document.getElementById('zazen-deploy-modal')?.classList.add('hidden');
+      },
+
+      generateMcpPrompt(provider = 'universal') {
+        const project = (this.data.meta?.author || 'dean-haddock').toLowerCase().replace(/\s+/g, '-') + '-portfolio';
+        const env = this.data.meta?.environment || 'production';
+        const cleanIndexHtml = this.getCleanHtml();
+
+        const files = {
+          'index.html': cleanIndexHtml,
+          'zazen.config.json': JSON.stringify(this.data, null, 2)
+        };
+
+        return `Deploy this static site to ${provider.toUpperCase()} using your active hosting MCP tool.
+
+Project: "${project}"
+Environment: "${env}"
+Framework: "static"
+Output Directory: "."
+
+Payload Files:
+\`\`\`json
+${JSON.stringify(files, null, 2)}
+\`\`\`
+
+Instructions for Agent:
+1. Initialize or connect to the target project "${project}".
+2. Write or deploy the supplied production files.
+3. Return the verified live deployment URL.`;
+      },
+
+      async handleMcpDeploy(provider = 'universal') {
+        const prompt = this.generateMcpPrompt(provider);
+
+        try {
+          await navigator.clipboard.writeText(prompt);
+        } catch (_) {}
+
+        const panel = document.getElementById('mcp-prompt-panel');
+        const textarea = document.getElementById('mcp-prompt-textarea');
+        if (panel && textarea) {
+          textarea.value = prompt;
+          panel.classList.remove('hidden');
+        }
+      }
+    };
+
+    // Auto-initialize on DOM ready
+    document.addEventListener('DOMContentLoaded', () => Zazen.init());
+  </script>
+</body>
+</html>

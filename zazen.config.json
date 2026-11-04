@@ -1,0 +1,196 @@
+{
+  "meta": {
+    "title": "Dean Haddock — Portfolio & Resume",
+    "author": "Dean Haddock",
+    "environment": "production",
+    "version": "3.1.0",
+    "updated": "2026",
+    "palette": "editorial",
+    "font": "newsreader",
+    "location": "New York & Atlantic Coast • Remote",
+    "status": "Available for Advisory & Leadership"
+  },
+  "summary": "Empathetic tech leader, systems thinker, creative problem solver and engineer who has built and scaled multiple SaaS platforms in competitive markets. Deep expertise in product strategy, AI, automation, and high-scale technical innovation. Nieman Fellow, Planning Commissioner and entrepreneur.",
+  "competencies": [
+    {
+      "category": "Product & Strategy",
+      "description": "Product Management & Strategy (SaaS, Web & Mobile), Platform, Security, PLG, Pricing & Packaging, AI Integration & Strategy, Stakeholder Relations, Sales"
+    },
+    {
+      "category": "Leadership",
+      "description": "Product & Engineering Team Leadership, Mentoring, Cross-functional Culture & Collaboration, Process Improvement, Efficiency, Mission & Vision, AI Adoption"
+    },
+    {
+      "category": "Technical",
+      "description": "Full-Stack Development (Node.js, LAMP, JS, UX), AI & Automation, Cloud (AWS, GCP, Azure, Linux), SDLC, Systems Engineering, Security, Agentic Coding & Prototyping"
+    }
+  ],
+  "experience": [
+    {
+      "company": "CONTENTSTACK",
+      "location": "Remote",
+      "tenure": "May 2022 - Present",
+      "roles": [
+        {
+          "title": "Group Product Manager, Platform & Hosting",
+          "period": "2025 - Present",
+          "highlights": [
+            "Led platform, hosting, data engineering, security & access, administration, and provisioning teams.",
+            "Delivered SaaS products and core platform features, including APIs, analytics, hosting, notifications, administration, global navigation, CLIs, MCPs, RBAC and security tools.",
+            "Executed the product and technical change strategy from single- to multi-product SaaS platform."
+          ]
+        },
+        {
+          "title": "Sr. Product Manager, Platform & Hosting",
+          "period": "2024 - 2025",
+          "highlights": [
+            "Launched a new multi-cloud, multi-region, enterprise-grade Node web application hosting platform.",
+            "Exceeded financial and user adoption goals by over 2x in Y1 with continued sustained growth.",
+            "Partnered with UX, engineering, support and sales teams to align efforts and drive successful product launches and customer outcomes."
+          ]
+        },
+        {
+          "title": "Sr. Product Manager, Plans & Packaging",
+          "period": "2022 - 2024",
+          "highlights": [
+            "Led pricing and packaging strategies to transform the business from a single-product to a multi-product SaaS model.",
+            "Simplified complex back-of-house provisioning systems, data layer architecture and observability for customers and internal teams.",
+            "Co-founded Contentstack's Internal Advisory Board and Toastmasters Club to foster cross-team collaboration.",
+            "Recognized with the Contentstack Care award for outstanding collaboration with customers and colleagues."
+          ]
+        }
+      ]
+    },
+    {
+      "company": "10UP, INC.",
+      "location": "Remote",
+      "tenure": "2019 - 2022",
+      "roles": [
+        {
+          "title": "Associate Director, New Client Strategy",
+          "period": "2019 - 2022",
+          "highlights": [
+            "Built and managed a $10M+ portfolio of technology projects for enterprises and scale-ups, including Blackstone, Microsoft, Hilton, VMware, T-Mobile, Groundworks, Samsung, Merck, Glazer Vision Foundation and more.",
+            "Led digital and product strategies across all SDLC phases to deliver top-quality results for major, high-profile initiatives.",
+            "Crafted strategy presentations, detailed project budgets, estimates and scopes of work that succeeded on time, budget and goal.",
+            "Reviewed contracts, responded to RFPs and navigated procurement processes for new clients and partners, including government agencies.",
+            "Managed, hired, mentored and led diverse staff and technical product teams."
+          ]
+        }
+      ]
+    },
+    {
+      "company": "STORYCORPS, INC.",
+      "location": "Brooklyn, NY",
+      "tenure": "2008 - 2019",
+      "roles": [
+        {
+          "title": "Managing Director, Digital & Technical Innovation",
+          "period": "2015 - 2019",
+          "highlights": [
+            "Led StoryCorps' digital organization, achieving recognition by the Knight Foundation, Nieman Foundation for Journalism, Webby Awards and more.",
+            "Spearheaded the 2015 TED Prize project for the StoryCorps App & Archive SaaS platform, creating the world's largest oral history archive.",
+            "Presented at conferences, explored new partnerships and published thought leadership pieces discussing industry technology solutions.",
+            "Cultivated strategic relationships with Apple, Google, Amazon, the United States Library of Congress, and multiple INGOs.",
+            "Founded a diverse Digital & Technical Innovation team and established a pipeline from local colleges to recruit and train promising developers."
+          ]
+        },
+        {
+          "title": "Director, Web & Information Technology",
+          "period": "2012 - 2015",
+          "highlights": [
+            "Developed and led StoryCorps' organization-wide digital strategy in close collaboration with executives, board members and directors.",
+            "Crafted and implemented product-led growth (PLG) motions that more than doubled user engagement and user-generated content (UGC).",
+            "Redesigned and relaunched the StoryCorps.org website and implemented multiple, high-conversion marketing microsites."
+          ]
+        },
+        {
+          "title": "Sr. Manager, Information Technology",
+          "period": "2010 - 2012",
+          "highlights": [
+            "Drafted and maintained annual budgets for StoryCorps' digital and IT teams and special projects.",
+            "Built and led StoryCorps' data and reporting team, centrally managing all data analysis and key reports for the organization's many programs and initiatives.",
+            "Coauthored award-winning grants for organizations like the Knight Foundation, TED, and the Nieman Foundation for Journalism at Harvard University."
+          ]
+        },
+        {
+          "title": "Manager, Information Technology",
+          "period": "2008 - 2010",
+          "highlights": [
+            "Led organization-wide Salesforce migration and nurtured new SaaS product features like StoryCorps Communities pages, AI/ML transcription at scale, ElasticSearch and WebRTC.",
+            "Designed, built and launched Facebook App integrations and other campaigns to engage and grow StoryCorps' audience.",
+            "Centralized business and programs systems, migrating from multiple legacy platforms, like FileMaker Pro and physical storage to modern, enterprise-grade cloud services, like AWS.",
+            "Developed, tested and maintained StoryCorps' first redundant disaster recovery plan and procured all company hardware, software, and networking systems."
+          ]
+        }
+      ]
+    },
+    {
+      "company": "GOOGLE'S 30 WEEKS STARTUP INCUBATOR",
+      "location": "New York, NY",
+      "tenure": "2016",
+      "roles": [
+        {
+          "title": "Engineer in Residence, Instructor",
+          "period": "2016",
+          "highlights": [
+            "Developed and taught a robust web product education curriculum, from hardware and software to IoT solutions.",
+            "Advised and collaborated with 30 Weeks leadership on program structure and sustainability.",
+            "Mentored designer-founders on technical strategy, revenue models, and scalability for their first product launches.",
+            "Advised startup founders on digital product strategy, revenue strategy, sustainability, scalability, audience growth and user retention.",
+            "Coached designer-founders as they brought their first products to market and launched their first businesses."
+          ]
+        }
+      ]
+    },
+    {
+      "company": "JOHN M. FLOYD & ASSOCIATES",
+      "location": "Remote",
+      "tenure": "2005 - 2008",
+      "roles": [
+        {
+          "title": "Assistant Manager, Information Technology",
+          "period": "2005 - 2008",
+          "highlights": [
+            "Designed and implemented major infrastructure expansion to support increase in personnel and increase impact of sales and implementation teams.",
+            "Architected and implemented virtualized network environments, workflow management systems, and disaster recovery strategies for the financial sector in a remote environment.",
+            "Contributed to on-prem product strategy with a focus on scalability and centralization in a highly regulated market."
+          ]
+        }
+      ]
+    }
+  ],
+  "patent": {
+    "title": "Systems and Methods for Allocating System Resources Using Dual-Limit Account Provisioning",
+    "number": "12455773",
+    "date": "October 28, 2025",
+    "summary": "Dual-limit provisioning engine allowing dynamic tier quotas, soft/hard threshold management, and resource safety segregation across multitenant cloud architectures."
+  },
+  "honors": [
+    { "award": "Most High-5s Award", "org": "Contentstack", "year": "2026" },
+    { "award": "Care Award", "org": "Contentstack", "year": "2023" },
+    { "award": "Member", "org": "Twilio Startups", "year": "2020" },
+    { "award": "Nominee & Honoree", "org": "The Webby Awards: StoryCorps App & Website", "year": "2016" },
+    { "award": "Best Apps for Teaching & Learning", "org": "American Association of School Librarians", "year": "2016" },
+    { "award": "Visiting Fellow", "org": "Nieman Foundation for Journalism at Harvard University", "year": "2015" },
+    { "award": "Judge", "org": "The Webby Awards", "year": "2015 - Present" },
+    { "award": "Prototype Award", "org": "Knight Foundation", "year": "2014" },
+    { "award": "Google Fellow", "org": "Personal Democracy Forum", "year": "2010, 2012" },
+    { "award": "Chairperson", "org": "Texas Leadership Forum", "year": "2007" }
+  ],
+  "civic": [
+    { "role": "Planning Commissioner", "org": "City of Jacksonville Beach", "status": "Current" },
+    { "role": "Technology Advisor", "org": "Gordon Education Initiatives", "status": "Current" },
+    { "role": "Cofounder", "org": "Secret Telephone Storytelling Project", "status": "Project" },
+    { "role": "Cofounder & Full Stack Developer", "org": "People Phone", "status": "Project" },
+    { "role": "Technology Advisor", "org": "Reach the World", "status": "Advisory" },
+    { "role": "Surf Coach", "org": "Life Rolls On", "status": "Community" },
+    { "role": "Member", "org": "61 Franklin Street Community Garden", "status": "Community" },
+    { "role": "Surf Mentor", "org": "Stoked Mentoring, Inc.", "status": "Community" }
+  ],
+  "education": [
+    { "degree": "MS, Political Science (Institutional Economics)", "institution": "University of North Texas" },
+    { "degree": "BA, Political Science", "institution": "University of North Texas" },
+    { "degree": "AA, Business Administration", "institution": "Tarrant County College" }
+  ]
+}
